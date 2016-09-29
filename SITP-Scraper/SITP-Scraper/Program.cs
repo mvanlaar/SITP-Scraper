@@ -2,6 +2,7 @@
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -21,6 +22,10 @@ namespace SITP_Scraper
             // Alimentadors has other html layout
             // "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=7",
             string[] start_urls = new string[] { "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=8", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=9", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=10" };
+            string downloadsite = "http://www.sitp.gov.co";
+            const string ua = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)";
+
+
 
             string downloadDir = AppDomain.CurrentDomain.BaseDirectory + "\\Download";
             System.IO.Directory.CreateDirectory(downloadDir);
@@ -45,7 +50,10 @@ namespace SITP_Scraper
                     StreamReader reader = new StreamReader(response.GetResponseStream());
                     AP.LoadHtml(reader.ReadToEnd());
                     string savefile = String.Format("Download\\{0}.html", tipoRuta);
-                    AP.Save(savefile);
+                    if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
+                    {
+                        AP.Save(savefile);
+                    }
                     // Parsing Routes
                     foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblRutaTroncal']//tbody//tr"))
                     {
@@ -102,11 +110,92 @@ namespace SITP_Scraper
                     StreamReader readerdetail = new StreamReader(responsedetail.GetResponseStream());
                     RutaDetail.LoadHtml(readerdetail.ReadToEnd());
                     string savefile = String.Format("Download\\{0}-{1}.html", Rutas[i].tipoRuta, Rutas[i].idRuta);
-                    RutaDetail.Save(savefile);
+                    if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
+                    {
+                        RutaDetail.Save(savefile);
+                    }
                     // Downloadable Files
-                    string linkMapaRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkMapaRuta']").Attributes["href"].Value.ToString();
-                    string linkPuntoParada = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPuntoParada']").Attributes["href"].Value.ToString();
-                    string linkPlegableRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPlegableRuta']").Attributes["href"].Value.ToString();
+                    var tmplinkMapaRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkMapaRuta']");
+                    string linkMapaRuta = null;
+                    if (tmplinkMapaRuta != null)
+                    {
+                        linkMapaRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkMapaRuta']").Attributes["href"].Value.ToString();
+                        // Download IMG
+                        if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadIMG")))
+                        {
+                            string fullurl = downloadsite + linkMapaRuta;
+                            string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
+                            string downloadDirIMG = downloadDir + "\\IMG";
+                            System.IO.Directory.CreateDirectory(downloadDirIMG);
+                            string fullpath = downloadDirIMG + "\\" + filename;
+                            try
+                            {
+                                using (var client = new WebClient())
+                                {
+                                    client.Headers.Add("user-agent", ua);
+                                    client.Headers.Add("Referer", Rutas[i].rutaLink);
+                                    client.Proxy = null;
+                                    client.DownloadFile(fullurl, fullpath);
+                                }
+                            }
+                            catch { }
+                        } 
+
+                    }                    
+                    var tmplinkPuntoParada = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPuntoParada']");
+                    string linkPuntoParada = null;
+                    if (tmplinkPuntoParada != null)
+                    {
+                        linkPuntoParada = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPuntoParada']").Attributes["href"].Value.ToString();
+                        // Download IMG
+                        if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadIMG")))
+                        {
+                            string fullurl = downloadsite + linkPuntoParada;
+                            string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
+                            string downloadDirIMG = downloadDir + "\\IMG";
+                            System.IO.Directory.CreateDirectory(downloadDirIMG);
+                            string fullpath = downloadDirIMG + "\\" + filename;
+                            try
+                            {
+                                using (var client = new WebClient())
+                                {
+                                    client.Headers.Add("user-agent", ua);
+                                    client.Headers.Add("Referer", Rutas[i].rutaLink);
+                                    client.Proxy = null;
+                                    client.DownloadFile(fullurl, fullpath);
+                                }
+                            }
+                            catch { }
+                        } 
+                    }
+                    var tmplinkPlegableRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPlegableRuta']");
+                    string linkPlegableRuta = null;
+                    if (tmplinkPlegableRuta != null)
+                    {
+                        linkPlegableRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPlegableRuta']").Attributes["href"].Value.ToString();
+                        // Download PDF
+                        if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadPDF")))
+                        {
+                            string fullurl = downloadsite + linkPlegableRuta;
+                            string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
+                            string downloadDirPDF = downloadDir + "\\PDF";
+                            System.IO.Directory.CreateDirectory(downloadDirPDF);
+                            string fullpath = downloadDirPDF + "\\" + filename;
+                            try
+                            {
+                                using (var client = new WebClient())
+                                {
+                                    client.Headers.Add("user-agent", ua);
+                                    client.Headers.Add("Referer", Rutas[i].rutaLink);
+                                    client.Proxy = null;
+                                    client.DownloadFile(fullurl, fullpath);
+                                }
+                            }
+                            catch { }
+                        } 
+                    }
+                    
+
                     // Route Stations
                     // Parsing Route information Direction A - Because a and b can be different.
                     HtmlNode routea = RutaDetail.DocumentNode.SelectSingleNode("//div[@class='recorrido1']");
@@ -133,14 +222,22 @@ namespace SITP_Scraper
                                 estId = estId
                             }
                             );
-                            Paradas.Add(new Parada
-                            {                                
-                                estId = estId,
-                                estNombre = estNombre,
-                                estDireccion = estDireccion,
-                                estLink = estLink
-                            }
-                            );
+                            bool alreadyExists = Paradas.Exists(x => x.estId == estId
+                                && x.estNombre == estNombre
+                                && x.estDireccion == estDireccion
+                                && x.estLink == estLink
+                               );
+                            if (!alreadyExists)
+                            {
+                                Paradas.Add(new Parada
+                                {
+                                    estId = estId,
+                                    estNombre = estNombre,
+                                    estDireccion = estDireccion,
+                                    estLink = estLink
+                                }
+                                );
+                            }                            
                         }
                     }
                     // Parsing Route information Direction B
@@ -168,14 +265,22 @@ namespace SITP_Scraper
                                 estId = estId
                             }
                             );
-                            Paradas.Add(new Parada
+                            bool alreadyExists = Paradas.Exists(x => x.estId == estId
+                                && x.estNombre == estNombre
+                                && x.estDireccion == estDireccion
+                                && x.estLink == estLink
+                               );
+                            if (!alreadyExists)
                             {
-                                estId = estId,
-                                estNombre = estNombre,
-                                estDireccion = estDireccion,
-                                estLink = estLink
+                                Paradas.Add(new Parada
+                                {
+                                    estId = estId,
+                                    estNombre = estNombre,
+                                    estDireccion = estDireccion,
+                                    estLink = estLink
+                                }
+                                );
                             }
-                            );
                         }
                     }
                 }
