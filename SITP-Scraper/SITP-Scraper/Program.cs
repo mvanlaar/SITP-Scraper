@@ -194,8 +194,6 @@ namespace SITP_Scraper
                             catch { }
                         } 
                     }
-                    
-
                     // Route Stations
                     // Parsing Route information Direction A - Because a and b can be different.
                     HtmlNode routea = RutaDetail.DocumentNode.SelectSingleNode("//div[@class='recorrido1']");
@@ -282,11 +280,31 @@ namespace SITP_Scraper
                                 );
                             }
                         }
+                    
                     }
+                 // End Route Parsing    
                 }
             }
+            // Get Official Paradero number so its possible to match it to 
+            for (int i = 0; i < Paradas.Count; i++) // Loop through List with for)
+            {
+                //
+                Console.WriteLine("Parsing Parada page: {0}", Paradas[i].estLink);
+                HttpWebRequest requestparada = WebRequest.Create(Paradas[i].estLink) as HttpWebRequest;
+                requestparada.Method = "GET";
+                using (HttpWebResponse responsedetail = requestparada.GetResponse() as HttpWebResponse)
+                {
+                    HtmlDocument RutaParada = new HtmlDocument();
+                    StreamReader readerdetail = new StreamReader(responsedetail.GetResponseStream());
+                    RutaParada.LoadHtml(readerdetail.ReadToEnd());
+                    string savefile = String.Format("Download\\Parada-{0}.html", Paradas[i].estId);
+                    if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
+                    {
+                        RutaParada.Save(savefile);
+                    }
 
-
+                }
+            }
 
             // Export to CSV.
             string exportroutesfile = ExportDir + "\\routes.txt";
@@ -415,6 +433,7 @@ namespace SITP_Scraper
         public string estNombre;
         public string estDireccion;
         public string estLink;
+        public string estSITPNumber;
 
     }
 
