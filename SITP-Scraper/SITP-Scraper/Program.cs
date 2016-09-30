@@ -302,7 +302,14 @@ namespace SITP_Scraper
                     {
                         RutaParada.Save(savefile);
                     }
-
+                    // 
+                    string estSITPNumber = RutaParada.DocumentNode.SelectSingleNode("//div[@id='zonaBloqueContent']//h3").InnerText;
+                    
+                    estSITPNumber = estSITPNumber.Replace("Paradero ", "");
+                    int index = estSITPNumber.IndexOf(" - ",0);
+                    estSITPNumber = estSITPNumber.Substring(0, index);
+                    estSITPNumber = estSITPNumber.Trim();
+                    Paradas[i].estSITPNumber = estSITPNumber;
                 }
             }
 
@@ -366,13 +373,15 @@ namespace SITP_Scraper
                 csvroutes.Configuration.TrimFields = true;
                 // header 
                 csvroutes.WriteField("estId");
+                csvroutes.WriteField("estSITPNumber");
                 csvroutes.WriteField("estNombre");
                 csvroutes.WriteField("estDireccion");
-                csvroutes.WriteField("estLink");
+                csvroutes.WriteField("estLink");                
                 csvroutes.NextRecord();
                 for (int i = 0; i < Paradas.Count; i++) // Loop through List with for)
                 {
                     csvroutes.WriteField(Paradas[i].estId);
+                    csvroutes.WriteField(Paradas[i].estSITPNumber);
                     csvroutes.WriteField(Paradas[i].estNombre);
                     csvroutes.WriteField(Paradas[i].estDireccion);
                     csvroutes.WriteField(Paradas[i].estLink);
