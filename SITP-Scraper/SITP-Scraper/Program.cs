@@ -33,6 +33,8 @@ namespace SITP_Scraper
             string ExportDir = AppDomain.CurrentDomain.BaseDirectory + "\\Export";
             System.IO.Directory.CreateDirectory(ExportDir);
 
+            ServicePointManager.DefaultConnectionLimit = 20;
+
             List<Route> Rutas = new List<Route> { };
             List<Horario> Horarios = new List<Horario> { };
             List<RouteParada> RouteParadas = new List<RouteParada> { };
@@ -45,20 +47,36 @@ namespace SITP_Scraper
             Kml kml = file.Root as Kml;
             if (kml != null)
             {
+                Console.WriteLine("Parsing Paraderos SITP...");
                 foreach (var placemark in kml.Flatten().OfType<Placemark>())
-                {
-                    Console.WriteLine(placemark.Name);                   
-                    Vector coord = ((Point)placemark.Geometry).Coordinate;
-                    Console.WriteLine(coord.Latitude);
-                    Console.WriteLine(coord.Longitude);
+                {                                    
+                    Vector coord = ((Point)placemark.Geometry).Coordinate;                    
                     ParadasSITP.Add(new ParadaSITP { name = placemark.Name, latitude = coord.Latitude.ToString(), longtitude = coord.Longitude.ToString() });                                
                 }
             }
+
+            //KmlFile filerutas = KmlFile.Load(new StreamReader("kml//Rutas SITP.kml"));
+            //Kml kmlrutas = filerutas.Root as Kml;
+            //if (kmlrutas != null)
+            //{
+            //    foreach (var placemark in kmlrutas.Flatten().OfType<Placemark>())
+            //    {
+            //        Console.WriteLine(placemark.Name);
+            //        foreach (var linepart in ((LineString)placemark.Geometry).Coordinates)
+            //        {
+            //            Vector coord = linepart;
+            //            Console.WriteLine(coord.Latitude);
+            //            Console.WriteLine(coord.Longitude);
+            //        }                    
+            //        ParadasSITP.Add(new ParadaSITP { name = placemark.Name, latitude = coord.Latitude.ToString(), longtitude = coord.Longitude.ToString() });
+            //    }
+            //}
             Console.WriteLine("Downloading files...");
             foreach (string address in start_urls)
             {
                 HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;
                 request.Method = "GET";
+                request.Proxy = null;
                 using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                 {
                     var uri = new Uri(address);
@@ -119,9 +137,11 @@ namespace SITP_Scraper
             // Looping through pages with Route information.
             for (int i = 0; i < Rutas.Count; i++) // Loop through List with for)
             {
-                Console.WriteLine("Parsing Route page: {0}", Rutas[i].rutaLink);
+                Console.WriteLine("Parsing Route {0} of {1}", i, Rutas.Count);
+                //Console.WriteLine("Parsing Route page: {0}", Rutas[i].rutaLink);
                 HttpWebRequest requestdetail = WebRequest.Create(Rutas[i].rutaLink) as HttpWebRequest;
                 requestdetail.Method = "GET";
+                requestdetail.Proxy = null;
                 using (HttpWebResponse responsedetail = requestdetail.GetResponse() as HttpWebResponse)
                 {
                     HtmlDocument RutaDetail = new HtmlDocument();
@@ -306,10 +326,11 @@ namespace SITP_Scraper
             // Get Official Paradero number so its possible to match it to 
             for (int i = 0; i < Paradas.Count; i++) // Loop through List with for)
             {
-                //
-                Console.WriteLine("Parsing Parada page: {0}", Paradas[i].estLink);
+                Console.WriteLine("Parsing Parada {0} of {1}", i, Paradas.Count);
+                //Console.WriteLine("Parsing Parada page: {0}", Paradas[i].estLink);
                 HttpWebRequest requestparada = WebRequest.Create(Paradas[i].estLink) as HttpWebRequest;
                 requestparada.Method = "GET";
+                requestparada.Proxy = null;
                 using (HttpWebResponse responsedetail = requestparada.GetResponse() as HttpWebResponse)
                 {
                     HtmlDocument RutaParada = new HtmlDocument();
@@ -429,7 +450,6 @@ namespace SITP_Scraper
                     else { csvroutes.WriteField(""); }                    
                     csvroutes.NextRecord();
                 }
-
             }
 
             string exportrouteparadasfile = ExportDir + "\\routeparada.txt";
