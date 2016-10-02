@@ -1,0 +1,273 @@
+idRuta,tipoRuta,codigoRuta,rutaNombre,rutaLink
+20,8,105,Boitá - Bachué,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=20&tr=&estacion=&tipoRuta=8
+122,8,107A,Jaqueline - Chapinero,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=122&tr=&estacion=&tipoRuta=8
+123,8,107B,Colina - Pq. Central Bavaria,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=123&tr=&estacion=&tipoRuta=8
+21,8,108,Bachué - Ciudad Kenndedy,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=21&tr=&estacion=&tipoRuta=8
+22,8,111,Metrovivienda - San Rafael Sur Or.,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=22&tr=&estacion=&tipoRuta=8
+23,8,112,Cortijo - Porvenir,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=23&tr=&estacion=&tipoRuta=8
+124,8,113B,Villa Alexandra - Paloquemao,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=124&tr=&estacion=&tipoRuta=8
+125,8,114A,Altos de Zuque - Paloquemao,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=125&tr=&estacion=&tipoRuta=8
+24,8,117,San Bernardino - Potreritos - Libertadores,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=24&tr=&estacion=&tipoRuta=8
+25,8,119,Metrovivienda - El Cortijo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=25&tr=&estacion=&tipoRuta=8
+3,8,12,Fontibón San Pablo - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=3&tr=&estacion=&tipoRuta=8
+26,8,120,Bosa San José - Egipto,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=26&tr=&estacion=&tipoRuta=8
+27,8,121,El Recreo - San Diego,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=27&tr=&estacion=&tipoRuta=8
+28,8,128,Centro - Villa Gladys,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=28&tr=&estacion=&tipoRuta=8
+4,8,13,Brasilia - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=4&tr=&estacion=&tipoRuta=8
+29,8,132,San Bernardino / Potreritos - Chapinero Central,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=29&tr=&estacion=&tipoRuta=8
+30,8,135,Jacqueline - Bosque Popular,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=30&tr=&estacion=&tipoRuta=8
+32,8,139,Bosa San José - Juan Rey,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=32&tr=&estacion=&tipoRuta=8
+5,8,14,Betania - Chapinero Central,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=5&tr=&estacion=&tipoRuta=8
+33,8,142,Florida - Centro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=33&tr=&estacion=&tipoRuta=8
+34,8,143,Las Acacias - Gemania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=34&tr=&estacion=&tipoRuta=8
+35,8,148,Doña Liliana - Vill Teresita,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=35&tr=&estacion=&tipoRuta=8
+6,8,15,Brasil - Marly,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=6&tr=&estacion=&tipoRuta=8
+7,8,16,Portal Américas - Portal de Usme,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=7&tr=&estacion=&tipoRuta=8
+36,8,162,Catalina II - Las Nieves,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=36&tr=&estacion=&tipoRuta=8
+37,8,165,Arborizadora Alta - Jardínes del Recuerdo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=37&tr=&estacion=&tipoRuta=8
+38,8,166,Metrovivienda - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=38&tr=&estacion=&tipoRuta=8
+39,8,172,Porvenir - Las Aguas,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=39&tr=&estacion=&tipoRuta=8
+40,8,183,Roma - Unicentro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=40&tr=&estacion=&tipoRuta=8
+41,8,188,Bosa Santafé - San Diego,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=41&tr=&estacion=&tipoRuta=8
+647,8,189,Cerros de Oriente - CasaBlanca Norte,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=647&tr=&estacion=&tipoRuta=8
+42,8,191,Unicentro - Las Delicias,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=42&tr=&estacion=&tipoRuta=8
+43,8,192,Catalina  - Unicentro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=43&tr=&estacion=&tipoRuta=8
+126,8,193B,Bachué - Marly,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=126&tr=&estacion=&tipoRuta=8
+44,8,194,Casablanca Norte - Cerros de Oriente,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=44&tr=&estacion=&tipoRuta=8
+45,8,200,AV. C. Cali - Unicentro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=45&tr=&estacion=&tipoRuta=8
+46,8,201,Lisboa - La Fiscala,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=46&tr=&estacion=&tipoRuta=8
+47,8,228,Villa Teresita - Aguas Claras,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=47&tr=&estacion=&tipoRuta=8
+8,8,23,Olarte - Chapinero,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=8&tr=&estacion=&tipoRuta=8
+48,8,252,Jaqueline - Centro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=48&tr=&estacion=&tipoRuta=8
+49,8,256,Ricaurte - Tihuaque,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=49&tr=&estacion=&tipoRuta=8
+50,8,257,Puente Grande - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=50&tr=&estacion=&tipoRuta=8
+51,8,260,La Estrellita - Arabia,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=51&tr=&estacion=&tipoRuta=8
+52,8,265,Chicó Norte - Tierra Buena,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=52&tr=&estacion=&tipoRuta=8
+53,8,266,San Joaquín - La Estrellita,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=53&tr=&estacion=&tipoRuta=8
+54,8,270,Riveras de Occ. - La Estrellita,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=54&tr=&estacion=&tipoRuta=8
+55,8,271,Lomas - Gran Granada,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=55&tr=&estacion=&tipoRuta=8
+56,8,283,Chicó Norte -  Bosa San José,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=56&tr=&estacion=&tipoRuta=8
+57,8,291,Lijacá - Tierra Buena,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=57&tr=&estacion=&tipoRuta=8
+58,8,312,Suba Villa Cindy  - Chapinero,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=58&tr=&estacion=&tipoRuta=8
+60,8,319,Lomas - 7 de Agosto,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=60&tr=&estacion=&tipoRuta=8
+61,8,320,Unicentro - Villa Cindy,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=61&tr=&estacion=&tipoRuta=8
+62,8,330,La Estrellita - El Uval,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=62&tr=&estacion=&tipoRuta=8
+9,8,34,Ciudad Alsacia - Lomas,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=9&tr=&estacion=&tipoRuta=8
+63,8,341,Metrovivienda - La Estrellita,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=63&tr=&estacion=&tipoRuta=8
+64,8,344,Bilbao - Cantón Norte,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=64&tr=&estacion=&tipoRuta=8
+65,8,359,Paloquemao - Est. Normandía,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=65&tr=&estacion=&tipoRuta=8
+66,8,367,San Bernardino - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=66&tr=&estacion=&tipoRuta=8
+10,8,37,El Palmar - Unicentro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=10&tr=&estacion=&tipoRuta=8
+67,8,385,Cortijo - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=67&tr=&estacion=&tipoRuta=8
+11,8,39,Palmitas - Diana Turbay,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=11&tr=&estacion=&tipoRuta=8
+1,8,4,San Fernando - San Luis,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=1&tr=&estacion=&tipoRuta=8
+68,8,402,Auto Norte - Est. Terminal - Sabana del Dorado,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=68&tr=&estacion=&tipoRuta=8
+127,8,403A,Sabana del Dorado - Unicentro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=127&tr=&estacion=&tipoRuta=8
+128,8,403B,Sabana del Dorado - Unicentro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=128&tr=&estacion=&tipoRuta=8
+12,8,41,El Cortijo - Alpes,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=12&tr=&estacion=&tipoRuta=8
+69,8,421,Colina - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=69&tr=&estacion=&tipoRuta=8
+70,8,442,Verbenal - Sabana del Dorado,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=70&tr=&estacion=&tipoRuta=8
+72,8,465,Bosa San José - San Antonio Nte.,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=72&tr=&estacion=&tipoRuta=8
+73,8,466,Sabana del Dorado - Unicentro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=73&tr=&estacion=&tipoRuta=8
+74,8,488,Unicentro  - Lomas,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=74&tr=&estacion=&tipoRuta=8
+75,8,489,La Resurrección - Unicentro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=75&tr=&estacion=&tipoRuta=8
+76,8,492,Zn. Ind. álamos - Palermo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=76&tr=&estacion=&tipoRuta=8
+129,8,494A,Pq. Central Bavaria - Metrovivienda,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=129&tr=&estacion=&tipoRuta=8
+77,8,496,Bosa Charles de Gaulle - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=77&tr=&estacion=&tipoRuta=8
+79,8,539,El Uval - Engativá Centro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=79&tr=&estacion=&tipoRuta=8
+13,8,54,Unicentro - Villas de Granada,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=13&tr=&estacion=&tipoRuta=8
+80,8,540,San Vicente - Bachué,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=80&tr=&estacion=&tipoRuta=8
+130,8,544A,Bosa Islandia - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=130&tr=&estacion=&tipoRuta=8
+131,8,544B,Marantá - Teusaquillo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=131&tr=&estacion=&tipoRuta=8
+81,8,552,La Estancia - Archivo Distrital,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=81&tr=&estacion=&tipoRuta=8
+132,8,56A,Boita - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=132&tr=&estacion=&tipoRuta=8
+133,8,56B,El Cortijo - Chapinero,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=133&tr=&estacion=&tipoRuta=8
+82,8,577,El Palmar - Diana Turbay,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=82&tr=&estacion=&tipoRuta=8
+83,8,579,El Recreo - Centro Internacional,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=83&tr=&estacion=&tipoRuta=8
+84,8,580,Bosa San Diego - Girardot,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=84&tr=&estacion=&tipoRuta=8
+85,8,593,Metrovivienda - Chicó,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=85&tr=&estacion=&tipoRuta=8
+86,8,599,Bosa San Diego - Suba Gaitana,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=86&tr=&estacion=&tipoRuta=8
+134,8,59A,Boita - Centro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=134&tr=&estacion=&tipoRuta=8
+135,8,59B,Cortijo - Chapinero,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=135&tr=&estacion=&tipoRuta=8
+14,8,60,Cortijo - Zarazota,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=14&tr=&estacion=&tipoRuta=8
+136,8,603B,Patio Bonito - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=136&tr=&estacion=&tipoRuta=8
+87,8,607,San Bernardino - San Antonio Nte.,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=87&tr=&estacion=&tipoRuta=8
+88,8,614,Portal Usme - Montevideo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=88&tr=&estacion=&tipoRuta=8
+89,8,621,Bachué- Santo Domingo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=89&tr=&estacion=&tipoRuta=8
+90,8,624,Verbenal del Sur - 20 de Julio,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=90&tr=&estacion=&tipoRuta=8
+137,8,626A,La Estancia - Centro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=137&tr=&estacion=&tipoRuta=8
+138,8,626B,Villa Gladys - Galán,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=138&tr=&estacion=&tipoRuta=8
+91,8,634,Bosa Palestina - Calle 183,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=91&tr=&estacion=&tipoRuta=8
+92,8,639,Calle 182 - Santo Domingo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=92&tr=&estacion=&tipoRuta=8
+93,8,652,Germania - El Uval,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=93&tr=&estacion=&tipoRuta=8
+94,8,661,Mirandela - Península,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=94&tr=&estacion=&tipoRuta=8
+95,8,669,Gran Granada - Galán,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=95&tr=&estacion=&tipoRuta=8
+96,8,674,Florida- El Uval,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=96&tr=&estacion=&tipoRuta=8
+97,8,680,Tuno  - Mirandela,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=97&tr=&estacion=&tipoRuta=8
+98,8,688,La Magdalena - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=98&tr=&estacion=&tipoRuta=8
+2,8,7,Palmitas - Consuelo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=2&tr=&estacion=&tipoRuta=8
+100,8,703,Galicia - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=100&tr=&estacion=&tipoRuta=8
+101,8,722,Palmitas - San Cristóbal Nte.,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=101&tr=&estacion=&tipoRuta=8
+102,8,731,Bosa San José - Palermo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=102&tr=&estacion=&tipoRuta=8
+103,8,733,San Carlos - Tierra Buena,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=103&tr=&estacion=&tipoRuta=8
+104,8,736,Paraíso - Calle 222,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=104&tr=&estacion=&tipoRuta=8
+105,8,738,Jazmín Occidental - San Cristóbal Sur,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=105&tr=&estacion=&tipoRuta=8
+106,8,740,Engativá La Tortigua - Canadá Guira,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=106&tr=&estacion=&tipoRuta=8
+107,8,742,Calle 222 - Paraíso,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=107&tr=&estacion=&tipoRuta=8
+108,8,781,Bosa San José - Mirandela,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=108&tr=&estacion=&tipoRuta=8
+109,8,782,Bosa San José - Mirandela,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=109&tr=&estacion=&tipoRuta=8
+110,8,786,Metrovivienda - Diana Turbay - Puentes,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=110&tr=&estacion=&tipoRuta=8
+139,8,787A,Metrovivienda - Teusaquillo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=139&tr=&estacion=&tipoRuta=8
+111,8,795,San Joaquín - Corpas,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=111&tr=&estacion=&tipoRuta=8
+140,8,796A,Mochuelo Bajo - Teusaquillo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=140&tr=&estacion=&tipoRuta=8
+112,8,801,Sabana del Dorado - Tibabita,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=112&tr=&estacion=&tipoRuta=8
+113,8,802,Sabana del Dorado - Usme Centro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=113&tr=&estacion=&tipoRuta=8
+114,8,806,Sabana del Dorado - Providencia,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=114&tr=&estacion=&tipoRuta=8
+15,8,83,La Estrada - Paloquemao,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=15&tr=&estacion=&tipoRuta=8
+141,8,870A,Cantón Norte - Patio Bonito,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=141&tr=&estacion=&tipoRuta=8
+16,8,91,Bosa San José - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=16&tr=&estacion=&tipoRuta=8
+115,8,910,La Rivera - Usme Pueblo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=115&tr=&estacion=&tipoRuta=8
+116,8,912,La Rivera - Lijacá,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=116&tr=&estacion=&tipoRuta=8
+117,8,914,Usme Centro - Bachué,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=117&tr=&estacion=&tipoRuta=8
+118,8,921,Puente Grande - Acacias,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=118&tr=&estacion=&tipoRuta=8
+119,8,927,Bosa Estación - Bachué,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=119&tr=&estacion=&tipoRuta=8
+17,8,94,Bosa San Diego - Suba Corpas,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=17&tr=&estacion=&tipoRuta=8
+120,8,950,El Tuno - Terminal,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=120&tr=&estacion=&tipoRuta=8
+121,8,953,La Ficala Alta - Suba Salitre,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=121&tr=&estacion=&tipoRuta=8
+18,8,97,Muzú - Galerías,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=18&tr=&estacion=&tipoRuta=8
+19,8,99,Bosa la Primavera - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=19&tr=&estacion=&tipoRuta=8
+142,8,C1,Roma - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=142&tr=&estacion=&tipoRuta=8
+143,8,C100,Teusaquillo - La Magdalena,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=143&tr=&estacion=&tipoRuta=8
+144,8,C101,Providencia  - El Palmar,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=144&tr=&estacion=&tipoRuta=8
+145,8,C105,Jacqueline - Chapinero,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=145&tr=&estacion=&tipoRuta=8
+146,8,C11,Villa del Río - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=146&tr=&estacion=&tipoRuta=8
+147,8,C110,Bello Horizonte - Bosa La Esperanza,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=147&tr=&estacion=&tipoRuta=8
+148,8,C115,Jaqueline - El Retiro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=148&tr=&estacion=&tipoRuta=8
+149,8,C120,Horacio Orjuela - Villas de Granada,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=149&tr=&estacion=&tipoRuta=8
+150,8,C123,La Magdalena - Centro Andino,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=150&tr=&estacion=&tipoRuta=8
+151,8,C125,Villa Alsacia - El Consuelo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=151&tr=&estacion=&tipoRuta=8
+152,8,C12A,San Blas - Parque Nacional,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=152&tr=&estacion=&tipoRuta=8
+153,8,C13,Compartir - Marly,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=153&tr=&estacion=&tipoRuta=8
+154,8,C135,Bosa San José - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=154&tr=&estacion=&tipoRuta=8
+155,8,C142,Nuevo Corinto - San Cristóbal Norte,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=155&tr=&estacion=&tipoRuta=8
+156,8,C15,Bosa San Pedro - Chapinero,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=156&tr=&estacion=&tipoRuta=8
+300,8,C19,Jardines de Castilla - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=300&tr=&estacion=&tipoRuta=8
+158,8,C201,Patio Bonito - Paraíso,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=158&tr=&estacion=&tipoRuta=8
+159,8,C25,Sabana del Dorado - Unicentro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=159&tr=&estacion=&tipoRuta=8
+160,8,C27,La Estancia - Normandía,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=160&tr=&estacion=&tipoRuta=8
+161,8,C29,Islandia - Centro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=161&tr=&estacion=&tipoRuta=8
+642,8,C30,Mundo Aventura - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=642&tr=&estacion=&tipoRuta=8
+162,8,C31,Chapinero - Boitá,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=162&tr=&estacion=&tipoRuta=8
+163,8,C33,Mundo Aventura - Colina,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=163&tr=&estacion=&tipoRuta=8
+164,8,C36,Bachué - Montes,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=164&tr=&estacion=&tipoRuta=8
+165,8,C37,Villas de Granada - Mazurén,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=165&tr=&estacion=&tipoRuta=8
+167,8,C41,Bachué - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=167&tr=&estacion=&tipoRuta=8
+168,8,C49,San Bernardo - Bachué,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=168&tr=&estacion=&tipoRuta=8
+169,8,C52,Villa del Río - El Retiro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=169&tr=&estacion=&tipoRuta=8
+170,8,C53,Unicentro - Acacias Sur,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=170&tr=&estacion=&tipoRuta=8
+171,8,C7,Juan José Rondón - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=171&tr=&estacion=&tipoRuta=8
+99,8,C701,Metrovivienda - Restrepo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=99&tr=&estacion=&tipoRuta=8
+172,8,C77,Tintalá - Tibabita,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=172&tr=&estacion=&tipoRuta=8
+173,8,C80,Boitá - Las Aguas,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=173&tr=&estacion=&tipoRuta=8
+174,8,C97,Lomas - San Cipriano,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=174&tr=&estacion=&tipoRuta=8
+175,8,E16,Bosa San José - Calle 222,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=175&tr=&estacion=&tipoRuta=8
+176,8,E17,Villa Gloria - Chicó,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=176&tr=&estacion=&tipoRuta=8
+177,8,E23,Villa Gloria - Santa Bárbara,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=177&tr=&estacion=&tipoRuta=8
+178,8,E25,Lourdes - Engativá Centro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=178&tr=&estacion=&tipoRuta=8
+179,8,E26A,La Chucua - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=179&tr=&estacion=&tipoRuta=8
+180,8,E26B,Corpas - Cantón Norte,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=180&tr=&estacion=&tipoRuta=8
+181,8,E43,Villa Gloria - Chicó,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=181&tr=&estacion=&tipoRuta=8
+182,8,E44,El Virrey - Mirandela,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=182&tr=&estacion=&tipoRuta=8
+183,8,E46,Metrovivienda - Verbenal,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=183&tr=&estacion=&tipoRuta=8
+184,8,E57,Casablanca - El Uval,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=184&tr=&estacion=&tipoRuta=8
+185,8,E60,Bosa Palestina - Calle 222,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=185&tr=&estacion=&tipoRuta=8
+186,8,E61,Casablanca - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=186&tr=&estacion=&tipoRuta=8
+187,8,E70,Casaloma Usme - Colina,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=187&tr=&estacion=&tipoRuta=8
+188,8,E72,Catalina II - Chicó Norte,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=188&tr=&estacion=&tipoRuta=8
+189,8,P23,Bosa Carbonell - San Blas,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=189&tr=&estacion=&tipoRuta=8
+190,8,P3,Canada Guira - San Bernardino Potreritos,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=190&tr=&estacion=&tipoRuta=8
+191,8,P39,Arabia - Zona Franca,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=191&tr=&estacion=&tipoRuta=8
+192,8,P44,Bosa Santafé - Arabia,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=192&tr=&estacion=&tipoRuta=8
+193,8,P49,Villa Gladys - Lijacá,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=193&tr=&estacion=&tipoRuta=8
+194,8,P500,Aeropueto - Centro Andino,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=194&tr=&estacion=&tipoRuta=8
+195,8,P51,Nogales de Tibabuyes - Caracolí,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=195&tr=&estacion=&tipoRuta=8
+197,8,P62,Bosa Santafé - Los Alpes,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=197&tr=&estacion=&tipoRuta=8
+198,8,P7,Porvenir - Pinares,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=198&tr=&estacion=&tipoRuta=8
+199,8,SE10,Engativá Centro - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=199&tr=&estacion=&tipoRuta=8
+200,8,SE14,Diana Turbay Cultivos - Engativá Centro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=200&tr=&estacion=&tipoRuta=8
+201,8,SE6,Villa Gladys - La Roca,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=201&tr=&estacion=&tipoRuta=8
+202,8,T04,Tres Esquinas - Portal del Sur,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=202&tr=&estacion=&tipoRuta=8
+203,8,T06,La Sureña - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=203&tr=&estacion=&tipoRuta=8
+204,8,T09,Chorrillos - Portal de Suba,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=204&tr=&estacion=&tipoRuta=8
+205,8,T11,Calle 222 - Alpes,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=205&tr=&estacion=&tipoRuta=8
+206,8,T12,Quintas del Sur - Porciúncula - Av. Chile,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=206&tr=&estacion=&tipoRuta=8
+207,8,T13,Villa Cindy - Hsp. San Blas,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=207&tr=&estacion=&tipoRuta=8
+639,8,T16,El Refugio - La Perseverancia,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=639&tr=&estacion=&tipoRuta=8
+208,8,T163,Perdomo - Calle 222,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=208&tr=&estacion=&tipoRuta=8
+209,8,T21,Compartir - Cantón Norte,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=209&tr=&estacion=&tipoRuta=8
+210,8,T23,Fontanar del Río - Centro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=210&tr=&estacion=&tipoRuta=8
+211,8,T24,San Bernardino Potreritos - San Felipe,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=211&tr=&estacion=&tipoRuta=8
+212,8,T25,Potosí - Lijacá,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=212&tr=&estacion=&tipoRuta=8
+213,8,T26,Palermo Sur - Unicentro,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=213&tr=&estacion=&tipoRuta=8
+214,8,T27,Est. AV. 1&#65533; de Mayo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=214&tr=&estacion=&tipoRuta=8
+638,8,T30,Doña Liliana - Patio Bonito,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=638&tr=&estacion=&tipoRuta=8
+215,8,T31,Gran Granada - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=215&tr=&estacion=&tipoRuta=8
+216,8,T37,Fontanar del Río - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=216&tr=&estacion=&tipoRuta=8
+217,8,T38,Metrovivienda - Chapinero Central,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=217&tr=&estacion=&tipoRuta=8
+218,8,T40,Catalina II - Marly,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=218&tr=&estacion=&tipoRuta=8
+219,8,T43,La Castaña - Perseverancia,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=219&tr=&estacion=&tipoRuta=8
+644,8,T48,Nueva Castilla - Puente Aranda,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=644&tr=&estacion=&tipoRuta=8
+220,8,TC11,Madelena - General Santander,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=220&tr=&estacion=&tipoRuta=8
+221,8,TC14,Nueva Roma - Portal Sur,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=221&tr=&estacion=&tipoRuta=8
+222,8,TC15,Diana Turbay Cultivos - General Santander,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=222&tr=&estacion=&tipoRuta=8
+640,8,TC16,Bolonia - La Aurora,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=640&tr=&estacion=&tipoRuta=8
+223,8,TC2,Divino Niño,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=223&tr=&estacion=&tipoRuta=8
+224,8,TC6,El Refugio - Portal Eldorado,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=224&tr=&estacion=&tipoRuta=8
+225,8,Z12,Teusaquillo - Metrovivienda,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=225&tr=&estacion=&tipoRuta=8
+226,8,Z13,San Cristóbal Norte - Metrovivienda,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=226&tr=&estacion=&tipoRuta=8
+227,8,Z4,Toberín - Metrovivienda,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=227&tr=&estacion=&tipoRuta=8
+228,8,Z7,Toberín -Zn. Ind. álamos,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=228&tr=&estacion=&tipoRuta=8
+229,8,Z8,San Cristóbal Nte. - Metrovivienda,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=229&tr=&estacion=&tipoRuta=8
+249,9,13-5,Las Paces,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=249&tr=&estacion=&tipoRuta=9
+636,9,14-1,Las Cruces,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=636&tr=&estacion=&tipoRuta=9
+250,9,14-3,Girardot,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=250&tr=&estacion=&tipoRuta=9
+251,9,14-4,Laches,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=251&tr=&estacion=&tipoRuta=9
+252,9,14-7,Ramírez,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=252&tr=&estacion=&tipoRuta=9
+230,9,15-2,San Cristobal,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=230&tr=&estacion=&tipoRuta=9
+231,9,15-3,Horacio Orjuela,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=231&tr=&estacion=&tipoRuta=9
+232,9,15-4,Ramajal,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=232&tr=&estacion=&tipoRuta=9
+233,9,15-5,La María,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=233&tr=&estacion=&tipoRuta=9
+234,9,15-7,Calle 11 Sur,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=234&tr=&estacion=&tipoRuta=9
+634,9,16-12,Belén,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=634&tr=&estacion=&tipoRuta=9
+235,9,17-1,Villaluz,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=235&tr=&estacion=&tipoRuta=9
+236,9,17-2,Santa Helenita,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=236&tr=&estacion=&tipoRuta=9
+237,9,17-3,Modelia,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=237&tr=&estacion=&tipoRuta=9
+238,9,17-7,La Esmeralda,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=238&tr=&estacion=&tipoRuta=9
+240,9,18-2,Barrancas - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=240&tr=&estacion=&tipoRuta=9
+239,9,18-3,Auto Norte - Est. Terminal - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=239&tr=&estacion=&tipoRuta=9
+648,9,19-10,Prado,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=648&tr=&estacion=&tipoRuta=9
+633,9,19-11,Canódromo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=633&tr=&estacion=&tipoRuta=9
+245,9,19-12,Cantalejo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=245&tr=&estacion=&tipoRuta=9
+242,9,19-2,Colina,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=242&tr=&estacion=&tipoRuta=9
+243,9,19-6,Cedritos,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=243&tr=&estacion=&tipoRuta=9
+244,9,19-7,Cantabria,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=244&tr=&estacion=&tipoRuta=9
+254,9,2-12,Tibabita,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=254&tr=&estacion=&tipoRuta=9
+637,9,2-6,Guaymaral,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=637&tr=&estacion=&tipoRuta=9
+253,9,8-10,Mundo Aventura,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=253&tr=&estacion=&tipoRuta=9
+247,9,T13-2,Marruecos - Est. 1 de Mayo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=247&tr=&estacion=&tipoRuta=9
+248,9,T13-4,Diana Turbay - Lomas,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=248&tr=&estacion=&tipoRuta=9
+255,10,10-10,Cazucá,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=255&tr=&estacion=&tipoRuta=10
+256,10,10-11,Bella Flor,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=256&tr=&estacion=&tipoRuta=10
+257,10,10-12,Quiba,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=257&tr=&estacion=&tipoRuta=10
+258,10,14-6,El Verjón,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=258&tr=&estacion=&tipoRuta=10
+259,10,18-11,Unicerros,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=259&tr=&estacion=&tipoRuta=10
+260,10,18-12,El Paraíso,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=260&tr=&estacion=&tipoRuta=10
+267,10,18-13,Lomitas y Capilla,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=267&tr=&estacion=&tipoRuta=10
+268,10,18-14,Torca- Tibabita,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=268&tr=&estacion=&tipoRuta=10
+266,10,18-6,Serrezuela,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=266&tr=&estacion=&tipoRuta=10
+261,10,18-7,Soratama,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=261&tr=&estacion=&tipoRuta=10
+262,10,18-8,Bosque Calderón,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=262&tr=&estacion=&tipoRuta=10
+263,10,18-9,Cerro Norte,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=263&tr=&estacion=&tipoRuta=10
+264,10,6-18,Pasquilla,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=264&tr=&estacion=&tipoRuta=10
+269,10,T07,Sidel,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=269&tr=&estacion=&tipoRuta=10
+265,10,T08,Portal Suba - Tuna Alta,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=265&tr=&estacion=&tipoRuta=10

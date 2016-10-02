@@ -9,7 +9,10 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-
+using SharpKml;
+using SharpKml.Engine;
+using SharpKml.Dom;
+using SharpKml.Base;
 
 namespace SITP_Scraper
 {
@@ -24,9 +27,7 @@ namespace SITP_Scraper
             string[] start_urls = new string[] { "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=8", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=9", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=10" };
             string downloadsite = "http://www.sitp.gov.co";
             const string ua = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)";
-
-
-
+            
             string downloadDir = AppDomain.CurrentDomain.BaseDirectory + "\\Download";
             System.IO.Directory.CreateDirectory(downloadDir);
             string ExportDir = AppDomain.CurrentDomain.BaseDirectory + "\\Export";
@@ -36,6 +37,23 @@ namespace SITP_Scraper
             List<Horario> Horarios = new List<Horario> { };
             List<RouteParada> RouteParadas = new List<RouteParada> { };
             List<Parada> Paradas = new List<Parada> { };
+            List<ParadaSITP> ParadasSITP = new List<ParadaSITP> { };
+
+            // Parse the .kml files 
+            // This will read a Kml file into memory.            
+            KmlFile file = KmlFile.Load(new StreamReader("kml//Paraderos SITP.kml"));
+            Kml kml = file.Root as Kml;
+            if (kml != null)
+            {
+                foreach (var placemark in kml.Flatten().OfType<Placemark>())
+                {
+                    Console.WriteLine(placemark.Name);                   
+                    Vector coord = ((Point)placemark.Geometry).Coordinate;
+                    Console.WriteLine(coord.Latitude);
+                    Console.WriteLine(coord.Longitude);
+                    ParadasSITP.Add(new ParadaSITP { name = placemark.Name, latitude = coord.Latitude.ToString(), longtitude = coord.Longitude.ToString() });                                
+                }
+            }
             Console.WriteLine("Downloading files...");
             foreach (string address in start_urls)
             {
@@ -310,6 +328,18 @@ namespace SITP_Scraper
                     estSITPNumber = estSITPNumber.Substring(0, index);
                     estSITPNumber = estSITPNumber.Trim();
                     Paradas[i].estSITPNumber = estSITPNumber;
+                    var item = ParadasSITP.Find(q => q.name == estSITPNumber);                   
+                    if (item != null)
+                    {
+                        //Do stuff
+                        Paradas[i].estlatitude = item.latitude;
+                        Paradas[i].estlongtitude = item.longtitude;
+                    }
+                    else
+                    {
+                        Paradas[i].estlatitude = "";
+                        Paradas[i].estlongtitude = "";
+                    }
                 }
             }
 
@@ -376,7 +406,9 @@ namespace SITP_Scraper
                 csvroutes.WriteField("estSITPNumber");
                 csvroutes.WriteField("estNombre");
                 csvroutes.WriteField("estDireccion");
-                csvroutes.WriteField("estLink");                
+                csvroutes.WriteField("estLink");
+                csvroutes.WriteField("estlongtitude");
+                csvroutes.WriteField("estlatitude");                               
                 csvroutes.NextRecord();
                 for (int i = 0; i < Paradas.Count; i++) // Loop through List with for)
                 {
@@ -385,6 +417,16 @@ namespace SITP_Scraper
                     csvroutes.WriteField(Paradas[i].estNombre);
                     csvroutes.WriteField(Paradas[i].estDireccion);
                     csvroutes.WriteField(Paradas[i].estLink);
+                    if (!string.IsNullOrEmpty(Paradas[i].estlongtitude))
+                    {
+                        csvroutes.WriteField(Paradas[i].estlongtitude);
+                    }
+                    else { csvroutes.WriteField(""); }
+                    if (!string.IsNullOrEmpty(Paradas[i].estlatitude))
+                    {
+                        csvroutes.WriteField(Paradas[i].estlatitude);
+                    }
+                    else { csvroutes.WriteField(""); }                    
                     csvroutes.NextRecord();
                 }
 
@@ -443,12 +485,20 @@ namespace SITP_Scraper
         public string estDireccion;
         public string estLink;
         public string estSITPNumber;
-
+        public string estlatitude;
+        public string estlongtitude;
     }
 
     public class Horario
     {
         public string idRuta;
         public string horario;
+    }    
+
+    public class ParadaSITP
+    {
+        public string name;
+        public string latitude;
+        public string longtitude;
     }
 }

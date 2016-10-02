@@ -1,0 +1,18 @@
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SITP-Scraper.exe.config
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Estaciones Transmilenio.kml
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Paraderos SITP.kml
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Rutas SITP.kml
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Troncales Transmilenio.kml
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SITP-Scraper.exe
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SITP-Scraper.pdb
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\CsvHelper.dll
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\HtmlAgilityPack.CssSelectors.dll
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\HtmlAgilityPack.dll
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\CsvHelper.xml
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\HtmlAgilityPack.xml
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\HtmlAgilityPack.CssSelectors.pdb
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SITP-Scraper.csprojResolveAssemblyReference.cache
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SITP-Scraper.exe
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SITP-Scraper.pdb
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SharpKml.dll
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SharpKml.xml
