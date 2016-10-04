@@ -385,6 +385,7 @@ namespace SITP_Scraper
                         }
                         else
                         {
+                            // Ok when we search for A the first time we don't got the lat and lng
                             Paradas[i].estlatitude = "";
                             Paradas[i].estlongtitude = "";
                         }
