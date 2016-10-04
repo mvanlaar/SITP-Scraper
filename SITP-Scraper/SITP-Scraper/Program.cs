@@ -41,7 +41,7 @@ namespace SITP_Scraper
             List<Parada> Paradas = new List<Parada> { };
             List<ParadaSITP> ParadasSITP = new List<ParadaSITP> { };
 
-            // Parse the .kml files 
+                        // Parse the .kml files 
             // This will read a Kml file into memory.            
             KmlFile file = KmlFile.Load(new StreamReader("kml//Paraderos SITP.kml"));
             Kml kml = file.Root as Kml;
@@ -358,8 +358,36 @@ namespace SITP_Scraper
                     }
                     else
                     {
-                        Paradas[i].estlatitude = "";
-                        Paradas[i].estlongtitude = "";
+                        // Ok this can be also a multiple paradas site
+                        // Check for Letter A in posistion 4 and retry search
+                        // http://www.sitp.gov.co/Publicaciones/paraderos_multiples
+                        string sitpnumbermultiple = estSITPNumber;
+                        string letter = sitpnumbermultiple.Substring(3, 1);
+                        if (letter != "A")
+                        {
+                            // Ok postition 4 is not the letter A
+                            // Replace position 4 with the letter A
+                            sitpnumbermultiple.Remove(3, 1);
+                            sitpnumbermultiple.Insert(3, "A");
+
+                            var itemmultiple = ParadasSITP.Find(q => q.name == estSITPNumber);
+                            if (itemmultiple != null)
+                            {
+                                //Do stuff
+                                Paradas[i].estlatitude = itemmultiple.latitude;
+                                Paradas[i].estlongtitude = itemmultiple.longtitude;
+                            }
+                            else
+                            {
+                                Paradas[i].estlatitude = "";
+                                Paradas[i].estlongtitude = "";
+                            }
+                        }
+                        else
+                        {
+                            Paradas[i].estlatitude = "";
+                            Paradas[i].estlongtitude = "";
+                        }
                     }
                 }
             }
