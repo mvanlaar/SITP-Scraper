@@ -90,143 +90,143 @@ namespace SITP_Scraper
                     {
                         AP.Save(savefile);
                     }
-                    if (tipoRuta == "6")
+                    switch (tipoRuta)
                     {
-                        // Parsing Troncales Routes
-                        foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblPagine']//tbody//tr"))
-                        {
-                            // PArsing route
-                            string codigoRuta = row.SelectSingleNode(".//p[@class='letraTroncal']").InnerText;
-                            string rutaNombre = row.SelectSingleNode(".//a[@class='nombreTroncal']").InnerText;
-                            rutaNombre = rutaNombre.Trim();
-                            rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
-                            string rutaLink = row.SelectSingleNode(".//a[@class='nombreTroncal']").Attributes["href"].Value.ToString();
-                            rutaLink = HttpUtility.HtmlDecode(rutaLink);
-                            var urllink = new Uri(rutaLink);
-                            string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("troncal");
-                            // List<string> horario = new List<string>();
-                            Console.WriteLine("Parsing {0}", rutaNombre);
-                            string linkPlegableRuta = null;
-                            linkPlegableRuta = row.SelectSingleNode("//div[@class='esquemaTroncal'] //a").Attributes["href"].Value.ToString();
-                            // Download IMG
-                            //if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadPDF")))
-                            //{
-                                string fullurl = downloadsite + linkPlegableRuta;
-                                string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
-                                string downloadDirPDF = downloadDir + "\\PDF";
-                                System.IO.Directory.CreateDirectory(downloadDirPDF);
-                                string fullpath = downloadDirPDF + "\\" + filename;
-                                try
+                        case "6":
+                            // Parsing Troncales Routes
+                            foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblPagine']//tbody//tr"))
+                            {
+                                // PArsing route
+                                string codigoRuta = row.SelectSingleNode(".//p[@class='letraTroncal']").InnerText;
+                                string rutaNombre = row.SelectSingleNode(".//a[@class='nombreTroncal']").InnerText;
+                                rutaNombre = rutaNombre.Trim();
+                                rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
+                                string rutaLink = row.SelectSingleNode(".//a[@class='nombreTroncal']").Attributes["href"].Value.ToString();
+                                rutaLink = HttpUtility.HtmlDecode(rutaLink);
+                                var urllink = new Uri(rutaLink);
+                                string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("troncal");
+                                // List<string> horario = new List<string>();
+                                Console.WriteLine("Parsing {0}", rutaNombre);
+                                string linkPlegableRuta = null;
+                                linkPlegableRuta = row.SelectSingleNode("//div[@class='esquemaTroncal'] //a").Attributes["href"].Value.ToString();
+                                // Download IMG
+                                if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadPDF")))
                                 {
-                                    using (var client = new WebClient())
+                                    string fullurl = downloadsite + linkPlegableRuta;
+                                    string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
+                                    string downloadDirPDF = downloadDir + "\\PDF";
+                                    System.IO.Directory.CreateDirectory(downloadDirPDF);
+                                    string fullpath = downloadDirPDF + "\\" + filename;
+                                    try
                                     {
-                                        client.Headers.Add("user-agent", ua);
-                                        client.Headers.Add("Referer", address);
-                                        client.Proxy = null;
-                                        client.DownloadFile(fullurl, fullpath);
+                                        using (var client = new WebClient())
+                                        {
+                                            client.Headers.Add("user-agent", ua);
+                                            client.Headers.Add("Referer", address);
+                                            client.Proxy = null;
+                                            client.DownloadFile(fullurl, fullpath);
+                                        }
                                     }
-                                }
-                                catch { }
-                            //} 
+                                    catch { }
+                                } 
 
-                            // Add route to list 
-                            Rutas.Add(new Route
-                            {
-                                codigoRuta = codigoRuta,
-                                rutaNombre = rutaNombre,
-                                rutaLink = rutaLink,
-                                idRuta = idRuta,
-                                tipoRuta = tipoRuta
-                            });
-                            // End route parsing
-                        }
-                    }
-                    if (tipoRuta == "7")
-                    {
-                        // Parsing Alimentadors Routes
-                        foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblPagine']//tbody//tr"))
-                        {
-                            // PArsing route
-                            string codigoRuta = row.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
-                            string rutaNombre = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").InnerText;
-                            rutaNombre = rutaNombre.Trim();
-                            rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
-                            string rutaLink = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").Attributes["href"].Value.ToString();
-                            rutaLink = HttpUtility.HtmlDecode(rutaLink);
-                            var urllink = new Uri(rutaLink);
-                            string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("idRuta");
-                            // List<string> horario = new List<string>();
-                            Console.WriteLine("Parsing {0}", rutaNombre);
-                            var ListHorarios = row.SelectNodes(".//p[@class='label label-horario']");
-                            if (ListHorarios != null)
-                            {
-                                foreach (var itemhorario in ListHorarios)
+                                // Add route to list 
+                                Rutas.Add(new Route
                                 {
-                                    // Add Running time.
-                                    Horarios.Add(new Horario
-                                    {
-                                        idRuta = idRuta,
-                                        horario = itemhorario.InnerText.Replace("               ", "")
-                                    }
-                                    );
-                                }
+                                    codigoRuta = codigoRuta,
+                                    rutaNombre = rutaNombre,
+                                    rutaLink = rutaLink,
+                                    idRuta = idRuta,
+                                    tipoRuta = tipoRuta
+                                });
+                                // End route parsing
                             }
-
-                            // Add route to list 
-                            Rutas.Add(new Route
+                            break;
+                        case "7":
+                            // Parsing Alimentadors Routes
+                            foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblPagine']//tbody//tr"))
                             {
-                                codigoRuta = codigoRuta,
-                                rutaNombre = rutaNombre,
-                                rutaLink = rutaLink,
-                                idRuta = idRuta,
-                                tipoRuta = tipoRuta
-                            });
-                            // End route parsing
-                        }
-                    }
-                    //else
-                    //{
-                    //    // Parsing Routes
-                    //    foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblRutaTroncal']//tbody//tr"))
-                    //    {
-                    //        // PArsing route
-                    //        string codigoRuta = row.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
-                    //        string rutaNombre = row.SelectSingleNode(".//a[@class='rutaNombre']").InnerText;
-                    //        rutaNombre = rutaNombre.Trim();
-                    //        rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
-                    //        string rutaLink = row.SelectSingleNode(".//a[@class='rutaNombre']").Attributes["href"].Value.ToString();
-                    //        rutaLink = HttpUtility.HtmlDecode(rutaLink);
-                    //        var urllink = new Uri(rutaLink);
-                    //        string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("idRuta");
-                    //        // List<string> horario = new List<string>();
-                    //        Console.WriteLine("Parsing {0}", rutaNombre);
-                    //        var ListHorarios = row.SelectNodes(".//p[@class='label label-horario']");
-                    //        if (ListHorarios != null)
-                    //        {
-                    //            foreach (var itemhorario in ListHorarios)
-                    //            {
-                    //                // Add Running time.
-                    //                Horarios.Add(new Horario
-                    //                {
-                    //                    idRuta = idRuta,
-                    //                    horario = itemhorario.InnerText.Replace("               ", "")
-                    //                }
-                    //                );
-                    //            }
-                    //        }
+                                // PArsing route
+                                string codigoRuta = row.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
+                                string rutaNombre = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").InnerText;
+                                rutaNombre = rutaNombre.Trim();
+                                rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
+                                string rutaLink = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").Attributes["href"].Value.ToString();
+                                rutaLink = HttpUtility.HtmlDecode(rutaLink);
+                                var urllink = new Uri(rutaLink);
+                                string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("idRuta");
+                                // List<string> horario = new List<string>();
+                                Console.WriteLine("Parsing {0}", rutaNombre);
+                                var ListHorarios = row.SelectNodes(".//p[@class='label label-horario']");
+                                if (ListHorarios != null)
+                                {
+                                    foreach (var itemhorario in ListHorarios)
+                                    {
+                                        // Add Running time.
+                                        Horarios.Add(new Horario
+                                        {
+                                            idRuta = idRuta,
+                                            horario = itemhorario.InnerText.Replace("               ", "")
+                                        }
+                                        );
+                                    }
+                                }
 
-                    //        // Add route to list 
-                    //        Rutas.Add(new Route
-                    //        {
-                    //            codigoRuta = codigoRuta,
-                    //            rutaNombre = rutaNombre,
-                    //            rutaLink = rutaLink,
-                    //            idRuta = idRuta,
-                    //            tipoRuta = tipoRuta
-                    //        });
-                    //        // End route parsing
-                    //    }
-                    //}
+                                // Add route to list 
+                                Rutas.Add(new Route
+                                {
+                                    codigoRuta = codigoRuta,
+                                    rutaNombre = rutaNombre,
+                                    rutaLink = rutaLink,
+                                    idRuta = idRuta,
+                                    tipoRuta = tipoRuta
+                                });
+                                // End route parsing
+                            }
+                            break;
+                        default:
+                          // Parsing Routes
+                            foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblRutaTroncal']//tbody//tr"))
+                            {
+                                // PArsing route
+                                string codigoRuta = row.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
+                                string rutaNombre = row.SelectSingleNode(".//a[@class='rutaNombre']").InnerText;
+                                rutaNombre = rutaNombre.Trim();
+                                rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
+                                string rutaLink = row.SelectSingleNode(".//a[@class='rutaNombre']").Attributes["href"].Value.ToString();
+                                rutaLink = HttpUtility.HtmlDecode(rutaLink);
+                                var urllink = new Uri(rutaLink);
+                                string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("idRuta");
+                                // List<string> horario = new List<string>();
+                                Console.WriteLine("Parsing {0}", rutaNombre);
+                                var ListHorarios = row.SelectNodes(".//p[@class='label label-horario']");
+                                if (ListHorarios != null)
+                                {
+                                    foreach (var itemhorario in ListHorarios)
+                                    {
+                                        // Add Running time.
+                                        Horarios.Add(new Horario
+                                        {
+                                            idRuta = idRuta,
+                                            horario = itemhorario.InnerText.Replace("               ", "")
+                                        }
+                                        );
+                                    }
+                                }
+
+                                // Add route to list 
+                                Rutas.Add(new Route
+                                {
+                                    codigoRuta = codigoRuta,
+                                    rutaNombre = rutaNombre,
+                                    rutaLink = rutaLink,
+                                    idRuta = idRuta,
+                                    tipoRuta = tipoRuta
+                                });
+                                // End route parsing
+                            }
+                            break;
+                    }                   
                 // End Webrequest.
                 }
             // End url list parsing.
@@ -234,6 +234,8 @@ namespace SITP_Scraper
             // Looping through pages with Route information.
             for (int i = 0; i < Rutas.Count; i++) // Loop through List with for)
             {
+                // Parsing based on html layout for tipoRoute.
+
                 Console.WriteLine("Parsing Route {0} of {1}", i, Rutas.Count);
                 //Console.WriteLine("Parsing Route page: {0}", Rutas[i].rutaLink);
                 HttpWebRequest requestdetail = WebRequest.Create(Rutas[i].rutaLink) as HttpWebRequest;
@@ -249,174 +251,226 @@ namespace SITP_Scraper
                     {
                         RutaDetail.Save(savefile);
                     }
-                    // Downloadable Files
-                    var tmplinkMapaRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkMapaRuta']");
-                    string linkMapaRuta = null;
-                    if (tmplinkMapaRuta != null)
+                    switch (Rutas[i].tipoRuta)
                     {
-                        linkMapaRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkMapaRuta']").Attributes["href"].Value.ToString();
-                        // Download IMG
-                        if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadIMG")))
-                        {
-                            string fullurl = downloadsite + linkMapaRuta;
-                            string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
-                            string downloadDirIMG = downloadDir + "\\IMG";
-                            System.IO.Directory.CreateDirectory(downloadDirIMG);
-                            string fullpath = downloadDirIMG + "\\" + filename;
-                            try
+                        case "6":
+                            // Route Stations
+                            // Parsing Route information Direction A - Because a and b can be different.
+                            HtmlNode routea = RutaDetail.DocumentNode.SelectSingleNode("//div[@class='titleBusq']");
                             {
-                                using (var client = new WebClient())
+                                string direction = "A";
+                                foreach (HtmlNode NodeParada in RutaDetail.DocumentNode.SelectNodes("//table[@id='tablaResult']//tbody//tr"))
                                 {
-                                    client.Headers.Add("user-agent", ua);
-                                    client.Headers.Add("Referer", Rutas[i].rutaLink);
-                                    client.Proxy = null;
-                                    client.DownloadFile(fullurl, fullpath);
+                                    string estNombre = NodeParada.SelectSingleNode(".//a").InnerHtml;
+                                    estNombre = Regex.Replace(estNombre, @"<span class=""ignoreAaa"">.*?</span>", string.Empty);
+                                    estNombre = HttpUtility.HtmlDecode(estNombre);
+                                    estNombre = estNombre.Trim();
+                                    string estNumbre = NodeParada.SelectSingleNode(".//span[@class='ignoreAaa']").InnerText;
+                                    estNumbre = estNumbre.Replace(".", "").Trim();
+                                    string estDireccion = NodeParada.SelectSingleNode(".//div[@class='estDireccion']").InnerText;
+                                    string estLink = NodeParada.SelectSingleNode(".//a").Attributes["href"].Value.ToString();
+                                    estLink = HttpUtility.HtmlDecode(estLink);
+                                    var urllink = new Uri(estLink);
+                                    string estId = HttpUtility.ParseQueryString(urllink.Query).Get("paradero");
+                                    RouteParadas.Add(new RouteParada
+                                    {
+                                        idRuta = Rutas[i].idRuta,
+                                        rutaDirection = direction,
+                                        estNumber = estNumbre,
+                                        estId = estId
+                                    }
+                                    );
+                                    bool alreadyExists = Paradas.Exists(x => x.estId == estId
+                                        && x.estNombre == estNombre
+                                        && x.estDireccion == estDireccion
+                                        && x.estLink == estLink
+                                       );
+                                    if (!alreadyExists)
+                                    {
+                                        Paradas.Add(new Parada
+                                        {
+                                            estId = estId,
+                                            estNombre = estNombre,
+                                            estDireccion = estDireccion,
+                                            estLink = estLink
+                                        }
+                                        );
+                                    }
                                 }
                             }
-                            catch { }
-                        } 
+                            break;
+                        default:
+                            // Downloadable Files
+                            var tmplinkMapaRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkMapaRuta']");
+                            string linkMapaRuta = null;
+                            if (tmplinkMapaRuta != null)
+                            {
+                                linkMapaRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkMapaRuta']").Attributes["href"].Value.ToString();
+                                // Download IMG
+                                if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadIMG")))
+                                {
+                                    string fullurl = downloadsite + linkMapaRuta;
+                                    string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
+                                    string downloadDirIMG = downloadDir + "\\IMG";
+                                    System.IO.Directory.CreateDirectory(downloadDirIMG);
+                                    string fullpath = downloadDirIMG + "\\" + filename;
+                                    try
+                                    {
+                                        using (var client = new WebClient())
+                                        {
+                                            client.Headers.Add("user-agent", ua);
+                                            client.Headers.Add("Referer", Rutas[i].rutaLink);
+                                            client.Proxy = null;
+                                            client.DownloadFile(fullurl, fullpath);
+                                        }
+                                    }
+                                    catch { }
+                                }
 
-                    }                    
-                    var tmplinkPuntoParada = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPuntoParada']");
-                    string linkPuntoParada = null;
-                    if (tmplinkPuntoParada != null)
-                    {
-                        linkPuntoParada = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPuntoParada']").Attributes["href"].Value.ToString();
-                        // Download IMG
-                        if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadIMG")))
-                        {
-                            string fullurl = downloadsite + linkPuntoParada;
-                            string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
-                            string downloadDirIMG = downloadDir + "\\IMG";
-                            System.IO.Directory.CreateDirectory(downloadDirIMG);
-                            string fullpath = downloadDirIMG + "\\" + filename;
-                            try
+                            }
+                            var tmplinkPuntoParada = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPuntoParada']");
+                            string linkPuntoParada = null;
+                            if (tmplinkPuntoParada != null)
                             {
-                                using (var client = new WebClient())
+                                linkPuntoParada = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPuntoParada']").Attributes["href"].Value.ToString();
+                                // Download IMG
+                                if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadIMG")))
                                 {
-                                    client.Headers.Add("user-agent", ua);
-                                    client.Headers.Add("Referer", Rutas[i].rutaLink);
-                                    client.Proxy = null;
-                                    client.DownloadFile(fullurl, fullpath);
+                                    string fullurl = downloadsite + linkPuntoParada;
+                                    string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
+                                    string downloadDirIMG = downloadDir + "\\IMG";
+                                    System.IO.Directory.CreateDirectory(downloadDirIMG);
+                                    string fullpath = downloadDirIMG + "\\" + filename;
+                                    try
+                                    {
+                                        using (var client = new WebClient())
+                                        {
+                                            client.Headers.Add("user-agent", ua);
+                                            client.Headers.Add("Referer", Rutas[i].rutaLink);
+                                            client.Proxy = null;
+                                            client.DownloadFile(fullurl, fullpath);
+                                        }
+                                    }
+                                    catch { }
                                 }
                             }
-                            catch { }
-                        } 
+                            var tmplinkPlegableRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPlegableRuta']");
+                            string linkPlegableRuta = null;
+                            if (tmplinkPlegableRuta != null)
+                            {
+                                linkPlegableRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPlegableRuta']").Attributes["href"].Value.ToString();
+                                // Download PDF
+                                if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadPDF")))
+                                {
+                                    string fullurl = downloadsite + linkPlegableRuta;
+                                    string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
+                                    string downloadDirPDF = downloadDir + "\\PDF";
+                                    System.IO.Directory.CreateDirectory(downloadDirPDF);
+                                    string fullpath = downloadDirPDF + "\\" + filename;
+                                    try
+                                    {
+                                        using (var client = new WebClient())
+                                        {
+                                            client.Headers.Add("user-agent", ua);
+                                            client.Headers.Add("Referer", Rutas[i].rutaLink);
+                                            client.Proxy = null;
+                                            client.DownloadFile(fullurl, fullpath);
+                                        }
+                                    }
+                                    catch { }
+                                }
+                            }
+                            // Route Stations
+                            // Parsing Route information Direction A - Because a and b can be different.
+                            HtmlNode routea = RutaDetail.DocumentNode.SelectSingleNode("//div[@class='recorrido1']");
+                            {
+                                string direction = "A";
+                                foreach (HtmlNode NodeParada in routea.SelectNodes(".//div[@class='infoParada']"))
+                                {
+                                    string estNombre = NodeParada.SelectSingleNode(".//a").InnerHtml;
+                                    estNombre = Regex.Replace(estNombre, @"<span class=""ignoreAaa"">.*?</span>", string.Empty);
+                                    estNombre = HttpUtility.HtmlDecode(estNombre);
+                                    estNombre = estNombre.Trim();
+                                    string estNumbre = NodeParada.SelectSingleNode(".//span[@class='ignoreAaa']").InnerText;
+                                    estNumbre = estNumbre.Replace(".", "").Trim();
+                                    string estDireccion = NodeParada.SelectSingleNode(".//div[@class='estDireccion']").InnerText;
+                                    string estLink = NodeParada.SelectSingleNode(".//a").Attributes["href"].Value.ToString();
+                                    estLink = HttpUtility.HtmlDecode(estLink);
+                                    var urllink = new Uri(estLink);
+                                    string estId = HttpUtility.ParseQueryString(urllink.Query).Get("paradero");
+                                    RouteParadas.Add(new RouteParada
+                                    {
+                                        idRuta = Rutas[i].idRuta,
+                                        rutaDirection = direction,
+                                        estNumber = estNumbre,
+                                        estId = estId
+                                    }
+                                    );
+                                    bool alreadyExists = Paradas.Exists(x => x.estId == estId
+                                        && x.estNombre == estNombre
+                                        && x.estDireccion == estDireccion
+                                        && x.estLink == estLink
+                                       );
+                                    if (!alreadyExists)
+                                    {
+                                        Paradas.Add(new Parada
+                                        {
+                                            estId = estId,
+                                            estNombre = estNombre,
+                                            estDireccion = estDireccion,
+                                            estLink = estLink
+                                        }
+                                        );
+                                    }
+                                }
+                            }
+                            // Parsing Route information Direction B
+                            HtmlNode routeb = RutaDetail.DocumentNode.SelectSingleNode("//div[@class='recorrido2']");
+                            {
+                                string direction = "B";
+                                foreach (HtmlNode NodeParada in routea.SelectNodes(".//div[@class='infoParada']"))
+                                {
+                                    string estNombre = NodeParada.SelectSingleNode(".//a").InnerHtml;
+                                    estNombre = Regex.Replace(estNombre, @"<span class=""ignoreAaa"">.*?</span>", string.Empty);
+                                    estNombre = HttpUtility.HtmlDecode(estNombre);
+                                    estNombre = estNombre.Trim();
+                                    string estNumbre = NodeParada.SelectSingleNode(".//span[@class='ignoreAaa']").InnerText;
+                                    estNumbre = estNumbre.Replace(".", "").Trim();
+                                    string estDireccion = NodeParada.SelectSingleNode(".//div[@class='estDireccion']").InnerText;
+                                    string estLink = NodeParada.SelectSingleNode(".//a").Attributes["href"].Value.ToString();
+                                    estLink = HttpUtility.HtmlDecode(estLink);
+                                    var urllink = new Uri(estLink);
+                                    string estId = HttpUtility.ParseQueryString(urllink.Query).Get("paradero");
+                                    RouteParadas.Add(new RouteParada
+                                    {
+                                        idRuta = Rutas[i].idRuta,
+                                        rutaDirection = direction,
+                                        estNumber = estNumbre,
+                                        estId = estId
+                                    }
+                                    );
+                                    bool alreadyExists = Paradas.Exists(x => x.estId == estId
+                                        && x.estNombre == estNombre
+                                        && x.estDireccion == estDireccion
+                                        && x.estLink == estLink
+                                       );
+                                    if (!alreadyExists)
+                                    {
+                                        Paradas.Add(new Parada
+                                        {
+                                            estId = estId,
+                                            estNombre = estNombre,
+                                            estDireccion = estDireccion,
+                                            estLink = estLink
+                                        }
+                                        );
+                                    }
+                                }
+
+                            }
+                            break;
                     }
-                    var tmplinkPlegableRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPlegableRuta']");
-                    string linkPlegableRuta = null;
-                    if (tmplinkPlegableRuta != null)
-                    {
-                        linkPlegableRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkPlegableRuta']").Attributes["href"].Value.ToString();
-                        // Download PDF
-                        if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadPDF")))
-                        {
-                            string fullurl = downloadsite + linkPlegableRuta;
-                            string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
-                            string downloadDirPDF = downloadDir + "\\PDF";
-                            System.IO.Directory.CreateDirectory(downloadDirPDF);
-                            string fullpath = downloadDirPDF + "\\" + filename;
-                            try
-                            {
-                                using (var client = new WebClient())
-                                {
-                                    client.Headers.Add("user-agent", ua);
-                                    client.Headers.Add("Referer", Rutas[i].rutaLink);
-                                    client.Proxy = null;
-                                    client.DownloadFile(fullurl, fullpath);
-                                }
-                            }
-                            catch { }
-                        } 
-                    }
-                    // Route Stations
-                    // Parsing Route information Direction A - Because a and b can be different.
-                    HtmlNode routea = RutaDetail.DocumentNode.SelectSingleNode("//div[@class='recorrido1']");
-                    {
-                        string direction = "A";
-                        foreach (HtmlNode NodeParada in routea.SelectNodes(".//div[@class='infoParada']"))
-                        { 
-                            string estNombre = NodeParada.SelectSingleNode(".//a").InnerHtml;
-                            estNombre = Regex.Replace(estNombre, @"<span class=""ignoreAaa"">.*?</span>", string.Empty);
-                            estNombre = HttpUtility.HtmlDecode(estNombre);
-                            estNombre = estNombre.Trim();
-                            string estNumbre = NodeParada.SelectSingleNode(".//span[@class='ignoreAaa']").InnerText;
-                            estNumbre = estNumbre.Replace(".", "").Trim();
-                            string estDireccion = NodeParada.SelectSingleNode(".//div[@class='estDireccion']").InnerText;
-                            string estLink = NodeParada.SelectSingleNode(".//a").Attributes["href"].Value.ToString();
-                            estLink = HttpUtility.HtmlDecode(estLink);
-                            var urllink = new Uri(estLink);
-                            string estId = HttpUtility.ParseQueryString(urllink.Query).Get("paradero");
-                            RouteParadas.Add(new RouteParada
-                            {
-                                idRuta = Rutas[i].idRuta,
-                                rutaDirection = direction,
-                                estNumber = estNumbre,
-                                estId = estId
-                            }
-                            );
-                            bool alreadyExists = Paradas.Exists(x => x.estId == estId
-                                && x.estNombre == estNombre
-                                && x.estDireccion == estDireccion
-                                && x.estLink == estLink
-                               );
-                            if (!alreadyExists)
-                            {
-                                Paradas.Add(new Parada
-                                {
-                                    estId = estId,
-                                    estNombre = estNombre,
-                                    estDireccion = estDireccion,
-                                    estLink = estLink
-                                }
-                                );
-                            }                            
-                        }
-                    }
-                    // Parsing Route information Direction B
-                    HtmlNode routeb = RutaDetail.DocumentNode.SelectSingleNode("//div[@class='recorrido2']");
-                    {
-                        string direction = "B";
-                        foreach (HtmlNode NodeParada in routea.SelectNodes(".//div[@class='infoParada']"))
-                        {
-                            string estNombre = NodeParada.SelectSingleNode(".//a").InnerHtml;
-                            estNombre = Regex.Replace(estNombre, @"<span class=""ignoreAaa"">.*?</span>", string.Empty);
-                            estNombre = HttpUtility.HtmlDecode(estNombre);
-                            estNombre = estNombre.Trim();
-                            string estNumbre = NodeParada.SelectSingleNode(".//span[@class='ignoreAaa']").InnerText;
-                            estNumbre = estNumbre.Replace(".", "").Trim();
-                            string estDireccion = NodeParada.SelectSingleNode(".//div[@class='estDireccion']").InnerText;
-                            string estLink = NodeParada.SelectSingleNode(".//a").Attributes["href"].Value.ToString();
-                            estLink = HttpUtility.HtmlDecode(estLink);
-                            var urllink = new Uri(estLink);
-                            string estId = HttpUtility.ParseQueryString(urllink.Query).Get("paradero");
-                            RouteParadas.Add(new RouteParada
-                            {
-                                idRuta = Rutas[i].idRuta,
-                                rutaDirection = direction,
-                                estNumber = estNumbre,
-                                estId = estId
-                            }
-                            );
-                            bool alreadyExists = Paradas.Exists(x => x.estId == estId
-                                && x.estNombre == estNombre
-                                && x.estDireccion == estDireccion
-                                && x.estLink == estLink
-                               );
-                            if (!alreadyExists)
-                            {
-                                Paradas.Add(new Parada
-                                {
-                                    estId = estId,
-                                    estNombre = estNombre,
-                                    estDireccion = estDireccion,
-                                    estLink = estLink
-                                }
-                                );
-                            }
-                        }
                     
-                    }
                  // End Route Parsing    
                 }
             }
