@@ -367,10 +367,10 @@ namespace SITP_Scraper
                         {
                             // Ok postition 4 is not the letter A
                             // Replace position 4 with the letter A
-                            sitpnumbermultiple.Remove(3, 1);
-                            sitpnumbermultiple.Insert(3, "A");
+                            sitpnumbermultiple = sitpnumbermultiple.Remove(3, 1);
+                            sitpnumbermultiple = sitpnumbermultiple.Insert(3, "A");
 
-                            var itemmultiple = ParadasSITP.Find(q => q.name == estSITPNumber);
+                            var itemmultiple = ParadasSITP.Find(q => q.name == sitpnumbermultiple);
                             if (itemmultiple != null)
                             {
                                 //Do stuff
