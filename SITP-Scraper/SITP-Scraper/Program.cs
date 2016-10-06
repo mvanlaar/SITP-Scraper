@@ -255,49 +255,45 @@ namespace SITP_Scraper
                     {
                         case "6":
                             // Route Stations
-                            // Parsing Route information Direction A - Because a and b can be different.
-                            HtmlNode routea = RutaDetail.DocumentNode.SelectSingleNode("//div[@class='titleBusq']");
+                            // Parsing Route information Direction A - Because a and b can be different.                            
+                            string directiontron = "A";
+                            foreach (HtmlNode NodeParada in RutaDetail.DocumentNode.SelectNodes("//table[@id='tablaResult']//tbody//tr"))
                             {
-                                string direction = "A";
-                                foreach (HtmlNode NodeParada in RutaDetail.DocumentNode.SelectNodes("//table[@id='tablaResult']//tbody//tr"))
+                                string estNombre = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//span[2]").InnerText;                                
+                                estNombre = estNombre.Trim();
+                                //string estNumbre = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//span[2]").InnerText;
+                                //estNumbre = estNumbre.Trim();
+                                HtmlNode NodeestDireccion = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']");
+                                string estDireccion = NodeestDireccion.ChildNodes[5].InnerText;                                
+                                string estLink = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//a").Attributes["href"].Value.ToString();
+                                estLink = HttpUtility.HtmlDecode(estLink);
+                                var urllink = new Uri(estLink);
+                                string estId = HttpUtility.ParseQueryString(urllink.Query).Get("estacion");
+                                RouteParadas.Add(new RouteParada
                                 {
-                                    string estNombre = NodeParada.SelectSingleNode(".//a").InnerHtml;
-                                    estNombre = Regex.Replace(estNombre, @"<span class=""ignoreAaa"">.*?</span>", string.Empty);
-                                    estNombre = HttpUtility.HtmlDecode(estNombre);
-                                    estNombre = estNombre.Trim();
-                                    string estNumbre = NodeParada.SelectSingleNode(".//span[@class='ignoreAaa']").InnerText;
-                                    estNumbre = estNumbre.Replace(".", "").Trim();
-                                    string estDireccion = NodeParada.SelectSingleNode(".//div[@class='estDireccion']").InnerText;
-                                    string estLink = NodeParada.SelectSingleNode(".//a").Attributes["href"].Value.ToString();
-                                    estLink = HttpUtility.HtmlDecode(estLink);
-                                    var urllink = new Uri(estLink);
-                                    string estId = HttpUtility.ParseQueryString(urllink.Query).Get("paradero");
-                                    RouteParadas.Add(new RouteParada
+                                    idRuta = Rutas[i].idRuta,
+                                    rutaDirection = directiontron,
+                                    estNumber = estId,
+                                    estId = estId
+                                }
+                                );
+                                bool alreadyExists = Paradas.Exists(x => x.estId == estId
+                                    && x.estNombre == estNombre
+                                    && x.estDireccion == estDireccion
+                                    && x.estLink == estLink
+                                    );
+                                if (!alreadyExists)
+                                {
+                                    Paradas.Add(new Parada
                                     {
-                                        idRuta = Rutas[i].idRuta,
-                                        rutaDirection = direction,
-                                        estNumber = estNumbre,
-                                        estId = estId
+                                        estId = estId,
+                                        estNombre = estNombre,
+                                        estDireccion = estDireccion,
+                                        estLink = estLink
                                     }
                                     );
-                                    bool alreadyExists = Paradas.Exists(x => x.estId == estId
-                                        && x.estNombre == estNombre
-                                        && x.estDireccion == estDireccion
-                                        && x.estLink == estLink
-                                       );
-                                    if (!alreadyExists)
-                                    {
-                                        Paradas.Add(new Parada
-                                        {
-                                            estId = estId,
-                                            estNombre = estNombre,
-                                            estDireccion = estDireccion,
-                                            estLink = estLink
-                                        }
-                                        );
-                                    }
                                 }
-                            }
+                            }                            
                             break;
                         default:
                             // Downloadable Files
