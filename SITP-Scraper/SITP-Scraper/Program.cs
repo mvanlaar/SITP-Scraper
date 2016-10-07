@@ -24,7 +24,7 @@ namespace SITP_Scraper
             //"http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=6", 
             // Alimentadors has other html layout
             // "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=7",
-            string[] start_urls = new string[] { "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=6", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=7", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=8", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=9", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=10" };
+            string[] start_urls = new string[] { "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=7", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=8", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=9", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=10" };
             string downloadsite = "http://www.sitp.gov.co";
             const string ua = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)";
             
@@ -295,6 +295,56 @@ namespace SITP_Scraper
                                 }
                             }                            
                             break;
+                        case "7":
+                            // Route Stations
+                            // Parsing Route information Direction A - Because a and b can be different.                            
+                            //string directionalim = "A";
+                            foreach (HtmlNode NodeParada in RutaDetail.DocumentNode.SelectNodes("//div[@class='estacionRecorrido']"))
+                            {
+                                string estLink = NodeParada.SelectSingleNode(".//div[@class='infoParada']//a").Attributes["href"].Value.ToString();
+                                estLink = HttpUtility.HtmlDecode(estLink);
+                                var urllink = new Uri(estLink);
+
+                                string estNombre = NodeParada.SelectSingleNode(".//div[@class='infoParada']//a").Attributes["title"].Value.ToString();
+                                estNombre = estNombre.Trim();
+                                var regex = new Regex(".*El servicio para en: (.*) y su direcci.*");
+                                if (regex.IsMatch(estNombre))
+                                {
+                                    estNombre = regex.Match(estNombre).Groups[1].Value;                                    
+                                }
+                                estNombre = estNombre.Trim();
+                                string estNumbre = NodeParada.SelectSingleNode(".//span[@class='numeroRecorrido']").InnerText;
+                                estNumbre = estNumbre.Replace(".", "");
+                                estNumbre = estNumbre.Trim();                                
+                                string estDireccion = NodeParada.SelectSingleNode(".//div[@class='estDireccion']//span").InnerText;
+
+                                string estId = HttpUtility.ParseQueryString(urllink.Query).Get("paradero");
+                                RouteParadas.Add(new RouteParada
+                                {
+                                    idRuta = Rutas[i].idRuta,
+                                    rutaDirection = "",
+                                    estNumber = estNumbre,
+                                    estId = estId
+                                }
+                                );
+                                bool alreadyExists = Paradas.Exists(x => x.estId == estId
+                                    && x.estNombre == estNombre
+                                    && x.estDireccion == estDireccion
+                                    && x.estLink == estLink
+                                    );
+                                if (!alreadyExists)
+                                {
+                                    Paradas.Add(new Parada
+                                    {
+                                        estId = estId,
+                                        estNombre = estNombre,
+                                        estDireccion = estDireccion,
+                                        estLink = estLink
+                                    }
+                                    );
+                                }
+                            }
+                            break;
                         default:
                             // Downloadable Files
                             var tmplinkMapaRuta = RutaDetail.DocumentNode.SelectSingleNode("//a[@class='linkMapaRuta']");
@@ -509,30 +559,38 @@ namespace SITP_Scraper
                         // Check for Letter A in posistion 4 and retry search
                         // http://www.sitp.gov.co/Publicaciones/paraderos_multiples
                         string sitpnumbermultiple = estSITPNumber;
-                        string letter = sitpnumbermultiple.Substring(3, 1);
-                        if (letter != "A")
-                        {
-                            // Ok postition 4 is not the letter A
-                            // Replace position 4 with the letter A
-                            sitpnumbermultiple = sitpnumbermultiple.Remove(3, 1);
-                            sitpnumbermultiple = sitpnumbermultiple.Insert(3, "A");
-
-                            var itemmultiple = ParadasSITP.Find(q => q.name == sitpnumbermultiple);
-                            if (itemmultiple != null)
+                        if (sitpnumbermultiple.Length > 4) {
+                            string letter = sitpnumbermultiple.Substring(3, 1);
+                            if (letter != "A")
                             {
-                                //Do stuff
-                                Paradas[i].estlatitude = itemmultiple.latitude;
-                                Paradas[i].estlongtitude = itemmultiple.longtitude;
+                                // Ok postition 4 is not the letter A
+                                // Replace position 4 with the letter A
+                                sitpnumbermultiple = sitpnumbermultiple.Remove(3, 1);
+                                sitpnumbermultiple = sitpnumbermultiple.Insert(3, "A");
+
+                                var itemmultiple = ParadasSITP.Find(q => q.name == sitpnumbermultiple);
+                                if (itemmultiple != null)
+                                {
+                                    //Do stuff
+                                    Paradas[i].estlatitude = itemmultiple.latitude;
+                                    Paradas[i].estlongtitude = itemmultiple.longtitude;
+                                }
+                                else
+                                {
+                                    Paradas[i].estlatitude = "";
+                                    Paradas[i].estlongtitude = "";
+                                }
                             }
                             else
                             {
+                                // Ok when we search for A the first time we don't got the lat and lng
                                 Paradas[i].estlatitude = "";
                                 Paradas[i].estlongtitude = "";
                             }
                         }
                         else
                         {
-                            // Ok when we search for A the first time we don't got the lat and lng
+                            // hmm paradero with number shorter than 3 chars???
                             Paradas[i].estlatitude = "";
                             Paradas[i].estlongtitude = "";
                         }
