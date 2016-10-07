@@ -259,8 +259,9 @@ namespace SITP_Scraper
                             string directiontron = "A";
                             foreach (HtmlNode NodeParada in RutaDetail.DocumentNode.SelectNodes("//table[@id='tablaResult']//tbody//tr"))
                             {
-                                string estNombre = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//span[2]").InnerText;                                
-                                estNombre = estNombre.Trim();
+                                string estNombre = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//span[2]").InnerText;
+                                estNombre = HttpUtility.HtmlDecode(estNombre);
+                                estNombre = estNombre.Trim();                                
                                 //string estNumbre = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//span[2]").InnerText;
                                 //estNumbre = estNumbre.Trim();
                                 HtmlNode NodeestDireccion = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']");
