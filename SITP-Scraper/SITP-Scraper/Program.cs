@@ -20,6 +20,9 @@ namespace SITP_Scraper
     {
         static void Main(string[] args)
         {
+            // KML and KMZ files are from: http://www.ideca.gov.co/es/servicios/objetos-geograficos-tematicos
+            // Other Reference Material: http://www.ideca.gov.co/es/servicios/mapa-de-referencia/tabla-mapa-referencia
+
             // Troncales has other html layout
             //"http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=6", 
             // Alimentadors has other html layout
@@ -43,7 +46,7 @@ namespace SITP_Scraper
 
                         // Parse the .kml files 
             // This will read a Kml file into memory.            
-            KmlFile file = KmlFile.Load(new StreamReader("kml//Paraderos SITP.kml"));
+            KmlFile file = KmlFile.Load(new StreamReader("kml//Paraderos SITP V2.kml"));
             Kml kml = file.Root as Kml;
             if (kml != null)
             {

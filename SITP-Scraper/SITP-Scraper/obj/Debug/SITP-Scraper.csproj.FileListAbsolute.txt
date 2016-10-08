@@ -16,3 +16,4 @@ D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SI
 D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SITP-Scraper.pdb
 D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SharpKml.dll
 D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SharpKml.xml
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Paraderos SITP V2.kml

@@ -66,8 +66,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="kml\Estaciones Transmilenio.kml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="kml\Paraderos SITP V2.kml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="kml\Paraderos SITP.kml">
