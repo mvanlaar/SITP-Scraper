@@ -27,7 +27,8 @@ namespace SITP_Scraper
             //"http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=6", 
             // Alimentadors has other html layout
             // "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=7",
-            string[] start_urls = new string[] { "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=8", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=9", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=10" };
+            string[] start_urls = new string[] { "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=7", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=8", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=9", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=10" };
+            string troncalstart = "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=6";
             string downloadsite = "http://www.sitp.gov.co";
             const string ua = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)";
             
@@ -74,7 +75,74 @@ namespace SITP_Scraper
             //        ParadasSITP.Add(new ParadaSITP { name = placemark.Name, latitude = coord.Latitude.ToString(), longtitude = coord.Longitude.ToString() });
             //    }
             //}
-            Console.WriteLine("Downloading files...");
+            Console.WriteLine("Start parsing Troncales");
+            HttpWebRequest requesttron = WebRequest.Create(troncalstart) as HttpWebRequest;
+            requesttron.Method = "GET";
+            requesttron.Proxy = null;
+            using (HttpWebResponse responsetron = requesttron.GetResponse() as HttpWebResponse)
+            {
+                var uri = new Uri(troncalstart);
+                string tipoRuta = HttpUtility.ParseQueryString(uri.Query).Get("tipoRuta");
+
+                HtmlDocument APTron = new HtmlDocument();
+                StreamReader readerTron = new StreamReader(responsetron.GetResponseStream());
+                APTron.LoadHtml(readerTron.ReadToEnd());
+
+                string savefile = String.Format("Download\\{0}.html", tipoRuta);
+                if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
+                {
+                    APTron.Save(savefile);
+                }
+                foreach (HtmlNode row in APTron.DocumentNode.SelectNodes("//table[@id='tblPagine']//tbody//tr"))
+                {
+                    // Parsing troncales letters
+                    string letraTroncal = row.SelectSingleNode(".//p[@class='letraTroncal']").InnerText;
+                    string nombreTroncal = row.SelectSingleNode(".//a[@class='nombreTroncal']").InnerText;
+                    nombreTroncal = nombreTroncal.Trim();
+                    nombreTroncal = HttpUtility.HtmlDecode(nombreTroncal);
+                    string rutaLink = row.SelectSingleNode(".//a[@class='nombreTroncal']").Attributes["href"].Value.ToString();
+                    rutaLink = HttpUtility.HtmlDecode(rutaLink);
+                    var urllink = new Uri(rutaLink);
+                    string idTroncal = HttpUtility.ParseQueryString(urllink.Query).Get("troncal");
+                    // List<string> horario = new List<string>();
+                    Console.WriteLine("Parsing {0}", nombreTroncal);
+                    string linkPlegableRuta = null;
+                    linkPlegableRuta = row.SelectSingleNode("//div[@class='esquemaTroncal'] //a").Attributes["href"].Value.ToString();
+                    // Download IMG
+                    if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadPDF")))
+                    {
+                        string fullurl = downloadsite + linkPlegableRuta;
+                        string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
+                        string downloadDirPDF = downloadDir + "\\PDF";
+                        System.IO.Directory.CreateDirectory(downloadDirPDF);
+                        string fullpath = downloadDirPDF + "\\" + filename;
+                        try
+                        {
+                            using (var client = new WebClient())
+                            {
+                                client.Headers.Add("user-agent", ua);
+                                client.Headers.Add("Referer", troncalstart);
+                                client.Proxy = null;
+                                client.DownloadFile(fullurl, fullpath);
+                            }
+                        }
+                        catch { }
+                    }
+
+                    // Add route to list 
+                    Rutas.Add(new Route
+                    {
+                        codigoRuta = codigoRuta,
+                        rutaNombre = rutaNombre,
+                        rutaLink = rutaLink,
+                        idRuta = idRuta,
+                        tipoRuta = tipoRuta
+                    });
+                    // End troncal parsing
+                }
+            }
+
+            Console.WriteLine("Parsing other routes...");
             foreach (string address in start_urls)
             {
                 HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;
@@ -97,53 +165,8 @@ namespace SITP_Scraper
                     {
                         case "6":
                             // Parsing Troncales Routes
-                            foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblPagine']//tbody//tr"))
-                            {
-                                // PArsing route
-                                string codigoRuta = row.SelectSingleNode(".//p[@class='letraTroncal']").InnerText;
-                                string rutaNombre = row.SelectSingleNode(".//a[@class='nombreTroncal']").InnerText;
-                                rutaNombre = rutaNombre.Trim();
-                                rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
-                                string rutaLink = row.SelectSingleNode(".//a[@class='nombreTroncal']").Attributes["href"].Value.ToString();
-                                rutaLink = HttpUtility.HtmlDecode(rutaLink);
-                                var urllink = new Uri(rutaLink);
-                                string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("troncal");
-                                // List<string> horario = new List<string>();
-                                Console.WriteLine("Parsing {0}", rutaNombre);
-                                string linkPlegableRuta = null;
-                                linkPlegableRuta = row.SelectSingleNode("//div[@class='esquemaTroncal'] //a").Attributes["href"].Value.ToString();
-                                // Download IMG
-                                if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("DownloadPDF")))
-                                {
-                                    string fullurl = downloadsite + linkPlegableRuta;
-                                    string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
-                                    string downloadDirPDF = downloadDir + "\\PDF";
-                                    System.IO.Directory.CreateDirectory(downloadDirPDF);
-                                    string fullpath = downloadDirPDF + "\\" + filename;
-                                    try
-                                    {
-                                        using (var client = new WebClient())
-                                        {
-                                            client.Headers.Add("user-agent", ua);
-                                            client.Headers.Add("Referer", address);
-                                            client.Proxy = null;
-                                            client.DownloadFile(fullurl, fullpath);
-                                        }
-                                    }
-                                    catch { }
-                                } 
-
-                                // Add route to list 
-                                Rutas.Add(new Route
-                                {
-                                    codigoRuta = codigoRuta,
-                                    rutaNombre = rutaNombre,
-                                    rutaLink = rutaLink,
-                                    idRuta = idRuta,
-                                    tipoRuta = tipoRuta
-                                });
-                                // End route parsing
-                            }
+                            // Troncal routes are based on station then route. and not route then station
+                            
                             break;
                         case "7":
                             // Parsing Alimentadors Routes
@@ -301,7 +324,7 @@ namespace SITP_Scraper
                             break;
                         case "7":
                             // Route Stations
-                            // Parsing Route information Direction A - Because a and b can be different.                            
+                            // Parsing Route information one direction route
                             //string directionalim = "A";
                             foreach (HtmlNode NodeParada in RutaDetail.DocumentNode.SelectNodes("//div[@class='estacionRecorrido']"))
                             {
@@ -317,9 +340,11 @@ namespace SITP_Scraper
                                     estNombre = regex.Match(estNombre).Groups[1].Value;                                    
                                 }
                                 estNombre = estNombre.Trim();
+
                                 string estNumbre = NodeParada.SelectSingleNode(".//span[@class='numeroRecorrido']").InnerText;
                                 estNumbre = estNumbre.Replace(".", "");
-                                estNumbre = estNumbre.Trim();                                
+                                estNumbre = estNumbre.Trim();       
+                                                         
                                 string estDireccion = NodeParada.SelectSingleNode(".//div[@class='estDireccion']//span").InnerText;
 
                                 string estId = HttpUtility.ParseQueryString(urllink.Query).Get("paradero");

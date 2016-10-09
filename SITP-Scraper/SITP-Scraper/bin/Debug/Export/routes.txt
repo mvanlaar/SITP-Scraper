@@ -82,6 +82,7 @@ idRuta,tipoRuta,codigoRuta,rutaNombre,rutaLink
 81,8,552,La Estancia - Archivo Distrital,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=81&tr=&estacion=&tipoRuta=8
 132,8,56A,Boita - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=132&tr=&estacion=&tipoRuta=8
 133,8,56B,El Cortijo - Chapinero,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=133&tr=&estacion=&tipoRuta=8
+652,8,576,Engativá Centro  -  Bosa Santa fe,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=652&tr=&estacion=&tipoRuta=8
 82,8,577,El Palmar - Diana Turbay,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=82&tr=&estacion=&tipoRuta=8
 83,8,579,El Recreo - Centro Internacional,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=83&tr=&estacion=&tipoRuta=8
 84,8,580,Bosa San Diego - Girardot,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=84&tr=&estacion=&tipoRuta=8
@@ -106,6 +107,7 @@ idRuta,tipoRuta,codigoRuta,rutaNombre,rutaLink
 97,8,680,Tuno  - Mirandela,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=97&tr=&estacion=&tipoRuta=8
 98,8,688,La Magdalena - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=98&tr=&estacion=&tipoRuta=8
 2,8,7,Palmitas - Consuelo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=2&tr=&estacion=&tipoRuta=8
+651,8,702,Corabastos - Sabana del Dorado,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=651&tr=&estacion=&tipoRuta=8
 100,8,703,Galicia - Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=100&tr=&estacion=&tipoRuta=8
 101,8,722,Palmitas - San Cristóbal Nte.,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=101&tr=&estacion=&tipoRuta=8
 102,8,731,Bosa San José - Palermo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=102&tr=&estacion=&tipoRuta=8
@@ -184,6 +186,8 @@ idRuta,tipoRuta,codigoRuta,rutaNombre,rutaLink
 186,8,E61,Casablanca - Porciúncula,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=186&tr=&estacion=&tipoRuta=8
 187,8,E70,Casaloma Usme - Colina,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=187&tr=&estacion=&tipoRuta=8
 188,8,E72,Catalina II - Chicó Norte,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=188&tr=&estacion=&tipoRuta=8
+650,8,N04A,Puente de Guadua- Germania,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=650&tr=&estacion=&tipoRuta=8
+649,8,N04B,Bosa San José - Restrepo,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=649&tr=&estacion=&tipoRuta=8
 189,8,P23,Bosa Carbonell - San Blas,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=189&tr=&estacion=&tipoRuta=8
 190,8,P3,Canada Guira - San Bernardino Potreritos,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=190&tr=&estacion=&tipoRuta=8
 191,8,P39,Arabia - Zona Franca,http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=rutaZonal&idRuta=191&tr=&estacion=&tipoRuta=8
