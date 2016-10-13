@@ -44,8 +44,26 @@ namespace SITP_Scraper
             List<RouteParada> RouteParadas = new List<RouteParada> { };
             List<Parada> Paradas = new List<Parada> { };
             List<ParadaSITP> ParadasSITP = new List<ParadaSITP> { };
+            // The list definitions is for troncales the same.
+            List<ParadaSITP> ParadasTronc = new List<ParadaSITP> { };
 
-                        // Parse the .kml files 
+            List<ParadaRename> _ParadaRename = new List<ParadaRename>
+            {
+                new ParadaRename { name = "NQS - CL 30 S.", ParadaSitpName = "NQS - Calle 30 Sur" },
+                new ParadaRename { name = "Alcalá", ParadaSitpName = "Alcalá " },
+                new ParadaRename { name = "Américas - KR 53A", ParadaSitpName = "Américas - Cr 53A" },
+                new ParadaRename { name = "CDS - Carrera 32", ParadaSitpName = "CDS - Cr 32" },
+                new ParadaRename { name = "Salitre - El Greco", ParadaSitpName = "Salitre Greco" },
+                new ParadaRename { name = "SENA", ParadaSitpName = "Sena" },
+                new ParadaRename { name = "U. Nacional", ParadaSitpName = "Universidad Nacional" },
+                new ParadaRename { name = "Portal Eldorado", ParadaSitpName = "Portal El Dorado" },
+                new ParadaRename { name = "AV. 1° Mayo", ParadaSitpName = "Avenida 1 de Mayo" },
+                new ParadaRename { name = "Ferias", ParadaSitpName ="Las Ferias" },
+                new ParadaRename { name = "Avenida Cali", ParadaSitpName ="Avenida Ciudad de Cali" },
+                new ParadaRename { name = "Las Aguas", ParadaSitpName ="Aguas" }
+            };
+
+            // Parse the .kml files 
             // This will read a Kml file into memory.            
             KmlFile file = KmlFile.Load(new StreamReader("kml//Paraderos SITP V2.kml"));
             Kml kml = file.Root as Kml;
@@ -56,6 +74,19 @@ namespace SITP_Scraper
                 {                                    
                     Vector coord = ((Point)placemark.Geometry).Coordinate;                    
                     ParadasSITP.Add(new ParadaSITP { name = placemark.Name, latitude = coord.Latitude.ToString(), longtitude = coord.Longitude.ToString() });                                
+                }
+            }
+
+            // This will read a Kml file into memory.            
+            KmlFile fileesttroncales = KmlFile.Load(new StreamReader("kml//Estaciones Transmilenio.kml"));
+            Kml kmlesttroncales = fileesttroncales.Root as Kml;
+            if (kmlesttroncales != null)
+            {
+                Console.WriteLine("Parsing Paraderos Troncales...");
+                foreach (var placemark in kmlesttroncales.Flatten().OfType<Placemark>())
+                {
+                    Vector coord = ((Point)placemark.Geometry).Coordinate;
+                    ParadasTronc.Add(new ParadaSITP { name = placemark.Name, latitude = coord.Latitude.ToString(), longtitude = coord.Longitude.ToString() });
                 }
             }
 
@@ -128,135 +159,224 @@ namespace SITP_Scraper
                         }
                         catch { }
                     }
-
-                    // Add route to list 
-                    Rutas.Add(new Route
+                    // Parsing Estaciones de la Troncal
+                    HttpWebRequest requestesttron = WebRequest.Create(rutaLink) as HttpWebRequest;
+                    requestesttron.Method = "GET";
+                    requestesttron.Proxy = null;
+                    using (HttpWebResponse responseesttron = requestesttron.GetResponse() as HttpWebResponse)
                     {
-                        codigoRuta = codigoRuta,
-                        rutaNombre = rutaNombre,
-                        rutaLink = rutaLink,
-                        idRuta = idRuta,
-                        tipoRuta = tipoRuta
-                    });
+                        HtmlDocument APEstTron = new HtmlDocument();
+                        StreamReader readerestTron = new StreamReader(responseesttron.GetResponseStream());
+                        APEstTron.LoadHtml(readerestTron.ReadToEnd());
+
+                        string saveestfile = String.Format("Download\\{0}-1.html", letraTroncal);
+                        if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
+                        {
+                            APEstTron.Save(saveestfile);
+                        }
+                        foreach (HtmlNode NodeParada in APEstTron.DocumentNode.SelectNodes("//table[@id='tablaResult']//tbody//tr"))
+                        {
+                            string estNombre = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//span[2]").InnerText;
+                            estNombre = HttpUtility.HtmlDecode(estNombre);
+                            estNombre = estNombre.Trim();
+                            Console.WriteLine("Parsing troncal {0} station {1}", nombreTroncal, estNombre);
+                            //string estNumbre = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//span[2]").InnerText;
+                            //estNumbre = estNumbre.Trim();
+                            HtmlNode NodeestDireccion = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']");
+                            string estDireccion = NodeestDireccion.ChildNodes[5].InnerText;
+                            string estLink = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//a").Attributes["href"].Value.ToString();
+                            var urlestlink = new Uri(HttpUtility.HtmlDecode(estLink));
+                            string idestacion = HttpUtility.ParseQueryString(urlestlink.Query).Get("estacion");
+
+
+                            // Start Parsing Stations for the route information
+                            HttpWebRequest requestservesttron = WebRequest.Create(HttpUtility.HtmlDecode(estLink)) as HttpWebRequest;
+                            requestservesttron.Method = "GET";
+                            requestservesttron.Proxy = null;
+                            using (HttpWebResponse responseservesttron = requestservesttron.GetResponse() as HttpWebResponse)
+                            {
+                                HtmlDocument APservEstTron = new HtmlDocument();
+                                StreamReader readerservestTron = new StreamReader(responseservesttron.GetResponseStream());
+                                APservEstTron.LoadHtml(readerservestTron.ReadToEnd());
+
+                                string saveservestfile = String.Format("Download\\{0}-{1}.html", letraTroncal, idestacion);
+                                if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
+                                {
+                                    APservEstTron.Save(saveservestfile);
+                                }
+                                Console.WriteLine("Parsing troncal {0} station {1} routes", nombreTroncal, estNombre);
+                                // Begin Parsing Troncal Routes 
+                                foreach (HtmlNode NodeRouteTron in APservEstTron.DocumentNode.SelectNodes("//table[@id='tblRutaTroncal']//tbody//tr"))
+                                {
+                                    string codigoRuta = NodeRouteTron.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
+                                    string rutaNombre = NodeRouteTron.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").InnerText;
+                                    rutaNombre = rutaNombre.Trim();
+                                    rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
+                                    string rutaLinkTroncales = NodeRouteTron.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").Attributes["href"].Value.ToString();
+                                    rutaLink = HttpUtility.HtmlDecode(rutaLinkTroncales);
+                                    var urllinkTroncales = new Uri(rutaLink);
+                                    string idRuta = HttpUtility.ParseQueryString(urllinkTroncales.Query).Get("idRuta");
+                                    var ListHorarios = NodeRouteTron.SelectNodes(".//p[@class='label label-horario']");
+                                    if (ListHorarios != null)
+                                    {
+                                        foreach (var itemhorario in ListHorarios)
+                                        {
+                                            // Add Running time.
+                                            bool alreadyExists = Horarios.Exists(x => x.idRuta == idRuta
+                                                && x.horario == itemhorario.InnerText.Replace("               ", "")                                               
+                                                );
+                                            if (!alreadyExists)
+                                            {
+                                                Horarios.Add(new Horario
+                                                {
+                                                    idRuta = idRuta,
+                                                    horario = itemhorario.InnerText.Replace("               ", "")
+                                                }
+                                                );
+                                            }
+                                        }
+                                    }
+                                    // Add route to list 
+                                    bool alreadyExistsRutas = Rutas.Exists(x => x.idRuta == idRuta
+                                                && x.codigoRuta == codigoRuta
+                                                && x.rutaNombre == rutaNombre
+                                                && x.rutaLink == rutaLink
+                                                && x.tipoRuta == tipoRuta
+                                                );
+                                    if (!alreadyExistsRutas)
+                                    {
+                                        Rutas.Add(new Route
+                                        {
+                                            codigoRuta = codigoRuta,
+                                            rutaNombre = rutaNombre,
+                                            rutaLink = rutaLink,
+                                            idRuta = idRuta,
+                                            tipoRuta = tipoRuta
+                                        });
+                                    }
+                                }
+                            }
+                        } 
+                    }
                     // End troncal parsing
                 }
             }
 
-            Console.WriteLine("Parsing other routes...");
-            foreach (string address in start_urls)
-            {
-                HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;
-                request.Method = "GET";
-                request.Proxy = null;
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
-                    var uri = new Uri(address);
-                    string tipoRuta = HttpUtility.ParseQueryString(uri.Query).Get("tipoRuta");
-                    
-                    HtmlDocument AP = new HtmlDocument();
-                    StreamReader reader = new StreamReader(response.GetResponseStream());
-                    AP.LoadHtml(reader.ReadToEnd());
-                    string savefile = String.Format("Download\\{0}.html", tipoRuta);
-                    if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
-                    {
-                        AP.Save(savefile);
-                    }
-                    switch (tipoRuta)
-                    {
-                        case "6":
-                            // Parsing Troncales Routes
-                            // Troncal routes are based on station then route. and not route then station
-                            
-                            break;
-                        case "7":
-                            // Parsing Alimentadors Routes
-                            foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblPagine']//tbody//tr"))
-                            {
-                                // PArsing route
-                                string codigoRuta = row.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
-                                string rutaNombre = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").InnerText;
-                                rutaNombre = rutaNombre.Trim();
-                                rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
-                                string rutaLink = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").Attributes["href"].Value.ToString();
-                                rutaLink = HttpUtility.HtmlDecode(rutaLink);
-                                var urllink = new Uri(rutaLink);
-                                string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("idRuta");
-                                // List<string> horario = new List<string>();
-                                Console.WriteLine("Parsing {0}", rutaNombre);
-                                var ListHorarios = row.SelectNodes(".//p[@class='label label-horario']");
-                                if (ListHorarios != null)
-                                {
-                                    foreach (var itemhorario in ListHorarios)
-                                    {
-                                        // Add Running time.
-                                        Horarios.Add(new Horario
-                                        {
-                                            idRuta = idRuta,
-                                            horario = itemhorario.InnerText.Replace("               ", "")
-                                        }
-                                        );
-                                    }
-                                }
+            //Console.WriteLine("Parsing other routes...");
+            //foreach (string address in start_urls)
+            //{
+            //    HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;
+            //    request.Method = "GET";
+            //    request.Proxy = null;
+            //    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            //    {
+            //        var uri = new Uri(address);
+            //        string tipoRuta = HttpUtility.ParseQueryString(uri.Query).Get("tipoRuta");
 
-                                // Add route to list 
-                                Rutas.Add(new Route
-                                {
-                                    codigoRuta = codigoRuta,
-                                    rutaNombre = rutaNombre,
-                                    rutaLink = rutaLink,
-                                    idRuta = idRuta,
-                                    tipoRuta = tipoRuta
-                                });
-                                // End route parsing
-                            }
-                            break;
-                        default:
-                          // Parsing Routes
-                            foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblRutaTroncal']//tbody//tr"))
-                            {
-                                // PArsing route
-                                string codigoRuta = row.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
-                                string rutaNombre = row.SelectSingleNode(".//a[@class='rutaNombre']").InnerText;
-                                rutaNombre = rutaNombre.Trim();
-                                rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
-                                string rutaLink = row.SelectSingleNode(".//a[@class='rutaNombre']").Attributes["href"].Value.ToString();
-                                rutaLink = HttpUtility.HtmlDecode(rutaLink);
-                                var urllink = new Uri(rutaLink);
-                                string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("idRuta");
-                                // List<string> horario = new List<string>();
-                                Console.WriteLine("Parsing {0}", rutaNombre);
-                                var ListHorarios = row.SelectNodes(".//p[@class='label label-horario']");
-                                if (ListHorarios != null)
-                                {
-                                    foreach (var itemhorario in ListHorarios)
-                                    {
-                                        // Add Running time.
-                                        Horarios.Add(new Horario
-                                        {
-                                            idRuta = idRuta,
-                                            horario = itemhorario.InnerText.Replace("               ", "")
-                                        }
-                                        );
-                                    }
-                                }
+            //        HtmlDocument AP = new HtmlDocument();
+            //        StreamReader reader = new StreamReader(response.GetResponseStream());
+            //        AP.LoadHtml(reader.ReadToEnd());
+            //        string savefile = String.Format("Download\\{0}.html", tipoRuta);
+            //        if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
+            //        {
+            //            AP.Save(savefile);
+            //        }
+            //        switch (tipoRuta)
+            //        {
+            //            case "6":
+            //                // Parsing Troncales Routes
+            //                // Troncal routes are based on station then route. and not route then station
 
-                                // Add route to list 
-                                Rutas.Add(new Route
-                                {
-                                    codigoRuta = codigoRuta,
-                                    rutaNombre = rutaNombre,
-                                    rutaLink = rutaLink,
-                                    idRuta = idRuta,
-                                    tipoRuta = tipoRuta
-                                });
-                                // End route parsing
-                            }
-                            break;
-                    }                   
-                // End Webrequest.
-                }
-            // End url list parsing.
-            }
+            //                break;
+            //            case "7":
+            //                // Parsing Alimentadors Routes
+            //                foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblPagine']//tbody//tr"))
+            //                {
+            //                    // PArsing route
+            //                    string codigoRuta = row.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
+            //                    string rutaNombre = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").InnerText;
+            //                    rutaNombre = rutaNombre.Trim();
+            //                    rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
+            //                    string rutaLink = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").Attributes["href"].Value.ToString();
+            //                    rutaLink = HttpUtility.HtmlDecode(rutaLink);
+            //                    var urllink = new Uri(rutaLink);
+            //                    string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("idRuta");
+            //                    // List<string> horario = new List<string>();
+            //                    Console.WriteLine("Parsing {0}", rutaNombre);
+            //                    var ListHorarios = row.SelectNodes(".//p[@class='label label-horario']");
+            //                    if (ListHorarios != null)
+            //                    {
+            //                        foreach (var itemhorario in ListHorarios)
+            //                        {
+            //                            // Add Running time.
+            //                            Horarios.Add(new Horario
+            //                            {
+            //                                idRuta = idRuta,
+            //                                horario = itemhorario.InnerText.Replace("               ", "")
+            //                            }
+            //                            );
+            //                        }
+            //                    }
+
+            //                    // Add route to list 
+            //                    Rutas.Add(new Route
+            //                    {
+            //                        codigoRuta = codigoRuta,
+            //                        rutaNombre = rutaNombre,
+            //                        rutaLink = rutaLink,
+            //                        idRuta = idRuta,
+            //                        tipoRuta = tipoRuta
+            //                    });
+            //                    // End route parsing
+            //                }
+            //                break;
+            //            default:
+            //                // Parsing Routes
+            //                foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblRutaTroncal']//tbody//tr"))
+            //                {
+            //                    // PArsing route
+            //                    string codigoRuta = row.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
+            //                    string rutaNombre = row.SelectSingleNode(".//a[@class='rutaNombre']").InnerText;
+            //                    rutaNombre = rutaNombre.Trim();
+            //                    rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
+            //                    string rutaLink = row.SelectSingleNode(".//a[@class='rutaNombre']").Attributes["href"].Value.ToString();
+            //                    rutaLink = HttpUtility.HtmlDecode(rutaLink);
+            //                    var urllink = new Uri(rutaLink);
+            //                    string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("idRuta");
+            //                    // List<string> horario = new List<string>();
+            //                    Console.WriteLine("Parsing {0}", rutaNombre);
+            //                    var ListHorarios = row.SelectNodes(".//p[@class='label label-horario']");
+            //                    if (ListHorarios != null)
+            //                    {
+            //                        foreach (var itemhorario in ListHorarios)
+            //                        {
+            //                            // Add Running time.
+            //                            Horarios.Add(new Horario
+            //                            {
+            //                                idRuta = idRuta,
+            //                                horario = itemhorario.InnerText.Replace("               ", "")
+            //                            }
+            //                            );
+            //                        }
+            //                    }
+
+            //                    // Add route to list 
+            //                    Rutas.Add(new Route
+            //                    {
+            //                        codigoRuta = codigoRuta,
+            //                        rutaNombre = rutaNombre,
+            //                        rutaLink = rutaLink,
+            //                        idRuta = idRuta,
+            //                        tipoRuta = tipoRuta
+            //                    });
+            //                    // End route parsing
+            //                }
+            //                break;
+            //        }
+            //        // End Webrequest.
+            //    }
+            //    // End url list parsing.
+            //}
             // Looping through pages with Route information.
             for (int i = 0; i < Rutas.Count; i++) // Loop through List with for)
             {
@@ -282,45 +402,57 @@ namespace SITP_Scraper
                         case "6":
                             // Route Stations
                             // Parsing Route information Direction A - Because a and b can be different.                            
-                            string directiontron = "A";
-                            foreach (HtmlNode NodeParada in RutaDetail.DocumentNode.SelectNodes("//table[@id='tablaResult']//tbody//tr"))
+                            string directiontron = "";
+                            int routeparadas = 0;
+                            foreach (HtmlNode NodeParada in RutaDetail.DocumentNode.SelectNodes("//div[@class='recorrido1']"))
                             {
-                                string estNombre = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//span[2]").InnerText;
-                                estNombre = HttpUtility.HtmlDecode(estNombre);
-                                estNombre = estNombre.Trim();                                
-                                //string estNumbre = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//span[2]").InnerText;
-                                //estNumbre = estNumbre.Trim();
-                                HtmlNode NodeestDireccion = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']");
-                                string estDireccion = NodeestDireccion.ChildNodes[5].InnerText;                                
-                                string estLink = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//a").Attributes["href"].Value.ToString();
-                                estLink = HttpUtility.HtmlDecode(estLink);
-                                var urllink = new Uri(estLink);
-                                string estId = HttpUtility.ParseQueryString(urllink.Query).Get("estacion");
-                                RouteParadas.Add(new RouteParada
+                                if (NodeParada.InnerText != "")
                                 {
-                                    idRuta = Rutas[i].idRuta,
-                                    rutaDirection = directiontron,
-                                    estNumber = estId,
-                                    estId = estId
-                                }
-                                );
-                                bool alreadyExists = Paradas.Exists(x => x.estId == estId
-                                    && x.estNombre == estNombre
-                                    && x.estDireccion == estDireccion
-                                    && x.estLink == estLink
-                                    );
-                                if (!alreadyExists)
-                                {
-                                    Paradas.Add(new Parada
+                                    // Check first if theis is a node with a stop. 
+                                    var ParadaActive = NodeParada.SelectSingleNode(".//span[@class='icon-circle iconRecorrido']");
+                                    if (ParadaActive != null)
                                     {
-                                        estId = estId,
-                                        estNombre = estNombre,
-                                        estDireccion = estDireccion,
-                                        estLink = estLink
+                                        string estNombre = NodeParada.SelectSingleNode(".//div[@class='estNombre']//a").InnerText;
+                                        estNombre = HttpUtility.HtmlDecode(estNombre);
+                                        estNombre = estNombre.Trim();
+                                        //string estNumbre = NodeParada.SelectSingleNode(".//div[@class='paradaContainer']//span[2]").InnerText;
+                                        //estNumbre = estNumbre.Trim();
+                                        //HtmlNode NodeestDireccion = NodeParada.SelectSingleNode(".//div[@class='estDireccion']");
+                                        string estDireccion = NodeParada.SelectSingleNode(".//div[@class='estDireccion']").InnerText;
+                                        string estLink = NodeParada.SelectSingleNode(".//div[@class='estNombre']//a").Attributes["href"].Value.ToString();
+                                        estLink = HttpUtility.HtmlDecode(estLink);
+                                        var urllink = new Uri(estLink);
+                                        string estId = HttpUtility.ParseQueryString(urllink.Query).Get("estacion");                                    
+                                        // Only add Route Parada if stop is active. 
+                                        RouteParadas.Add(new RouteParada
+                                        {
+                                            idRuta = Rutas[i].idRuta,
+                                            rutaDirection = directiontron,
+                                            estNumber = routeparadas.ToString(),
+                                            estId = estId
+                                        }
+                                        );
+                                        bool alreadyExists = Paradas.Exists(x => x.estId == estId
+                                            && x.estNombre == estNombre
+                                            && x.estDireccion == estDireccion
+                                            && x.estLink == estLink
+                                            && x.estType == 1
+                                            );
+                                        if (!alreadyExists)
+                                        {
+                                            Paradas.Add(new Parada
+                                            {
+                                                estId = estId,
+                                                estNombre = estNombre,
+                                                estDireccion = estDireccion,
+                                                estLink = estLink,
+                                                estType = 1
+                                            }
+                                            );
+                                        }
                                     }
-                                    );
                                 }
-                            }                            
+                            }
                             break;
                         case "7":
                             // Route Stations
@@ -337,14 +469,14 @@ namespace SITP_Scraper
                                 var regex = new Regex(".*El servicio para en: (.*) y su direcci.*");
                                 if (regex.IsMatch(estNombre))
                                 {
-                                    estNombre = regex.Match(estNombre).Groups[1].Value;                                    
+                                    estNombre = regex.Match(estNombre).Groups[1].Value;
                                 }
                                 estNombre = estNombre.Trim();
 
                                 string estNumbre = NodeParada.SelectSingleNode(".//span[@class='numeroRecorrido']").InnerText;
                                 estNumbre = estNumbre.Replace(".", "");
-                                estNumbre = estNumbre.Trim();       
-                                                         
+                                estNumbre = estNumbre.Trim();
+
                                 string estDireccion = NodeParada.SelectSingleNode(".//div[@class='estDireccion']//span").InnerText;
 
                                 string estId = HttpUtility.ParseQueryString(urllink.Query).Get("paradero");
@@ -360,6 +492,7 @@ namespace SITP_Scraper
                                     && x.estNombre == estNombre
                                     && x.estDireccion == estDireccion
                                     && x.estLink == estLink
+                                    && x.estType == 0
                                     );
                                 if (!alreadyExists)
                                 {
@@ -368,7 +501,8 @@ namespace SITP_Scraper
                                         estId = estId,
                                         estNombre = estNombre,
                                         estDireccion = estDireccion,
-                                        estLink = estLink
+                                        estLink = estLink,
+                                        estType = 0
                                     }
                                     );
                                 }
@@ -485,6 +619,7 @@ namespace SITP_Scraper
                                         && x.estNombre == estNombre
                                         && x.estDireccion == estDireccion
                                         && x.estLink == estLink
+                                        && x.estType == 0
                                        );
                                     if (!alreadyExists)
                                     {
@@ -493,7 +628,8 @@ namespace SITP_Scraper
                                             estId = estId,
                                             estNombre = estNombre,
                                             estDireccion = estDireccion,
-                                            estLink = estLink
+                                            estLink = estLink,
+                                            estType = 0
                                         }
                                         );
                                     }
@@ -528,6 +664,7 @@ namespace SITP_Scraper
                                         && x.estNombre == estNombre
                                         && x.estDireccion == estDireccion
                                         && x.estLink == estLink
+                                        && x.estType == 0
                                        );
                                     if (!alreadyExists)
                                     {
@@ -536,7 +673,8 @@ namespace SITP_Scraper
                                             estId = estId,
                                             estNombre = estNombre,
                                             estDireccion = estDireccion,
-                                            estLink = estLink
+                                            estLink = estLink,
+                                            estType = 0
                                         }
                                         );
                                     }
@@ -545,37 +683,97 @@ namespace SITP_Scraper
                             }
                             break;
                     }
-                    
-                 // End Route Parsing    
+
+                    // End Route Parsing    
                 }
             }
             // Get Official Paradero number so its possible to match it to 
             for (int i = 0; i < Paradas.Count; i++) // Loop through List with for)
             {
                 Console.WriteLine("Parsing Parada {0} of {1}", i, Paradas.Count);
-                //Console.WriteLine("Parsing Parada page: {0}", Paradas[i].estLink);
-                HttpWebRequest requestparada = WebRequest.Create(Paradas[i].estLink) as HttpWebRequest;
-                requestparada.Method = "GET";
-                requestparada.Proxy = null;
-                using (HttpWebResponse responsedetail = requestparada.GetResponse() as HttpWebResponse)
+
+                if (Paradas[i].estType == 0)
                 {
-                    HtmlDocument RutaParada = new HtmlDocument();
-                    StreamReader readerdetail = new StreamReader(responsedetail.GetResponseStream());
-                    RutaParada.LoadHtml(readerdetail.ReadToEnd());
-                    string savefile = String.Format("Download\\Parada-{0}.html", Paradas[i].estId);
-                    if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
+                    // Default Parada Get the SITP unique number
+                    HttpWebRequest requestparada = WebRequest.Create(Paradas[i].estLink) as HttpWebRequest;
+                    requestparada.Method = "GET";
+                    requestparada.Proxy = null;
+                    using (HttpWebResponse responsedetail = requestparada.GetResponse() as HttpWebResponse)
                     {
-                        RutaParada.Save(savefile);
+                        HtmlDocument RutaParada = new HtmlDocument();
+                        StreamReader readerdetail = new StreamReader(responsedetail.GetResponseStream());
+                        RutaParada.LoadHtml(readerdetail.ReadToEnd());
+                        string savefile = String.Format("Download\\Parada-{0}.html", Paradas[i].estId);
+                        if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
+                        {
+                            RutaParada.Save(savefile);
+                        }
+                        // 
+                        string estSITPNumber = RutaParada.DocumentNode.SelectSingleNode("//div[@id='zonaBloqueContent']//h3").InnerText;
+
+                        estSITPNumber = estSITPNumber.Replace("Paradero ", "");
+                        int index = estSITPNumber.IndexOf(" - ", 0);
+                        estSITPNumber = estSITPNumber.Substring(0, index);
+                        estSITPNumber = estSITPNumber.Trim();
+                        Paradas[i].estSITPNumber = estSITPNumber;
+                        var item = ParadasSITP.Find(q => q.name == estSITPNumber);
+                        if (item != null)
+                        {
+                            //Do stuff
+                            Paradas[i].estlatitude = item.latitude;
+                            Paradas[i].estlongtitude = item.longtitude;
+                        }
+                        else
+                        {
+                            // Ok this can be also a multiple paradas site
+                            // Check for Letter A in posistion 4 and retry search
+                            // http://www.sitp.gov.co/Publicaciones/paraderos_multiples
+                            string sitpnumbermultiple = estSITPNumber;
+                            if (sitpnumbermultiple.Length > 4)
+                            {
+                                string letter = sitpnumbermultiple.Substring(3, 1);
+                                if (letter != "A")
+                                {
+                                    // Ok postition 4 is not the letter A
+                                    // Replace position 4 with the letter A
+                                    sitpnumbermultiple = sitpnumbermultiple.Remove(3, 1);
+                                    sitpnumbermultiple = sitpnumbermultiple.Insert(3, "A");
+
+                                    var itemmultiple = ParadasSITP.Find(q => q.name == sitpnumbermultiple);
+                                    if (itemmultiple != null)
+                                    {
+                                        //Do stuff
+                                        Paradas[i].estlatitude = itemmultiple.latitude;
+                                        Paradas[i].estlongtitude = itemmultiple.longtitude;
+                                    }
+                                    else
+                                    {
+                                        Paradas[i].estlatitude = "";
+                                        Paradas[i].estlongtitude = "";
+                                    }
+                                }
+                                else
+                                {
+                                    // Ok when we search for A the first time we don't got the lat and lng
+                                    Paradas[i].estlatitude = "";
+                                    Paradas[i].estlongtitude = "";
+                                }
+                            }
+                            else
+                            {
+                                // hmm paradero with number shorter than 3 chars???
+                                Paradas[i].estlatitude = "";
+                                Paradas[i].estlongtitude = "";
+                            }
+                        }
                     }
-                    // 
-                    string estSITPNumber = RutaParada.DocumentNode.SelectSingleNode("//div[@id='zonaBloqueContent']//h3").InnerText;
-                    
-                    estSITPNumber = estSITPNumber.Replace("Paradero ", "");
-                    int index = estSITPNumber.IndexOf(" - ",0);
-                    estSITPNumber = estSITPNumber.Substring(0, index);
-                    estSITPNumber = estSITPNumber.Trim();
-                    Paradas[i].estSITPNumber = estSITPNumber;
-                    var item = ParadasSITP.Find(q => q.name == estSITPNumber);                   
+                // End Type 0
+                }            
+                if (Paradas[i].estType == 1)
+                {
+                    // This are paradas from transmilenio.
+                    // We gone try to find them by name.
+                    var item = ParadasTronc.Find(q => q.name == Paradas[i].estNombre);
                     if (item != null)
                     {
                         //Do stuff
@@ -584,45 +782,42 @@ namespace SITP_Scraper
                     }
                     else
                     {
-                        // Ok this can be also a multiple paradas site
-                        // Check for Letter A in posistion 4 and retry search
-                        // http://www.sitp.gov.co/Publicaciones/paraderos_multiples
-                        string sitpnumbermultiple = estSITPNumber;
-                        if (sitpnumbermultiple.Length > 4) {
-                            string letter = sitpnumbermultiple.Substring(3, 1);
-                            if (letter != "A")
+                        // Check if there is Cl in the name
+                        if (Paradas[i].estNombre.Contains("Cl "))
+                        {
+                            // REplace Cl with "Calle" or CL with Calle 
+                            string temp_nombre = Paradas[i].estNombre;
+                            temp_nombre = temp_nombre.Replace("Cl ", "Calle ");
+                            temp_nombre = temp_nombre.Replace("CL ", "Calle ");
+                            var item1 = ParadasTronc.Find(q => q.name == temp_nombre);
+                            if (item1 != null)
                             {
-                                // Ok postition 4 is not the letter A
-                                // Replace position 4 with the letter A
-                                sitpnumbermultiple = sitpnumbermultiple.Remove(3, 1);
-                                sitpnumbermultiple = sitpnumbermultiple.Insert(3, "A");
-
-                                var itemmultiple = ParadasSITP.Find(q => q.name == sitpnumbermultiple);
-                                if (itemmultiple != null)
-                                {
-                                    //Do stuff
-                                    Paradas[i].estlatitude = itemmultiple.latitude;
-                                    Paradas[i].estlongtitude = itemmultiple.longtitude;
-                                }
-                                else
-                                {
-                                    Paradas[i].estlatitude = "";
-                                    Paradas[i].estlongtitude = "";
-                                }
+                                //Do stuff
+                                Paradas[i].estlatitude = item1.latitude;
+                                Paradas[i].estlongtitude = item1.longtitude;
                             }
                             else
                             {
-                                // Ok when we search for A the first time we don't got the lat and lng
-                                Paradas[i].estlatitude = "";
-                                Paradas[i].estlongtitude = "";
+                                // Other Execptions
+                                var item2 = _ParadaRename.Find(q => q.name == Paradas[i].estNombre);
+                                if (item2 != null)
+                                {
+                                    var item3 = ParadasTronc.Find(q => q.name == item2.ParadaSitpName);
+                                    Paradas[i].estlatitude = item3.latitude;
+                                    Paradas[i].estlongtitude = item3.longtitude;
+                                }
+                                else
+                                {
+                                    // hmm paradero with number shorter than 3 chars???
+                                    Paradas[i].estlatitude = "";
+                                    Paradas[i].estlongtitude = "";
+                                }
+                                
                             }
-                        }
-                        else
-                        {
-                            // hmm paradero with number shorter than 3 chars???
-                            Paradas[i].estlatitude = "";
-                            Paradas[i].estlongtitude = "";
-                        }
+                        }                        
+                        // hmm paradero with number shorter than 3 chars???
+                        Paradas[i].estlatitude = "";
+                        Paradas[i].estlongtitude = "";
                     }
                 }
             }
@@ -639,10 +834,10 @@ namespace SITP_Scraper
                 csvroutes.Configuration.TrimFields = true;
                 // header 
                 csvroutes.WriteField("idRuta");
-                csvroutes.WriteField("tipoRuta");  
+                csvroutes.WriteField("tipoRuta");
                 csvroutes.WriteField("codigoRuta");
                 csvroutes.WriteField("rutaNombre");
-                csvroutes.WriteField("rutaLink");           
+                csvroutes.WriteField("rutaLink");
                 csvroutes.NextRecord();
                 for (int i = 0; i < Rutas.Count; i++) // Loop through List with for)
                 {
@@ -665,7 +860,7 @@ namespace SITP_Scraper
                 csvroutes.Configuration.TrimFields = true;
                 // header 
                 csvroutes.WriteField("codigoRuta");
-                csvroutes.WriteField("horario");               
+                csvroutes.WriteField("horario");
                 csvroutes.NextRecord();
                 for (int i = 0; i < Horarios.Count; i++) // Loop through List with for)
                 {
@@ -697,7 +892,11 @@ namespace SITP_Scraper
                 for (int i = 0; i < Paradas.Count; i++) // Loop through List with for)
                 {
                     csvroutes.WriteField(Paradas[i].estId);
-                    csvroutes.WriteField(Paradas[i].estSITPNumber);
+                    if (!string.IsNullOrEmpty(Paradas[i].estSITPNumber))
+                    {
+                        csvroutes.WriteField(Paradas[i].estSITPNumber);
+                    }
+                    else { csvroutes.WriteField(""); }
                     csvroutes.WriteField(Paradas[i].estNombre);
                     csvroutes.WriteField(Paradas[i].estDireccion);
                     csvroutes.WriteField(Paradas[i].estLink);
@@ -710,7 +909,7 @@ namespace SITP_Scraper
                     {
                         csvroutes.WriteField(Paradas[i].estlatitude);
                     }
-                    else { csvroutes.WriteField(""); }                    
+                    else { csvroutes.WriteField(""); }
                     csvroutes.NextRecord();
                 }
             }
@@ -764,6 +963,7 @@ namespace SITP_Scraper
     public class Parada
     {        
         public string estId;
+        public int estType;
         public string estNombre;
         public string estDireccion;
         public string estLink;
@@ -784,4 +984,11 @@ namespace SITP_Scraper
         public string latitude;
         public string longtitude;
     }
+
+    public class ParadaRename
+    {
+        public string name;
+        public string ParadaSitpName;        
+    }
+
 }
