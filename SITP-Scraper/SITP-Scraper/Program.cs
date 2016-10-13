@@ -262,121 +262,121 @@ namespace SITP_Scraper
                 }
             }
 
-            //Console.WriteLine("Parsing other routes...");
-            //foreach (string address in start_urls)
-            //{
-            //    HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;
-            //    request.Method = "GET";
-            //    request.Proxy = null;
-            //    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-            //    {
-            //        var uri = new Uri(address);
-            //        string tipoRuta = HttpUtility.ParseQueryString(uri.Query).Get("tipoRuta");
+            Console.WriteLine("Parsing other routes...");
+            foreach (string address in start_urls)
+            {
+                HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;
+                request.Method = "GET";
+                request.Proxy = null;
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    var uri = new Uri(address);
+                    string tipoRuta = HttpUtility.ParseQueryString(uri.Query).Get("tipoRuta");
 
-            //        HtmlDocument AP = new HtmlDocument();
-            //        StreamReader reader = new StreamReader(response.GetResponseStream());
-            //        AP.LoadHtml(reader.ReadToEnd());
-            //        string savefile = String.Format("Download\\{0}.html", tipoRuta);
-            //        if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
-            //        {
-            //            AP.Save(savefile);
-            //        }
-            //        switch (tipoRuta)
-            //        {
-            //            case "6":
-            //                // Parsing Troncales Routes
-            //                // Troncal routes are based on station then route. and not route then station
+                    HtmlDocument AP = new HtmlDocument();
+                    StreamReader reader = new StreamReader(response.GetResponseStream());
+                    AP.LoadHtml(reader.ReadToEnd());
+                    string savefile = String.Format("Download\\{0}.html", tipoRuta);
+                    if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
+                    {
+                        AP.Save(savefile);
+                    }
+                    switch (tipoRuta)
+                    {
+                        case "6":
+                            // Parsing Troncales Routes
+                            // Troncal routes are based on station then route. and not route then station
 
-            //                break;
-            //            case "7":
-            //                // Parsing Alimentadors Routes
-            //                foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblPagine']//tbody//tr"))
-            //                {
-            //                    // PArsing route
-            //                    string codigoRuta = row.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
-            //                    string rutaNombre = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").InnerText;
-            //                    rutaNombre = rutaNombre.Trim();
-            //                    rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
-            //                    string rutaLink = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").Attributes["href"].Value.ToString();
-            //                    rutaLink = HttpUtility.HtmlDecode(rutaLink);
-            //                    var urllink = new Uri(rutaLink);
-            //                    string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("idRuta");
-            //                    // List<string> horario = new List<string>();
-            //                    Console.WriteLine("Parsing {0}", rutaNombre);
-            //                    var ListHorarios = row.SelectNodes(".//p[@class='label label-horario']");
-            //                    if (ListHorarios != null)
-            //                    {
-            //                        foreach (var itemhorario in ListHorarios)
-            //                        {
-            //                            // Add Running time.
-            //                            Horarios.Add(new Horario
-            //                            {
-            //                                idRuta = idRuta,
-            //                                horario = itemhorario.InnerText.Replace("               ", "")
-            //                            }
-            //                            );
-            //                        }
-            //                    }
+                            break;
+                        case "7":
+                            // Parsing Alimentadors Routes
+                            foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblPagine']//tbody//tr"))
+                            {
+                                // PArsing route
+                                string codigoRuta = row.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
+                                string rutaNombre = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").InnerText;
+                                rutaNombre = rutaNombre.Trim();
+                                rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
+                                string rutaLink = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").Attributes["href"].Value.ToString();
+                                rutaLink = HttpUtility.HtmlDecode(rutaLink);
+                                var urllink = new Uri(rutaLink);
+                                string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("idRuta");
+                                // List<string> horario = new List<string>();
+                                Console.WriteLine("Parsing {0}", rutaNombre);
+                                var ListHorarios = row.SelectNodes(".//p[@class='label label-horario']");
+                                if (ListHorarios != null)
+                                {
+                                    foreach (var itemhorario in ListHorarios)
+                                    {
+                                        // Add Running time.
+                                        Horarios.Add(new Horario
+                                        {
+                                            idRuta = idRuta,
+                                            horario = itemhorario.InnerText.Replace("               ", "")
+                                        }
+                                        );
+                                    }
+                                }
 
-            //                    // Add route to list 
-            //                    Rutas.Add(new Route
-            //                    {
-            //                        codigoRuta = codigoRuta,
-            //                        rutaNombre = rutaNombre,
-            //                        rutaLink = rutaLink,
-            //                        idRuta = idRuta,
-            //                        tipoRuta = tipoRuta
-            //                    });
-            //                    // End route parsing
-            //                }
-            //                break;
-            //            default:
-            //                // Parsing Routes
-            //                foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblRutaTroncal']//tbody//tr"))
-            //                {
-            //                    // PArsing route
-            //                    string codigoRuta = row.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
-            //                    string rutaNombre = row.SelectSingleNode(".//a[@class='rutaNombre']").InnerText;
-            //                    rutaNombre = rutaNombre.Trim();
-            //                    rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
-            //                    string rutaLink = row.SelectSingleNode(".//a[@class='rutaNombre']").Attributes["href"].Value.ToString();
-            //                    rutaLink = HttpUtility.HtmlDecode(rutaLink);
-            //                    var urllink = new Uri(rutaLink);
-            //                    string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("idRuta");
-            //                    // List<string> horario = new List<string>();
-            //                    Console.WriteLine("Parsing {0}", rutaNombre);
-            //                    var ListHorarios = row.SelectNodes(".//p[@class='label label-horario']");
-            //                    if (ListHorarios != null)
-            //                    {
-            //                        foreach (var itemhorario in ListHorarios)
-            //                        {
-            //                            // Add Running time.
-            //                            Horarios.Add(new Horario
-            //                            {
-            //                                idRuta = idRuta,
-            //                                horario = itemhorario.InnerText.Replace("               ", "")
-            //                            }
-            //                            );
-            //                        }
-            //                    }
+                                // Add route to list 
+                                Rutas.Add(new Route
+                                {
+                                    codigoRuta = codigoRuta,
+                                    rutaNombre = rutaNombre,
+                                    rutaLink = rutaLink,
+                                    idRuta = idRuta,
+                                    tipoRuta = tipoRuta
+                                });
+                                // End route parsing
+                            }
+                            break;
+                        default:
+                            // Parsing Routes
+                            foreach (HtmlNode row in AP.DocumentNode.SelectNodes("//table[@id='tblRutaTroncal']//tbody//tr"))
+                            {
+                                // PArsing route
+                                string codigoRuta = row.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
+                                string rutaNombre = row.SelectSingleNode(".//a[@class='rutaNombre']").InnerText;
+                                rutaNombre = rutaNombre.Trim();
+                                rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
+                                string rutaLink = row.SelectSingleNode(".//a[@class='rutaNombre']").Attributes["href"].Value.ToString();
+                                rutaLink = HttpUtility.HtmlDecode(rutaLink);
+                                var urllink = new Uri(rutaLink);
+                                string idRuta = HttpUtility.ParseQueryString(urllink.Query).Get("idRuta");
+                                // List<string> horario = new List<string>();
+                                Console.WriteLine("Parsing {0}", rutaNombre);
+                                var ListHorarios = row.SelectNodes(".//p[@class='label label-horario']");
+                                if (ListHorarios != null)
+                                {
+                                    foreach (var itemhorario in ListHorarios)
+                                    {
+                                        // Add Running time.
+                                        Horarios.Add(new Horario
+                                        {
+                                            idRuta = idRuta,
+                                            horario = itemhorario.InnerText.Replace("               ", "")
+                                        }
+                                        );
+                                    }
+                                }
 
-            //                    // Add route to list 
-            //                    Rutas.Add(new Route
-            //                    {
-            //                        codigoRuta = codigoRuta,
-            //                        rutaNombre = rutaNombre,
-            //                        rutaLink = rutaLink,
-            //                        idRuta = idRuta,
-            //                        tipoRuta = tipoRuta
-            //                    });
-            //                    // End route parsing
-            //                }
-            //                break;
-            //        }
-            //        // End Webrequest.
-            //    }
-            //    // End url list parsing.
-            //}
+                                // Add route to list 
+                                Rutas.Add(new Route
+                                {
+                                    codigoRuta = codigoRuta,
+                                    rutaNombre = rutaNombre,
+                                    rutaLink = rutaLink,
+                                    idRuta = idRuta,
+                                    tipoRuta = tipoRuta
+                                });
+                                // End route parsing
+                            }
+                            break;
+                    }
+                    // End Webrequest.
+                }
+                // End url list parsing.
+            }
             // Looping through pages with Route information.
             for (int i = 0; i < Rutas.Count; i++) // Loop through List with for)
             {
