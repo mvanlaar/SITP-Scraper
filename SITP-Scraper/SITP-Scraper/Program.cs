@@ -920,8 +920,8 @@ namespace SITP_Scraper
                     csvroutes.NextRecord();
                 }
             }
-            string exporthorariofile = ExportDir + "\\horario.txt";
-            Console.WriteLine("Creating Export File horario.txt ...");
+            string exporthorariofile = ExportDir + "\\calendar.txt";
+            Console.WriteLine("Creating Export File calendar.txt ...");
             using (var exporthorario = new StreamWriter(exporthorariofile))
             {
                 // Route record
@@ -930,11 +930,92 @@ namespace SITP_Scraper
                 csvroutes.Configuration.Encoding = Encoding.UTF8;
                 csvroutes.Configuration.TrimFields = true;
                 // header 
-                csvroutes.WriteField("codigoRuta");
-                csvroutes.WriteField("horario");
+                csvroutes.WriteField("service_id");
+                csvroutes.WriteField("monday");
+                csvroutes.WriteField("tuesday");
+                csvroutes.WriteField("wednesday");
+                csvroutes.WriteField("thursday");
+                csvroutes.WriteField("friday");
+                csvroutes.WriteField("saturday");
+                csvroutes.WriteField("sunday");
+                csvroutes.WriteField("start_date");
+                csvroutes.WriteField("end_date");
+                csvroutes.NextRecord();
+
                 csvroutes.NextRecord();
                 for (int i = 0; i < Horarios.Count; i++) // Loop through List with for)
                 {
+                    // create service_id
+                    string rundays = Horarios[i].horario.Substring(0, Horarios[i].horario.IndexOf("|")).Trim();
+                    string service_id = Horarios[i].idRuta + rundays;
+                    bool Route_Day_Monday_Bit = false;
+                    bool Route_Day_Thuesday_Bit = false;
+                    bool Route_Day_Wednesday_Bit = false;
+                    bool Route_Day_Thursday_Bit = false;
+                    bool Route_Day_Friday_Bit = false;
+                    bool Route_Day_Saterday_Bit = false;
+                    bool Route_Day_Sunday_Bit = false;
+                    switch (rundays)
+                    {
+                        case "D":
+                            {
+                                Route_Day_Sunday_Bit = true;
+                                break;
+                            }
+                        case "D-F":
+                            {                                
+                                Route_Day_Sunday_Bit = true;
+                                break;
+                            }
+                        case "L-D":
+                            {
+                                Route_Day_Monday_Bit = true;
+                                Route_Day_Thuesday_Bit = true;
+                                Route_Day_Wednesday_Bit = true;
+                                Route_Day_Thursday_Bit = true;
+                                Route_Day_Friday_Bit = true;
+                                Route_Day_Saterday_Bit = true;
+                                Route_Day_Sunday_Bit = true; 
+                                break;
+                            }
+                        case "L-S":
+                            {
+                                Route_Day_Monday_Bit = true;
+                                Route_Day_Thuesday_Bit = true;
+                                Route_Day_Wednesday_Bit = true;
+                                Route_Day_Thursday_Bit = true;
+                                Route_Day_Friday_Bit = true;
+                                Route_Day_Saterday_Bit = true;
+                                break;
+                            }
+                        case "L-V":
+                            {
+                                Route_Day_Monday_Bit = true;
+                                Route_Day_Thuesday_Bit = true;
+                                Route_Day_Wednesday_Bit = true;
+                                Route_Day_Thursday_Bit = true;
+                                Route_Day_Friday_Bit = true;
+                                break;
+                            }
+                        case "S":
+                            {
+                                Route_Day_Saterday_Bit = true;
+                                break;
+                            }                        
+                    }
+                    csvroutes.WriteField(service_id);
+                    csvroutes.WriteField(Convert.ToInt32(Route_Day_Monday_Bit));
+                    csvroutes.WriteField(Convert.ToInt32(Route_Day_Thuesday_Bit));
+                    csvroutes.WriteField(Convert.ToInt32(Route_Day_Wednesday_Bit));
+                    csvroutes.WriteField(Convert.ToInt32(Route_Day_Thursday_Bit));
+                    csvroutes.WriteField(Convert.ToInt32(Route_Day_Friday_Bit));
+                    csvroutes.WriteField(Convert.ToInt32(Route_Day_Saterday_Bit));
+                    csvroutes.WriteField(Convert.ToInt32(Route_Day_Sunday_Bit));
+                    csvroutes.WriteField("20161001");
+                    csvroutes.WriteField("20171001");
+                    csvroutes.NextRecord();
+                    
+                    
                     csvroutes.WriteField(Horarios[i].idRuta);
                     csvroutes.WriteField(Horarios[i].horario);
                     csvroutes.NextRecord();
