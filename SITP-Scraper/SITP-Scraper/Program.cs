@@ -36,8 +36,7 @@ namespace SITP_Scraper
             System.IO.Directory.CreateDirectory(downloadDir);
             string ExportDir = AppDomain.CurrentDomain.BaseDirectory + "\\Export";
             System.IO.Directory.CreateDirectory(ExportDir);
-
-            ServicePointManager.DefaultConnectionLimit = 20;
+            ServicePointManager.DefaultConnectionLimit = 50;
 
             List<Route> Rutas = new List<Route> { };
             List<Horario> Horarios = new List<Horario> { };
@@ -46,6 +45,7 @@ namespace SITP_Scraper
             List<ParadaSITP> ParadasSITP = new List<ParadaSITP> { };
             // The list definitions is for troncales the same.
             List<ParadaSITP> ParadasTronc = new List<ParadaSITP> { };
+            List<GTFSShapes> GTFSShapesFile = new List<GTFSShapes> {};
 
             List<ParadaRename> _ParadaRename = new List<ParadaRename>
             {
@@ -90,22 +90,53 @@ namespace SITP_Scraper
                 }
             }
 
-            //KmlFile filerutas = KmlFile.Load(new StreamReader("kml//Rutas SITP.kml"));
-            //Kml kmlrutas = filerutas.Root as Kml;
-            //if (kmlrutas != null)
-            //{
-            //    foreach (var placemark in kmlrutas.Flatten().OfType<Placemark>())
-            //    {
-            //        Console.WriteLine(placemark.Name);
-            //        foreach (var linepart in ((LineString)placemark.Geometry).Coordinates)
-            //        {
-            //            Vector coord = linepart;
-            //            Console.WriteLine(coord.Latitude);
-            //            Console.WriteLine(coord.Longitude);
-            //        }                    
-            //        ParadasSITP.Add(new ParadaSITP { name = placemark.Name, latitude = coord.Latitude.ToString(), longtitude = coord.Longitude.ToString() });
-            //    }
-            //}
+            KmlFile filerutas = KmlFile.Load(new StreamReader("kml//Rutas SITP.kml"));
+            Kml kmlrutas = filerutas.Root as Kml;
+            if (kmlrutas != null)
+            {
+                Console.WriteLine("Parsing SITP Routes Shapes...");
+                foreach (var lineString in kmlrutas.Flatten().OfType<SharpKml.Dom.LineString>())
+                {
+                    SharpKml.Dom.Feature feature = lineString.GetParent<SharpKml.Dom.Feature>();
+                    String trailName = feature.Name;
+                    int position = 0;
+                    CoordinateCollection coordinates = lineString.Coordinates;
+                    foreach (var coordinate in coordinates)
+                    {
+                        //  Do something with coordinates, such as iterate over it
+                        GTFSShapesFile.Add(new GTFSShapes { shape_id = trailName, shape_pt_lat = coordinate.Latitude.ToString(), shape_pt_lon = coordinate.Longitude.ToString(), shape_pt_sequence = position.ToString(), shape_dist_traveled = "" });
+                        position = position + 1;
+                    }                    
+                }
+            }
+            string exportshapesfile = ExportDir + "\\shapes.txt";
+            Console.WriteLine("Creating Export File shapes.txt ...");
+            using (var exportshapes = new StreamWriter(exportshapesfile))
+            {
+                // Route record
+                var csvroutes = new CsvWriter(exportshapes);
+                csvroutes.Configuration.Delimiter = ",";
+                csvroutes.Configuration.Encoding = Encoding.UTF8;
+                csvroutes.Configuration.TrimFields = true;
+                csvroutes.Configuration.QuoteNoFields = true;
+                // header 
+                csvroutes.WriteField("shape_id");
+                csvroutes.WriteField("shape_pt_lat");
+                csvroutes.WriteField("shape_pt_lon");
+                csvroutes.WriteField("shape_pt_sequence");
+                csvroutes.WriteField("shape_dist_traveled");
+                csvroutes.NextRecord();
+                for (int i = 0; i < GTFSShapesFile.Count; i++) // Loop through List with for)
+                {
+                    csvroutes.WriteField(GTFSShapesFile[i].shape_id);
+                    csvroutes.WriteField(GTFSShapesFile[i].shape_pt_lat.Replace(",","."));
+                    csvroutes.WriteField(GTFSShapesFile[i].shape_pt_lon.Replace(",", "."));
+                    csvroutes.WriteField(GTFSShapesFile[i].shape_pt_sequence);
+                    csvroutes.WriteField(GTFSShapesFile[i].shape_dist_traveled);
+                    csvroutes.NextRecord();
+                }
+
+            }
             Console.WriteLine("Start parsing Troncales");
             HttpWebRequest requesttron = WebRequest.Create(troncalstart) as HttpWebRequest;
             requesttron.Method = "GET";
@@ -823,6 +854,37 @@ namespace SITP_Scraper
                 }
             }
 
+            Console.WriteLine("Creating GTFS File agency.txt...");
+            string exportagencyfile = ExportDir + "\\agency.txt";
+            using (var gtfsagency = new StreamWriter(exportagencyfile))
+            {
+                var csv = new CsvWriter(gtfsagency);
+                csv.Configuration.Delimiter = ",";
+                csv.Configuration.Encoding = Encoding.UTF8;
+                csv.Configuration.TrimFields = true;
+                // header 
+                csv.WriteField("agency_id");
+                csv.WriteField("agency_name");
+                csv.WriteField("agency_url");
+                csv.WriteField("agency_timezone");
+                csv.WriteField("agency_lang");
+                csv.WriteField("agency_phone");
+                csv.WriteField("agency_fare_url");
+                csv.WriteField("agency_email");
+                csv.NextRecord();
+
+                csv.WriteField("SITP");
+                csv.WriteField("Transmilenio");
+                csv.WriteField("http://www.transmilenio.gov.co/");
+                csv.WriteField("America/Bogota");
+                csv.WriteField("ES");
+                csv.WriteField("+57 (1) 2203000");
+                csv.WriteField("http://www.transmilenio.gov.co/Publicaciones/ZONALES/informacion_general_zonales/Tarifas");
+                csv.WriteField("");
+                csv.NextRecord();               
+            }
+
+
             // Export to CSV.
             string exportroutesfile = ExportDir + "\\routes.txt";
             Console.WriteLine("Creating Export File routes.txt ...");
@@ -834,19 +896,27 @@ namespace SITP_Scraper
                 csvroutes.Configuration.Encoding = Encoding.UTF8;
                 csvroutes.Configuration.TrimFields = true;
                 // header 
-                csvroutes.WriteField("idRuta");
-                csvroutes.WriteField("tipoRuta");
-                csvroutes.WriteField("codigoRuta");
-                csvroutes.WriteField("rutaNombre");
-                csvroutes.WriteField("rutaLink");
+                csvroutes.WriteField("route_id");
+                csvroutes.WriteField("agency_id");
+                csvroutes.WriteField("route_short_name");
+                csvroutes.WriteField("route_long_name");
+                csvroutes.WriteField("route_desc");
+                csvroutes.WriteField("route_type");
+                csvroutes.WriteField("route_url");
+                csvroutes.WriteField("route_color");
+                csvroutes.WriteField("route_text_color");                
                 csvroutes.NextRecord();
                 for (int i = 0; i < Rutas.Count; i++) // Loop through List with for)
                 {
                     csvroutes.WriteField(Rutas[i].idRuta);
-                    csvroutes.WriteField(Rutas[i].tipoRuta);
+                    csvroutes.WriteField("SITP");
                     csvroutes.WriteField(Rutas[i].codigoRuta);
                     csvroutes.WriteField(Rutas[i].rutaNombre);
+                    csvroutes.WriteField("");
+                    csvroutes.WriteField("3");
                     csvroutes.WriteField(Rutas[i].rutaLink);
+                    csvroutes.WriteField("");
+                    csvroutes.WriteField("");
                     csvroutes.NextRecord();
                 }
             }
@@ -872,8 +942,8 @@ namespace SITP_Scraper
 
             }
 
-            string exportparadasfile = ExportDir + "\\paradas.txt";
-            Console.WriteLine("Creating Export File paradas.txt ...");
+            string exportparadasfile = ExportDir + "\\stops.txt";
+            Console.WriteLine("Creating Export File stops.txt ...");
             using (var exportparada = new StreamWriter(exportparadasfile))
             {
                 // Route record
@@ -881,14 +951,20 @@ namespace SITP_Scraper
                 csvroutes.Configuration.Delimiter = ",";
                 csvroutes.Configuration.Encoding = Encoding.UTF8;
                 csvroutes.Configuration.TrimFields = true;
+                csvroutes.Configuration.QuoteNoFields = true;
                 // header 
-                csvroutes.WriteField("estId");
-                csvroutes.WriteField("estSITPNumber");
-                csvroutes.WriteField("estNombre");
-                csvroutes.WriteField("estDireccion");
-                csvroutes.WriteField("estLink");
-                csvroutes.WriteField("estlongtitude");
-                csvroutes.WriteField("estlatitude");
+                csvroutes.WriteField("stop_id");
+                csvroutes.WriteField("stop_code");
+                csvroutes.WriteField("stop_name");
+                csvroutes.WriteField("stop_desc");
+                csvroutes.WriteField("stop_lat");
+                csvroutes.WriteField("stop_lon");
+                csvroutes.WriteField("zone_id");
+                csvroutes.WriteField("stop_url");
+                csvroutes.WriteField("location_type");
+                csvroutes.WriteField("parent_station");
+                csvroutes.WriteField("stop_timezone");
+                csvroutes.WriteField("wheelchair_boarding");
                 csvroutes.NextRecord();
                 for (int i = 0; i < Paradas.Count; i++) // Loop through List with for)
                 {
@@ -899,18 +975,23 @@ namespace SITP_Scraper
                     }
                     else { csvroutes.WriteField(""); }
                     csvroutes.WriteField(Paradas[i].estNombre);
-                    csvroutes.WriteField(Paradas[i].estDireccion);
-                    csvroutes.WriteField(Paradas[i].estLink);
-                    if (!string.IsNullOrEmpty(Paradas[i].estlongtitude))
-                    {
-                        csvroutes.WriteField(Paradas[i].estlongtitude);
-                    }
-                    else { csvroutes.WriteField(""); }
+                    csvroutes.WriteField(Paradas[i].estDireccion);                   
                     if (!string.IsNullOrEmpty(Paradas[i].estlatitude))
                     {
-                        csvroutes.WriteField(Paradas[i].estlatitude);
+                        csvroutes.WriteField(Paradas[i].estlatitude.Replace(",","."));
                     }
                     else { csvroutes.WriteField(""); }
+                    if (!string.IsNullOrEmpty(Paradas[i].estlongtitude))
+                    {
+                        csvroutes.WriteField(Paradas[i].estlongtitude.Replace(",", "."));
+                    }
+                    else { csvroutes.WriteField(""); }
+                    csvroutes.WriteField("");
+                    csvroutes.WriteField(Paradas[i].estLink);
+                    csvroutes.WriteField("");
+                    csvroutes.WriteField("");
+                    csvroutes.WriteField("America/Bogota");
+                    csvroutes.WriteField("");
                     csvroutes.NextRecord();
                 }
             }
@@ -990,6 +1071,15 @@ namespace SITP_Scraper
     {
         public string name;
         public string ParadaSitpName;        
+    }
+
+    public class GTFSShapes
+    {
+        public string shape_id;
+        public string shape_pt_lat;
+        public string shape_pt_lon;
+        public string shape_pt_sequence;
+        public string shape_dist_traveled;
     }
 
 }
