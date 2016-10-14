@@ -920,6 +920,60 @@ namespace SITP_Scraper
                     csvroutes.NextRecord();
                 }
             }
+
+            // Export to CSV.
+            string exporttripsfile = ExportDir + "\\trips.txt";
+            Console.WriteLine("Creating Export File trips.txt ...");
+            using (var exportroutes = new StreamWriter(exporttripsfile))
+            {
+                // Route record
+                var csvroutes = new CsvWriter(exportroutes);
+                csvroutes.Configuration.Delimiter = ",";
+                csvroutes.Configuration.Encoding = Encoding.UTF8;
+                csvroutes.Configuration.TrimFields = true;
+                // header 
+                csvroutes.WriteField("route_id");
+                csvroutes.WriteField("service_id");
+                csvroutes.WriteField("trip_id");
+                csvroutes.WriteField("trip_headsign");
+                csvroutes.WriteField("trip_short_name");
+                csvroutes.WriteField("direction_id");
+                csvroutes.WriteField("block_id");
+                csvroutes.WriteField("shape_id");
+                csvroutes.WriteField("wheelchair_accessible");
+                csvroutes.WriteField("bikes_allowed");
+                csvroutes.NextRecord();
+                for (int i = 0; i < Rutas.Count; i++) // Loop through List with for)
+                {
+                    // Find the running days
+                    var runHorarios = Horarios.Where(y => y.idRuta == Rutas[i].idRuta);
+                    foreach (Horario item in runHorarios)
+                    {
+                        string rundays = Horarios[i].horario.Substring(0, Horarios[i].horario.IndexOf("|")).Trim();
+                        string service_id = Horarios[i].idRuta + rundays;
+                        csvroutes.WriteField(Rutas[i].idRuta);
+                        csvroutes.WriteField(service_id);
+                        csvroutes.WriteField(service_id);
+                        csvroutes.WriteField("");
+                        csvroutes.WriteField("");
+                        csvroutes.WriteField("");                        
+                        // Shape_ID
+                        var shape = GTFSShapesFile.Find(q => q.shape_id == Rutas[i].idRuta);
+                        if (shape != null)
+                        {
+                            //Do stuff
+                            csvroutes.WriteField(Rutas[i].idRuta);
+                        }
+                        else { csvroutes.WriteField(""); }
+                        csvroutes.WriteField("");
+                        csvroutes.WriteField("");
+                        csvroutes.NextRecord();
+                    }
+
+                    
+                }
+            }
+
             string exporthorariofile = ExportDir + "\\calendar.txt";
             Console.WriteLine("Creating Export File calendar.txt ...");
             using (var exporthorario = new StreamWriter(exporthorariofile))
