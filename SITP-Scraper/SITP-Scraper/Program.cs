@@ -430,8 +430,9 @@ namespace SITP_Scraper
                                             rutaDirection = directiontron,
                                             estNumber = routeparadas.ToString(),
                                             estId = estId
-                                        }
+                                        }                                        
                                         );
+                                        routeparadas = routeparadas + 1;
                                         bool alreadyExists = Paradas.Exists(x => x.estId == estId
                                             && x.estNombre == estNombre
                                             && x.estDireccion == estDireccion
