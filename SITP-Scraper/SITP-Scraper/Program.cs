@@ -13,6 +13,8 @@ using SharpKml;
 using SharpKml.Engine;
 using SharpKml.Dom;
 using SharpKml.Base;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SITP_Scraper
 {
@@ -408,14 +410,14 @@ namespace SITP_Scraper
                 }
                 // End url list parsing.
             }
-            // Looping through pages with Route information.
-            for (int i = 0; i < Rutas.Count; i++) // Loop through List with for)
+            // Parrallel downloading? 
+            Parallel.ForEach(Rutas, (curruta) =>
             {
                 // Parsing based on html layout for tipoRoute.
 
-                Console.WriteLine("Parsing Route {0} of {1}", i, Rutas.Count);
+                Console.WriteLine("Parsing Route {0} on thread {1}", curruta.rutaNombre, Thread.CurrentThread.ManagedThreadId);
                 //Console.WriteLine("Parsing Route page: {0}", Rutas[i].rutaLink);
-                HttpWebRequest requestdetail = WebRequest.Create(Rutas[i].rutaLink) as HttpWebRequest;
+                HttpWebRequest requestdetail = WebRequest.Create(curruta.rutaLink) as HttpWebRequest;
                 requestdetail.Method = "GET";
                 requestdetail.Proxy = null;
                 using (HttpWebResponse responsedetail = requestdetail.GetResponse() as HttpWebResponse)
@@ -423,12 +425,12 @@ namespace SITP_Scraper
                     HtmlDocument RutaDetail = new HtmlDocument();
                     StreamReader readerdetail = new StreamReader(responsedetail.GetResponseStream());
                     RutaDetail.LoadHtml(readerdetail.ReadToEnd());
-                    string savefile = String.Format("Download\\{0}-{1}.html", Rutas[i].tipoRuta, Rutas[i].idRuta);
+                    string savefile = String.Format("Download\\{0}-{1}.html", curruta.tipoRuta, curruta.idRuta);
                     if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
                     {
                         RutaDetail.Save(savefile);
                     }
-                    switch (Rutas[i].tipoRuta)
+                    switch (curruta.tipoRuta)
                     {
                         case "6":
                             // Route Stations
@@ -453,15 +455,15 @@ namespace SITP_Scraper
                                         string estLink = NodeParada.SelectSingleNode(".//div[@class='estNombre']//a").Attributes["href"].Value.ToString();
                                         estLink = HttpUtility.HtmlDecode(estLink);
                                         var urllink = new Uri(estLink);
-                                        string estId = HttpUtility.ParseQueryString(urllink.Query).Get("estacion");                                    
+                                        string estId = HttpUtility.ParseQueryString(urllink.Query).Get("estacion");
                                         // Only add Route Parada if stop is active. 
                                         RouteParadas.Add(new RouteParada
                                         {
-                                            idRuta = Rutas[i].idRuta,
+                                            idRuta = curruta.idRuta,
                                             rutaDirection = directiontron,
                                             estNumber = routeparadas.ToString(),
                                             estId = estId
-                                        }                                        
+                                        }
                                         );
                                         routeparadas = routeparadas + 1;
                                         bool alreadyExists = Paradas.Exists(x => x.estId == estId
@@ -514,7 +516,7 @@ namespace SITP_Scraper
                                 string estId = HttpUtility.ParseQueryString(urllink.Query).Get("paradero");
                                 RouteParadas.Add(new RouteParada
                                 {
-                                    idRuta = Rutas[i].idRuta,
+                                    idRuta = curruta.idRuta,
                                     rutaDirection = "",
                                     estNumber = estNumbre,
                                     estId = estId
@@ -560,7 +562,7 @@ namespace SITP_Scraper
                                         using (var client = new WebClient())
                                         {
                                             client.Headers.Add("user-agent", ua);
-                                            client.Headers.Add("Referer", Rutas[i].rutaLink);
+                                            client.Headers.Add("Referer", curruta.rutaLink);
                                             client.Proxy = null;
                                             client.DownloadFile(fullurl, fullpath);
                                         }
@@ -587,7 +589,7 @@ namespace SITP_Scraper
                                         using (var client = new WebClient())
                                         {
                                             client.Headers.Add("user-agent", ua);
-                                            client.Headers.Add("Referer", Rutas[i].rutaLink);
+                                            client.Headers.Add("Referer", curruta.rutaLink);
                                             client.Proxy = null;
                                             client.DownloadFile(fullurl, fullpath);
                                         }
@@ -613,7 +615,7 @@ namespace SITP_Scraper
                                         using (var client = new WebClient())
                                         {
                                             client.Headers.Add("user-agent", ua);
-                                            client.Headers.Add("Referer", Rutas[i].rutaLink);
+                                            client.Headers.Add("Referer", curruta.rutaLink);
                                             client.Proxy = null;
                                             client.DownloadFile(fullurl, fullpath);
                                         }
@@ -641,7 +643,7 @@ namespace SITP_Scraper
                                     string estId = HttpUtility.ParseQueryString(urllink.Query).Get("paradero");
                                     RouteParadas.Add(new RouteParada
                                     {
-                                        idRuta = Rutas[i].idRuta,
+                                        idRuta = curruta.idRuta,
                                         rutaDirection = direction,
                                         estNumber = estNumbre,
                                         estId = estId
@@ -652,7 +654,7 @@ namespace SITP_Scraper
                                         && x.estDireccion == estDireccion
                                         && x.estLink == estLink
                                         && x.estType == 0
-                                       );
+                                        );
                                     if (!alreadyExists)
                                     {
                                         Paradas.Add(new Parada
@@ -686,7 +688,7 @@ namespace SITP_Scraper
                                     string estId = HttpUtility.ParseQueryString(urllink.Query).Get("paradero");
                                     RouteParadas.Add(new RouteParada
                                     {
-                                        idRuta = Rutas[i].idRuta,
+                                        idRuta = curruta.idRuta,
                                         rutaDirection = direction,
                                         estNumber = estNumbre,
                                         estId = estId
@@ -697,7 +699,7 @@ namespace SITP_Scraper
                                         && x.estDireccion == estDireccion
                                         && x.estLink == estLink
                                         && x.estType == 0
-                                       );
+                                        );
                                     if (!alreadyExists)
                                     {
                                         Paradas.Add(new Parada
@@ -718,7 +720,13 @@ namespace SITP_Scraper
 
                     // End Route Parsing    
                 }
-            }
+
+            });
+            // Looping through pages with Route information.
+            //for (int i = 0; i < Rutas.Count; i++) // Loop through List with for)
+            //{
+                
+            //}
             // Get Official Paradero number so its possible to match it to 
             for (int i = 0; i < Paradas.Count; i++) // Loop through List with for)
             {
