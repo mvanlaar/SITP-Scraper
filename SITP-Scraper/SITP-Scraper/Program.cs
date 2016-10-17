@@ -38,6 +38,8 @@ namespace SITP_Scraper
             System.IO.Directory.CreateDirectory(downloadDir);
             string ExportDir = AppDomain.CurrentDomain.BaseDirectory + "\\Export";
             System.IO.Directory.CreateDirectory(ExportDir);
+            string ExportGTFSDir = AppDomain.CurrentDomain.BaseDirectory + "\\GTFS";
+            System.IO.Directory.CreateDirectory(ExportGTFSDir);
             ServicePointManager.DefaultConnectionLimit = 50;
 
             List<Route> Rutas = new List<Route> { };
@@ -111,7 +113,7 @@ namespace SITP_Scraper
                     }                    
                 }
             }
-            string exportshapesfile = ExportDir + "\\shapes.txt";
+            string exportshapesfile = ExportGTFSDir + "\\shapes.txt";
             Console.WriteLine("Creating Export File shapes.txt ...");
             using (var exportshapes = new StreamWriter(exportshapesfile))
             {
@@ -867,7 +869,7 @@ namespace SITP_Scraper
             //}
 
             Console.WriteLine("Creating GTFS File agency.txt...");
-            string exportagencyfile = ExportDir + "\\agency.txt";
+            string exportagencyfile = ExportGTFSDir + "\\agency.txt";
             using (var gtfsagency = new StreamWriter(exportagencyfile))
             {
                 var csv = new CsvWriter(gtfsagency);
@@ -898,7 +900,7 @@ namespace SITP_Scraper
 
 
             // Export to CSV.
-            string exportroutesfile = ExportDir + "\\routes.txt";
+            string exportroutesfile = ExportGTFSDir + "\\routes.txt";
             Console.WriteLine("Creating Export File routes.txt ...");
             using (var exportroutes = new StreamWriter(exportroutesfile))
             {
@@ -934,7 +936,7 @@ namespace SITP_Scraper
             }
 
             // Export to CSV.
-            string exporttripsfile = ExportDir + "\\trips.txt";
+            string exporttripsfile = ExportGTFSDir + "\\trips.txt";
             Console.WriteLine("Creating Export File trips.txt ...");
             using (var exportroutes = new StreamWriter(exporttripsfile))
             {
@@ -986,7 +988,7 @@ namespace SITP_Scraper
                 }
             }
 
-            string exporthorariofile = ExportDir + "\\calendar.txt";
+            string exporthorariofile = ExportGTFSDir + "\\calendar.txt";
             Console.WriteLine("Creating Export File calendar.txt ...");
             using (var exporthorario = new StreamWriter(exporthorariofile))
             {
@@ -1084,7 +1086,7 @@ namespace SITP_Scraper
 
             }
 
-            string exportparadasfile = ExportDir + "\\stops.txt";
+            string exportparadasfile = ExportGTFSDir + "\\stops.txt";
             Console.WriteLine("Creating Export File stops.txt ...");
             using (var exportparada = new StreamWriter(exportparadasfile))
             {
