@@ -411,10 +411,9 @@ namespace SITP_Scraper
                 // End url list parsing.
             }
             // Parrallel downloading? 
-            Parallel.ForEach(Rutas, (curruta) =>
+            Parallel.ForEach(Rutas, new ParallelOptions{MaxDegreeOfParallelism=10},  (curruta) =>
             {
                 // Parsing based on html layout for tipoRoute.
-
                 Console.WriteLine("Parsing Route {0} on thread {1}", curruta.rutaNombre, Thread.CurrentThread.ManagedThreadId);
                 //Console.WriteLine("Parsing Route page: {0}", Rutas[i].rutaLink);
                 HttpWebRequest requestdetail = WebRequest.Create(curruta.rutaLink) as HttpWebRequest;
@@ -728,14 +727,14 @@ namespace SITP_Scraper
                 
             //}
             // Get Official Paradero number so its possible to match it to 
-            for (int i = 0; i < Paradas.Count; i++) // Loop through List with for)
+            Parallel.ForEach(Paradas, new ParallelOptions { MaxDegreeOfParallelism = 10 }, (curParada) =>
             {
-                Console.WriteLine("Parsing Parada {0} of {1}", i, Paradas.Count);
+                Console.WriteLine("Parsing Parada {0} with thread {1}", curParada.estNombre, Thread.CurrentThread.ManagedThreadId);
 
-                if (Paradas[i].estType == 0)
+                if (curParada.estType == 0)
                 {
                     // Default Parada Get the SITP unique number
-                    HttpWebRequest requestparada = WebRequest.Create(Paradas[i].estLink) as HttpWebRequest;
+                    HttpWebRequest requestparada = WebRequest.Create(curParada.estLink) as HttpWebRequest;
                     requestparada.Method = "GET";
                     requestparada.Proxy = null;
                     using (HttpWebResponse responsedetail = requestparada.GetResponse() as HttpWebResponse)
@@ -743,7 +742,7 @@ namespace SITP_Scraper
                         HtmlDocument RutaParada = new HtmlDocument();
                         StreamReader readerdetail = new StreamReader(responsedetail.GetResponseStream());
                         RutaParada.LoadHtml(readerdetail.ReadToEnd());
-                        string savefile = String.Format("Download\\Parada-{0}.html", Paradas[i].estId);
+                        string savefile = String.Format("Download\\Parada-{0}.html", curParada.estId);
                         if (Convert.ToBoolean(ConfigurationManager.AppSettings.Get("SaveHTML")))
                         {
                             RutaParada.Save(savefile);
@@ -755,13 +754,13 @@ namespace SITP_Scraper
                         int index = estSITPNumber.IndexOf(" - ", 0);
                         estSITPNumber = estSITPNumber.Substring(0, index);
                         estSITPNumber = estSITPNumber.Trim();
-                        Paradas[i].estSITPNumber = estSITPNumber;
+                        curParada.estSITPNumber = estSITPNumber;
                         var item = ParadasSITP.Find(q => q.name == estSITPNumber);
                         if (item != null)
                         {
                             //Do stuff
-                            Paradas[i].estlatitude = item.latitude;
-                            Paradas[i].estlongtitude = item.longtitude;
+                            curParada.estlatitude = item.latitude;
+                            curParada.estlongtitude = item.longtitude;
                         }
                         else
                         {
@@ -783,84 +782,89 @@ namespace SITP_Scraper
                                     if (itemmultiple != null)
                                     {
                                         //Do stuff
-                                        Paradas[i].estlatitude = itemmultiple.latitude;
-                                        Paradas[i].estlongtitude = itemmultiple.longtitude;
+                                        curParada.estlatitude = itemmultiple.latitude;
+                                        curParada.estlongtitude = itemmultiple.longtitude;
                                     }
                                     else
                                     {
-                                        Paradas[i].estlatitude = "";
-                                        Paradas[i].estlongtitude = "";
+                                        curParada.estlatitude = "";
+                                        curParada.estlongtitude = "";
                                     }
                                 }
                                 else
                                 {
                                     // Ok when we search for A the first time we don't got the lat and lng
-                                    Paradas[i].estlatitude = "";
-                                    Paradas[i].estlongtitude = "";
+                                    curParada.estlatitude = "";
+                                    curParada.estlongtitude = "";
                                 }
                             }
                             else
                             {
                                 // hmm paradero with number shorter than 3 chars???
-                                Paradas[i].estlatitude = "";
-                                Paradas[i].estlongtitude = "";
+                                curParada.estlatitude = "";
+                                curParada.estlongtitude = "";
                             }
                         }
                     }
-                // End Type 0
-                }            
-                if (Paradas[i].estType == 1)
+                    // End Type 0
+                }
+                if (curParada.estType == 1)
                 {
                     // This are paradas from transmilenio.
                     // We gone try to find them by name.
-                    var item = ParadasTronc.Find(q => q.name == Paradas[i].estNombre);
+                    var item = ParadasTronc.Find(q => q.name == curParada.estNombre);
                     if (item != null)
                     {
                         //Do stuff
-                        Paradas[i].estlatitude = item.latitude;
-                        Paradas[i].estlongtitude = item.longtitude;
+                        curParada.estlatitude = item.latitude;
+                        curParada.estlongtitude = item.longtitude;
                     }
                     else
                     {
                         // Check if there is Cl in the name
-                        if (Paradas[i].estNombre.Contains("Cl "))
+                        if (curParada.estNombre.Contains("Cl "))
                         {
                             // REplace Cl with "Calle" or CL with Calle 
-                            string temp_nombre = Paradas[i].estNombre;
+                            string temp_nombre = curParada.estNombre;
                             temp_nombre = temp_nombre.Replace("Cl ", "Calle ");
                             temp_nombre = temp_nombre.Replace("CL ", "Calle ");
                             var item1 = ParadasTronc.Find(q => q.name == temp_nombre);
                             if (item1 != null)
                             {
                                 //Do stuff
-                                Paradas[i].estlatitude = item1.latitude;
-                                Paradas[i].estlongtitude = item1.longtitude;
+                                curParada.estlatitude = item1.latitude;
+                                curParada.estlongtitude = item1.longtitude;
                             }
                             else
                             {
                                 // Other Execptions
-                                var item2 = _ParadaRename.Find(q => q.name == Paradas[i].estNombre);
+                                var item2 = _ParadaRename.Find(q => q.name == curParada.estNombre);
                                 if (item2 != null)
                                 {
                                     var item3 = ParadasTronc.Find(q => q.name == item2.ParadaSitpName);
-                                    Paradas[i].estlatitude = item3.latitude;
-                                    Paradas[i].estlongtitude = item3.longtitude;
+                                    curParada.estlatitude = item3.latitude;
+                                    curParada.estlongtitude = item3.longtitude;
                                 }
                                 else
                                 {
                                     // hmm paradero with number shorter than 3 chars???
-                                    Paradas[i].estlatitude = "";
-                                    Paradas[i].estlongtitude = "";
+                                    curParada.estlatitude = "";
+                                    curParada.estlongtitude = "";
                                 }
-                                
+
                             }
-                        }                        
+                        }
                         // hmm paradero with number shorter than 3 chars???
-                        Paradas[i].estlatitude = "";
-                        Paradas[i].estlongtitude = "";
+                        curParada.estlatitude = "";
+                        curParada.estlongtitude = "";
                     }
                 }
-            }
+            });
+
+            //for (int i = 0; i < Paradas.Count; i++) // Loop through List with for)
+            //{
+                
+            //}
 
             Console.WriteLine("Creating GTFS File agency.txt...");
             string exportagencyfile = ExportDir + "\\agency.txt";
@@ -957,8 +961,8 @@ namespace SITP_Scraper
                     var runHorarios = Horarios.Where(y => y.idRuta == Rutas[i].idRuta);
                     foreach (Horario item in runHorarios)
                     {
-                        string rundays = Horarios[i].horario.Substring(0, Horarios[i].horario.IndexOf("|")).Trim();
-                        string service_id = Horarios[i].idRuta + rundays;
+                        string rundays = item.horario.Substring(0, item.horario.IndexOf("|")).Trim();
+                        string service_id = item.idRuta + rundays;
                         csvroutes.WriteField(Rutas[i].idRuta);
                         csvroutes.WriteField(service_id);
                         csvroutes.WriteField(service_id);
