@@ -1080,11 +1080,6 @@ namespace SITP_Scraper
                     csvroutes.WriteField("20161001");
                     csvroutes.WriteField("20171001");
                     csvroutes.NextRecord();
-                    
-                    
-                    csvroutes.WriteField(Horarios[i].idRuta);
-                    csvroutes.WriteField(Horarios[i].horario);
-                    csvroutes.NextRecord();
                 }
 
             }
