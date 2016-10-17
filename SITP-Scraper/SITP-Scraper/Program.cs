@@ -15,6 +15,7 @@ using SharpKml.Dom;
 using SharpKml.Base;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace SITP_Scraper
 {
@@ -33,7 +34,9 @@ namespace SITP_Scraper
             string troncalstart = "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=6";
             string downloadsite = "http://www.sitp.gov.co";
             const string ua = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)";
-            
+            CultureInfo ci = new CultureInfo("en-US");
+
+
             string downloadDir = AppDomain.CurrentDomain.BaseDirectory + "\\Download";
             System.IO.Directory.CreateDirectory(downloadDir);
             string ExportDir = AppDomain.CurrentDomain.BaseDirectory + "\\Export";
@@ -981,10 +984,102 @@ namespace SITP_Scraper
                         else { csvroutes.WriteField(""); }
                         csvroutes.WriteField("");
                         csvroutes.WriteField("");
-                        csvroutes.NextRecord();
+                        csvroutes.NextRecord();    
                     }
 
                     
+                }
+            }
+
+            // Export to CSV.
+            string exportstoptimesfile = ExportGTFSDir + "\\stop_times.txt";
+            Console.WriteLine("Creating Export File stop_times.txt ...");
+            using (var exportroutes = new StreamWriter(exportstoptimesfile))
+            {
+                // Route record
+                var csvroutes = new CsvWriter(exportroutes);
+                csvroutes.Configuration.Delimiter = ",";
+                csvroutes.Configuration.Encoding = Encoding.UTF8;
+                csvroutes.Configuration.TrimFields = true;
+                // header 
+                csvroutes.WriteField("trip_id");
+                csvroutes.WriteField("arrival_time");
+                csvroutes.WriteField("departure_time");
+                csvroutes.WriteField("stop_id");
+                csvroutes.WriteField("stop_sequence");
+                csvroutes.WriteField("stop_headsign");
+                csvroutes.WriteField("pickup_type");
+                csvroutes.WriteField("drop_off_type");
+                csvroutes.WriteField("shape_dist_traveled");
+                csvroutes.WriteField("timepoint");
+                csvroutes.NextRecord();
+                for (int i = 0; i < RouteParadas.Count; i++) // Loop through List with for)
+                {
+                    // Find the running days
+                    var runHorarios = Horarios.Where(y => y.idRuta == RouteParadas[i].idRuta);
+                    foreach (Horario item in runHorarios)
+                    {
+                        string rundays = item.horario.Substring(0, item.horario.IndexOf("|")).Trim();
+                        string service_id = item.idRuta + rundays;
+                        csvroutes.WriteField(service_id);
+                        csvroutes.WriteField("");
+                        csvroutes.WriteField("");
+                        csvroutes.WriteField(RouteParadas[i].estId);
+                        csvroutes.WriteField(RouteParadas[i].estNumber);
+                        csvroutes.WriteField("");
+                        csvroutes.WriteField("0");
+                        csvroutes.WriteField("0");
+                        csvroutes.WriteField("");
+                        csvroutes.WriteField("");
+                        csvroutes.NextRecord();
+                    }
+
+
+                }
+            }
+
+            // Export to CSV.
+            string exportfrequenciesfile = ExportGTFSDir + "\\frequencies.txt";
+            Console.WriteLine("Creating Export File frequencies.txt ...");
+            using (var exportroutes = new StreamWriter(exportfrequenciesfile))
+            {
+                // Route record
+                var csvroutes = new CsvWriter(exportroutes);
+                csvroutes.Configuration.Delimiter = ",";
+                csvroutes.Configuration.Encoding = Encoding.UTF8;
+                csvroutes.Configuration.TrimFields = true;
+                // header 
+                csvroutes.WriteField("trip_id");
+                csvroutes.WriteField("start_time");
+                csvroutes.WriteField("end_time");
+                csvroutes.WriteField("headway_secs");
+                csvroutes.WriteField("exact_times");                
+                csvroutes.NextRecord();
+                for (int i = 0; i < Rutas.Count; i++) // Loop through List with for)
+                {
+                    // Find the running days
+                    var runHorarios = Horarios.Where(y => y.idRuta == Rutas[i].idRuta);
+                    foreach (Horario item in runHorarios)
+                    {
+                        string rundays = item.horario.Substring(0, item.horario.IndexOf("|")).Trim();
+                        string runtimes = item.horario.Substring(item.horario.IndexOf("|")).Trim();
+                        Regex rgxdate2 = new Regex(@"(0[1-9]|1[0-2]):[0-5][0-9] [AP]M");
+                        MatchCollection matches = rgxdate2.Matches(runtimes);
+
+                        string validfrom = matches[0].Value;
+                        string validto = matches[1].Value;
+                        DateTime ValidFrom = DateTime.ParseExact(validfrom, "h:mm tt", ci);
+                        DateTime ValidTo = DateTime.ParseExact(validto, "h:mm tt", ci);
+                        string service_id = item.idRuta + rundays;
+                        csvroutes.WriteField(service_id);
+                        csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidFrom));
+                        csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidTo));                        
+                        csvroutes.WriteField("");
+                        csvroutes.WriteField("");
+                        csvroutes.NextRecord();
+                    }
+
+
                 }
             }
 
@@ -1132,7 +1227,7 @@ namespace SITP_Scraper
                     else { csvroutes.WriteField(""); }
                     csvroutes.WriteField("");
                     csvroutes.WriteField(Paradas[i].estLink);
-                    csvroutes.WriteField("");
+                    csvroutes.WriteField("0");
                     csvroutes.WriteField("");
                     csvroutes.WriteField("America/Bogota");
                     csvroutes.WriteField("");
