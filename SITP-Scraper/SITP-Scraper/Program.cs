@@ -74,7 +74,7 @@ namespace SITP_Scraper
                 new ParadaRename { name = "Avenida Cali", ParadaSitpName ="Avenida Ciudad de Cali" },
                 new ParadaRename { name = "Las Aguas", ParadaSitpName ="Aguas" }
             };
-            Console.WriteLine("Downloading and Parsing frequencias...")
+            Console.WriteLine("Downloading and Parsing frequencias...");
             // Begin downloading the frequencies
             foreach (string frequencies in tullave_frequencies)
             {
