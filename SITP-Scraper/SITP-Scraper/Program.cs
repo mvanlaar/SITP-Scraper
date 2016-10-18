@@ -16,6 +16,8 @@ using SharpKml.Base;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Globalization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace SITP_Scraper
 {
@@ -36,7 +38,9 @@ namespace SITP_Scraper
             const string ua = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)";
             CultureInfo ci = new CultureInfo("en-US");
 
-
+            // freqencies parsing based on tullave.com data
+            string[] tullave_frequencies = new string[] { "http://www.tullave.com/Formularios/FrecuenciasHorarios/DetalleHorarios_Controlador.php?Accion=Grilla&page=1&rp=500&sortname=undefined&sortorder=undefined&query=0%7C%7C1%7C&qtype=", "http://www.tullave.com/Formularios/FrecuenciasHorarios/DetalleHorarios_Controlador.php?Accion=Grilla&page=1&rp=500&sortname=undefined&sortorder=undefined&query=0%7C%7C2%7C&qtype=", "http://www.tullave.com/Formularios/FrecuenciasHorarios/DetalleHorarios_Controlador.php?Accion=Grilla&page=1&rp=500&sortname=undefined&sortorder=undefined&query=0%7C%7C4%7C&qtype=", "http://www.tullave.com/Formularios/FrecuenciasHorarios/DetalleHorarios_Controlador.php?Accion=Grilla&page=1&rp=500&sortname=undefined&sortorder=undefined&query=0%7C%7C6%7C&qtype=", "http://www.tullave.com/Formularios/FrecuenciasHorarios/DetalleHorarios_Controlador.php?Accion=Grilla&page=1&rp=500&sortname=undefined&sortorder=undefined&query=0%7C%7C5%7C&qtype=", "http://www.tullave.com/Formularios/FrecuenciasHorarios/DetalleHorarios_Controlador.php?Accion=Grilla&page=1&rp=500&sortname=undefined&sortorder=undefined&query=0%7C%7C3%7C&qtype=" };
+            
             string downloadDir = AppDomain.CurrentDomain.BaseDirectory + "\\Download";
             System.IO.Directory.CreateDirectory(downloadDir);
             string ExportDir = AppDomain.CurrentDomain.BaseDirectory + "\\Export";
@@ -53,6 +57,7 @@ namespace SITP_Scraper
             // The list definitions is for troncales the same.
             List<ParadaSITP> ParadasTronc = new List<ParadaSITP> { };
             List<GTFSShapes> GTFSShapesFile = new List<GTFSShapes> {};
+            List<RutasFreqencies> RutasFreqencies = new List<RutasFreqencies> { };
 
             List<ParadaRename> _ParadaRename = new List<ParadaRename>
             {
@@ -69,6 +74,38 @@ namespace SITP_Scraper
                 new ParadaRename { name = "Avenida Cali", ParadaSitpName ="Avenida Ciudad de Cali" },
                 new ParadaRename { name = "Las Aguas", ParadaSitpName ="Aguas" }
             };
+            Console.WriteLine("Downloading and Parsing frequencias...")
+            // Begin downloading the frequencies
+            foreach (string frequencies in tullave_frequencies)
+            {
+                string fullurl = frequencies;                
+                var urllinkTroncales = new Uri(HttpUtility.HtmlDecode(fullurl));
+                string idRuta = HttpUtility.ParseQueryString(urllinkTroncales.Query).Get("query");
+                string filename = idRuta + ".json";
+                filename = filename.Replace("|", "");
+                string fullpath = ExportDir + "\\" + filename;
+                
+                using (var client = new WebClient())
+                {
+                    client.Headers.Add("user-agent", ua);
+                    client.Headers.Add("Referer", @"http://www.tullave.com/Formularios/FrecuenciasHorarios/DetalleHorarios.php");
+                    client.Proxy = null;
+                    client.DownloadFile(fullurl, fullpath);
+                    // OK Parse the Json reponse.
+
+                    JObject o1 = JObject.Parse(File.ReadAllText(fullpath));
+                    dynamic json = JValue.Parse(File.ReadAllText(fullpath));
+                    dynamic rows = JsonConvert.DeserializeObject(json.rows.ToString());
+
+                    foreach (var item in rows)
+                    {                        
+                        dynamic cell = JsonConvert.DeserializeObject(item.cell.ToString());
+                        RutasFreqencies.Add(new RutasFreqencies { Agencia = cell.Agencia, Destino = cell.Destino, Frecuencia_Pico = cell.Frecuencia_Pico, Frecuencia_Valle = cell.Frecuencia_Valle, horarios = cell.horarios, Nombre = cell.Nombre, operacion = cell.operacion, Tarifa = cell.Tarifa });                                             
+                    }
+                }                
+            }
+
+
 
             // Parse the .kml files 
             // This will read a Kml file into memory.            
@@ -1078,8 +1115,6 @@ namespace SITP_Scraper
                         csvroutes.WriteField("");
                         csvroutes.NextRecord();
                     }
-
-
                 }
             }
 
@@ -1319,6 +1354,19 @@ namespace SITP_Scraper
         public string shape_pt_lon;
         public string shape_pt_sequence;
         public string shape_dist_traveled;
+    }
+
+    public class RutasFreqencies
+    {
+        public string Agencia;
+        public string Nombre;
+        public string Destino;
+        public string Frecuencia_Pico;
+        public string Frecuencia_Valle;
+        public string Tarifa;
+        public string operacion;
+        public string horarios;
+
     }
 
 }
