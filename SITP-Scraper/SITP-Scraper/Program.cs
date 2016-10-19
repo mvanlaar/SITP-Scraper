@@ -104,6 +104,35 @@ namespace SITP_Scraper
                     }
                 }                
             }
+            // Write Output to csv
+            string exportfreqfile = ExportDir + "\\frequencies.txt";
+            Console.WriteLine("Creating Export File frequencies.txt ...");
+            using (var exportfreq = new StreamWriter(exportfreqfile))
+            {
+                // Route record
+                var csvroutes = new CsvWriter(exportfreq);
+                csvroutes.Configuration.Delimiter = ",";
+                csvroutes.Configuration.Encoding = Encoding.UTF8;
+                csvroutes.Configuration.TrimFields = true;
+                csvroutes.Configuration.QuoteNoFields = true;
+                // header 
+                csvroutes.WriteField("Agenica");
+                csvroutes.WriteField("Nombre");
+                csvroutes.WriteField("Desticon");
+                csvroutes.WriteField("Frecuencia_Pico");
+                csvroutes.WriteField("Frecuencia_Valle");
+                csvroutes.NextRecord();
+                for (int i = 0; i < RutasFreqencies.Count; i++) // Loop through List with for)
+                {
+                    csvroutes.WriteField(RutasFreqencies[i].Agencia);
+                    csvroutes.WriteField(RutasFreqencies[i].Nombre);
+                    csvroutes.WriteField(RutasFreqencies[i].Destino);
+                    csvroutes.WriteField(RutasFreqencies[i].Frecuencia_Pico);
+                    csvroutes.WriteField(RutasFreqencies[i].Frecuencia_Valle);
+                    csvroutes.NextRecord();
+                }
+
+            }
 
 
 
@@ -305,6 +334,7 @@ namespace SITP_Scraper
                                                 Horarios.Add(new Horario
                                                 {
                                                     idRuta = idRuta,
+                                                    rutaNombre = codigoRuta,
                                                     horario = itemhorario.InnerText.Replace("               ", "")
                                                 }
                                                 );
@@ -387,6 +417,7 @@ namespace SITP_Scraper
                                         Horarios.Add(new Horario
                                         {
                                             idRuta = idRuta,
+                                            rutaNombre = codigoRuta,
                                             horario = itemhorario.InnerText.Replace("               ", "")
                                         }
                                         );
@@ -429,6 +460,7 @@ namespace SITP_Scraper
                                         Horarios.Add(new Horario
                                         {
                                             idRuta = idRuta,
+                                            rutaNombre = codigoRuta,
                                             horario = itemhorario.InnerText.Replace("               ", "")
                                         }
                                         );
@@ -1098,22 +1130,183 @@ namespace SITP_Scraper
                     var runHorarios = Horarios.Where(y => y.idRuta == Rutas[i].idRuta);
                     foreach (Horario item in runHorarios)
                     {
+                        // valle - start - 5:59 am
+                        // pico 6:00 am - 8:29 am
+                        // valle 08:30 am - 9:29 am
+                        // pico: 9:30 a 3:29 pm
+                        // valle: 3:30 a 4:29 pm
+                        // pico: 4:30 pm a 7:29 pm
+                        // valle 7:30 - end opr.
+
+                        DateTime StartPico = DateTime.ParseExact("5:59 am", "h:mm tt", ci);
+                        DateTime PicoPeriod1Start = DateTime.ParseExact("6:00 am", "h:mm tt", ci);
+                        DateTime PicoPeriod1End = DateTime.ParseExact("8:29 am", "h:mm tt", ci);
+                        DateTime PicoPeriod2Start = DateTime.ParseExact("9:30 am", "h:mm tt", ci);
+                        DateTime PicoPeriod2End = DateTime.ParseExact("3:29 pm", "h:mm tt", ci);
+                        DateTime PicoPeriod3Start = DateTime.ParseExact("4:30 pm", "h:mm tt", ci);
+                        DateTime PicoPeriod3End = DateTime.ParseExact("7:29 pm", "h:mm tt", ci);
+                        DateTime StartValle = DateTime.ParseExact("7:30 pm", "h:mm tt", ci);
+
                         string rundays = item.horario.Substring(0, item.horario.IndexOf("|")).Trim();
                         string runtimes = item.horario.Substring(item.horario.IndexOf("|")).Trim();
                         Regex rgxdate2 = new Regex(@"(0[1-9]|1[0-2]):[0-5][0-9] [AP]M");
                         MatchCollection matches = rgxdate2.Matches(runtimes);
+                        Boolean OnlyValle = false;
+                        Boolean TwoRows = false;
+                        switch (rundays)
+                        {
+                            case "D":
+                                {
+                                    OnlyValle = true;
+                                    TwoRows = false;
+                                    break;
+                                }
+                            case "D-F":
+                                {
+                                    OnlyValle = true;
+                                    TwoRows = false;
+                                    break;
+                                }
+                            case "L-D":
+                                {
+                                    // Need 2 frequency rows!
+                                    OnlyValle = false;
+                                    TwoRows = true;
+                                    break;
+                                }
+                            case "L-S":
+                                {
+                                    OnlyValle = false;
+                                    TwoRows = false;
+                                    break;
+                                }
+                            case "L-V":
+                                {
+                                    OnlyValle = false;
+                                    TwoRows = false;
+                                    break;
+                                }
+                            case "S":
+                                {
+                                    OnlyValle = false;
+                                    TwoRows = false;
+                                    break;
+                                }
+                        }
+                        // Find Headways secs
+                        var Freqency = RutasFreqencies.Find(q => q.Nombre == item.rutaNombre);
+                        if (Freqency != null)
+                        {
+                            if (OnlyValle == true)
+                            {
+                                // calculate from minutes to seconds
+                                int pico = int.Parse(Freqency.Frecuencia_Pico) * 60;
+                                int valle = int.Parse(Freqency.Frecuencia_Valle) * 60;
+                                string validfrom = matches[0].Value;
+                                string validto = matches[1].Value;
+                                DateTime ValidFrom = DateTime.ParseExact(validfrom, "h:mm tt", ci);
+                                DateTime ValidTo = DateTime.ParseExact(validto, "h:mm tt", ci);
+                                string service_id = item.idRuta + rundays;
+                                csvroutes.WriteField(service_id);
+                                csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidFrom));
+                                csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidTo));
+                                csvroutes.WriteField(valle.ToString());
+                                csvroutes.WriteField("");
+                                csvroutes.NextRecord();
+                            }
+                            else
+                            {
+                                //// calculate from minutes to seconds
+                                //if (TwoRows == false)
+                                //{
+                                //    // Only make row for valle times.
+                                //    int pico = int.Parse(Freqency.Frecuencia_Pico) * 60;
+                                //    int valle = int.Parse(Freqency.Frecuencia_Valle) * 60;
+                                //    string validfrom = matches[0].Value;
+                                //    string validto = matches[1].Value;
+                                //    DateTime ValidFrom = DateTime.ParseExact(validfrom, "h:mm tt", ci);
+                                //    DateTime ValidTo = DateTime.ParseExact(validto, "h:mm tt", ci);
+                                //    string service_id = item.idRuta + rundays;
+                                    
+                                //    // Starttime
+                                //    if (ValidFrom.TimeOfDay < StartPico.TimeOfDay)
+                                //    {
+                                //        csvroutes.WriteField(service_id);
+                                //        csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidFrom));
+                                //        csvroutes.WriteField(String.Format("{0:HH:mm:ss}", StartPico));
+                                //        csvroutes.WriteField(valle.ToString());
+                                //        csvroutes.WriteField("");
+                                //        csvroutes.NextRecord();
+                                //    }
+                                //    else 
+                                //    {
+                                //        bool StartinPicoPeriod1 = IsTimeOfDayBetween(ValidFrom.TimeOfDay, PicoPeriod1Start.TimeOfDay, PicoPeriod1End.TimeOfDay);
+                                //    }
+                                //    // End Time
+                                //    if (ValidTo.TimeOfDay > StartValle.TimeOfDay)
+                                //    {
+                                //        csvroutes.WriteField(service_id);
+                                //        csvroutes.WriteField(String.Format("{0:HH:mm:ss}", StartValle));
+                                //        csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidTo));
+                                //        csvroutes.WriteField(valle.ToString());
+                                //        csvroutes.WriteField("");
+                                //        csvroutes.NextRecord();
+                                //    }
 
-                        string validfrom = matches[0].Value;
-                        string validto = matches[1].Value;
-                        DateTime ValidFrom = DateTime.ParseExact(validfrom, "h:mm tt", ci);
-                        DateTime ValidTo = DateTime.ParseExact(validto, "h:mm tt", ci);
-                        string service_id = item.idRuta + rundays;
-                        csvroutes.WriteField(service_id);
-                        csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidFrom));
-                        csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidTo));                        
-                        csvroutes.WriteField("");
-                        csvroutes.WriteField("");
-                        csvroutes.NextRecord();
+                                //    bool IsTimeOfDayBetween(someTime, ValidFrom.TimeOfDay, endTime.TimeOfDay)
+
+                                //    csvroutes.WriteField(service_id);
+                                //    csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidFrom));
+                                //    csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidTo));
+                                //    csvroutes.WriteField(pico.ToString());
+                                //    csvroutes.WriteField("");
+                                //    csvroutes.NextRecord();
+                                //}
+                                //else
+                                //{
+                                    // Row 2 for domingo:
+                                    // Only make row for valle times.
+                                    int pico = int.Parse(Freqency.Frecuencia_Pico) * 60;
+                                    int valle = int.Parse(Freqency.Frecuencia_Valle) * 60;
+                                    string validfrom = matches[0].Value;
+                                    string validto = matches[1].Value;
+                                    DateTime ValidFrom = DateTime.ParseExact(validfrom, "h:mm tt", ci);
+                                    DateTime ValidTo = DateTime.ParseExact(validto, "h:mm tt", ci);
+                                    string service_id = item.idRuta + "L-S";
+                                    csvroutes.WriteField(service_id);
+                                    csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidFrom));
+                                    csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidTo));
+                                    csvroutes.WriteField(pico.ToString());
+                                    csvroutes.WriteField("");
+                                    csvroutes.NextRecord();
+                                    service_id = item.idRuta + "D-F";
+                                    csvroutes.WriteField(service_id);
+                                    csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidFrom));
+                                    csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidTo));
+                                    csvroutes.WriteField(valle.ToString());
+                                    csvroutes.WriteField("");
+                                    csvroutes.NextRecord();
+                                //}
+                                
+                            }
+                        }
+                        else
+                        {
+                            // We don't know frequencies.
+                            string validfrom = matches[0].Value;
+                            string validto = matches[1].Value;
+                            DateTime ValidFrom = DateTime.ParseExact(validfrom, "h:mm tt", ci);
+                            DateTime ValidTo = DateTime.ParseExact(validto, "h:mm tt", ci);
+                            string service_id = item.idRuta + rundays;
+                            csvroutes.WriteField(service_id);
+                            csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidFrom));
+                            csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidTo));
+                            csvroutes.WriteField("");
+                            csvroutes.WriteField("");
+                            csvroutes.NextRecord();
+                        }
+
+                        
                     }
                 }
             }
@@ -1297,6 +1490,26 @@ namespace SITP_Scraper
             }
 
         }
+
+        static public bool IsTimeOfDayBetween(DateTime time,
+                                      System.TimeSpan startTime, System.TimeSpan endTime)
+        {
+            if (endTime == startTime)
+            {
+                return true;
+            }
+            else if (endTime < startTime)
+            {
+                return time.TimeOfDay <= endTime ||
+                    time.TimeOfDay >= startTime;
+            }
+            else
+            {
+                return time.TimeOfDay >= startTime &&
+                    time.TimeOfDay <= endTime;
+            }
+
+        }
     }
 
     public class Route
@@ -1331,6 +1544,7 @@ namespace SITP_Scraper
     public class Horario
     {
         public string idRuta;
+        public string rutaNombre;
         public string horario;
     }    
 
@@ -1368,5 +1582,6 @@ namespace SITP_Scraper
         public string horarios;
 
     }
+
 
 }

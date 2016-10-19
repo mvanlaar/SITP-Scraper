@@ -17,3 +17,24 @@ D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SI
 D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SharpKml.dll
 D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SharpKml.xml
 D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Paraderos SITP V2.kml
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SITP-Scraper.exe.config
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SITP-Scraper.exe
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SITP-Scraper.pdb
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Estaciones Transmilenio.kml
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Paraderos SITP V2.kml
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Paraderos SITP.kml
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Rutas SITP.kml
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Troncales Transmilenio.kml
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SITP-Scraper.exe
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SITP-Scraper.pdb
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\CsvHelper.dll
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\HtmlAgilityPack.CssSelectors.dll
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\HtmlAgilityPack.dll
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SharpKml.dll
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\CsvHelper.xml
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\HtmlAgilityPack.xml
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\HtmlAgilityPack.CssSelectors.pdb
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SharpKml.xml
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SITP-Scraper.csprojResolveAssemblyReference.cache
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\Newtonsoft.Json.dll
+C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\Newtonsoft.Json.xml
