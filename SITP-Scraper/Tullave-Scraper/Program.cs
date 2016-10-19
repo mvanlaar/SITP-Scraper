@@ -15,6 +15,12 @@ namespace Tullave_Scraper
     {
         static void Main(string[] args)
         {
+            /*
+             * This program only works a Colombian local times. because it gets the realtime times.
+             * There are routes that will get no result later on the day because the route runnig time has been expired.
+             */
+            
+            
             string ExportDir = AppDomain.CurrentDomain.BaseDirectory + "\\Export";
             System.IO.Directory.CreateDirectory(ExportDir);
             List<RutasHorarios> RutasHorarios = new List<RutasHorarios> { };
