@@ -318,7 +318,7 @@ namespace SITP_Scraper
                                     var regexcolor = new Regex("#(?:[0-9a-fA-F]{3}){1,2}");
                                     if (regexcolor.IsMatch(rutaColor))
                                     {
-                                        rutaColor = regexcolor.Match(rutaColor).Groups[1].Value;
+                                        rutaColor = regexcolor.Match(rutaColor).Groups[0].Value;
                                     }
                                     rutaColor = rutaColor.Replace("#", "");
                                     rutaColor = rutaColor.Trim();
@@ -417,7 +417,7 @@ namespace SITP_Scraper
                                 var regexcolor = new Regex("#(?:[0-9a-fA-F]{3}){1,2}");
                                 if (regexcolor.IsMatch(rutaColor))
                                 {
-                                    rutaColor = regexcolor.Match(rutaColor).Groups[1].Value;
+                                    rutaColor = regexcolor.Match(rutaColor).Groups[0].Value;
                                 }
                                 rutaColor = rutaColor.Replace("#", "");
                                 rutaColor = rutaColor.Trim();
@@ -469,7 +469,7 @@ namespace SITP_Scraper
                                 var regexcolor = new Regex("#(?:[0-9a-fA-F]{3}){1,2}");
                                 if (regexcolor.IsMatch(rutaColor))
                                 {
-                                    rutaColor = regexcolor.Match(rutaColor).Groups[1].Value;
+                                    rutaColor = regexcolor.Match(rutaColor).Groups[0].Value;
                                 }
                                 rutaColor = rutaColor.Replace("#", "");
                                 rutaColor = rutaColor.Trim();
