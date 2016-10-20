@@ -68,7 +68,7 @@ namespace SITP_Scraper
                 new ParadaRename { name = "Normandía", ParadaSitpName = "Normandia" },
                 new ParadaRename { name = "Portal Eldorado", ParadaSitpName = "Portal El Dorado" },
                 new ParadaRename { name = "NQS - CL 30 S.", ParadaSitpName = "NQS - Calle 30 Sur" },
-                new ParadaRename { name = "Alcalá", ParadaSitpName = "Alcalá" },
+                new ParadaRename { name = "Alcalá", ParadaSitpName = "Alcalá " },
                 new ParadaRename { name = "Transversal 86", ParadaSitpName = "Tv 86" },
                 new ParadaRename { name = "Américas - KR 53A", ParadaSitpName = "Américas - Cr 53A" },
                 new ParadaRename { name = "Carrera 43", ParadaSitpName = "Cr 43" },
