@@ -314,6 +314,15 @@ namespace SITP_Scraper
                                 {
                                     string codigoRuta = NodeRouteTron.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
                                     string rutaNombre = NodeRouteTron.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").InnerText;
+                                    string rutaColor = NodeRouteTron.SelectSingleNode(".//div[@class='codigoRuta']").Attributes["style"].Value.ToString();
+                                    var regexcolor = new Regex("#(?:[0-9a-fA-F]{3}){1,2}");
+                                    if (regexcolor.IsMatch(rutaColor))
+                                    {
+                                        rutaColor = regexcolor.Match(rutaColor).Groups[1].Value;
+                                    }
+                                    rutaColor = rutaColor.Replace("#", "");
+                                    rutaColor = rutaColor.Trim();
+                                    estNombre = estNombre.Trim();
                                     rutaNombre = rutaNombre.Trim();
                                     rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
                                     string rutaLinkTroncales = NodeRouteTron.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").Attributes["href"].Value.ToString();
@@ -347,6 +356,7 @@ namespace SITP_Scraper
                                                 && x.rutaNombre == rutaNombre
                                                 && x.rutaLink == rutaLink
                                                 && x.tipoRuta == tipoRuta
+                                                && x.rutaColor == rutaColor
                                                 );
                                     if (!alreadyExistsRutas)
                                     {
@@ -356,7 +366,8 @@ namespace SITP_Scraper
                                             rutaNombre = rutaNombre,
                                             rutaLink = rutaLink,
                                             idRuta = idRuta,
-                                            tipoRuta = tipoRuta
+                                            tipoRuta = tipoRuta,
+                                            rutaColor = rutaColor
                                         });
                                     }
                                 }
@@ -402,6 +413,14 @@ namespace SITP_Scraper
                                 string rutaNombre = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").InnerText;
                                 rutaNombre = rutaNombre.Trim();
                                 rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
+                                string rutaColor = row.SelectSingleNode(".//div[@class='codigoRuta']").Attributes["style"].Value.ToString();
+                                var regexcolor = new Regex("#(?:[0-9a-fA-F]{3}){1,2}");
+                                if (regexcolor.IsMatch(rutaColor))
+                                {
+                                    rutaColor = regexcolor.Match(rutaColor).Groups[1].Value;
+                                }
+                                rutaColor = rutaColor.Replace("#", "");
+                                rutaColor = rutaColor.Trim();
                                 string rutaLink = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").Attributes["href"].Value.ToString();
                                 rutaLink = HttpUtility.HtmlDecode(rutaLink);
                                 var urllink = new Uri(rutaLink);
@@ -431,7 +450,8 @@ namespace SITP_Scraper
                                     rutaNombre = rutaNombre,
                                     rutaLink = rutaLink,
                                     idRuta = idRuta,
-                                    tipoRuta = tipoRuta
+                                    tipoRuta = tipoRuta,
+                                    rutaColor = rutaColor
                                 });
                                 // End route parsing
                             }
@@ -445,6 +465,14 @@ namespace SITP_Scraper
                                 string rutaNombre = row.SelectSingleNode(".//a[@class='rutaNombre']").InnerText;
                                 rutaNombre = rutaNombre.Trim();
                                 rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
+                                string rutaColor = row.SelectSingleNode(".//div[@class='codigoRuta']").Attributes["style"].Value.ToString();
+                                var regexcolor = new Regex("#(?:[0-9a-fA-F]{3}){1,2}");
+                                if (regexcolor.IsMatch(rutaColor))
+                                {
+                                    rutaColor = regexcolor.Match(rutaColor).Groups[1].Value;
+                                }
+                                rutaColor = rutaColor.Replace("#", "");
+                                rutaColor = rutaColor.Trim();
                                 string rutaLink = row.SelectSingleNode(".//a[@class='rutaNombre']").Attributes["href"].Value.ToString();
                                 rutaLink = HttpUtility.HtmlDecode(rutaLink);
                                 var urllink = new Uri(rutaLink);
@@ -474,7 +502,8 @@ namespace SITP_Scraper
                                     rutaNombre = rutaNombre,
                                     rutaLink = rutaLink,
                                     idRuta = idRuta,
-                                    tipoRuta = tipoRuta
+                                    tipoRuta = tipoRuta,
+                                    rutaColor = rutaColor
                                 });
                                 // End route parsing
                             }
@@ -1001,7 +1030,7 @@ namespace SITP_Scraper
                     csvroutes.WriteField("");
                     csvroutes.WriteField("3");
                     csvroutes.WriteField(Rutas[i].rutaLink);
-                    csvroutes.WriteField("");
+                    csvroutes.WriteField(Rutas[i].rutaColor);
                     csvroutes.WriteField("");
                     csvroutes.NextRecord();
                 }
@@ -1519,6 +1548,7 @@ namespace SITP_Scraper
         public string rutaLink;
         public string idRuta;
         public string tipoRuta;
+        public string rutaColor;
     }
 
     public class RouteParada
