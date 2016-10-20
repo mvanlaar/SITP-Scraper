@@ -60,19 +60,54 @@ namespace SITP_Scraper
             List<RutasFreqencies> RutasFreqencies = new List<RutasFreqencies> { };
 
             List<ParadaRename> _ParadaRename = new List<ParadaRename>
-            {
-                new ParadaRename { name = "NQS - CL 30 S.", ParadaSitpName = "NQS - Calle 30 Sur" },
-                new ParadaRename { name = "Alcalá", ParadaSitpName = "Alcalá " },
-                new ParadaRename { name = "Américas - KR 53A", ParadaSitpName = "Américas - Cr 53A" },
-                new ParadaRename { name = "CDS - Carrera 32", ParadaSitpName = "CDS - Cr 32" },
-                new ParadaRename { name = "Salitre - El Greco", ParadaSitpName = "Salitre Greco" },
-                new ParadaRename { name = "SENA", ParadaSitpName = "Sena" },
-                new ParadaRename { name = "U. Nacional", ParadaSitpName = "Universidad Nacional" },
-                new ParadaRename { name = "Portal Eldorado", ParadaSitpName = "Portal El Dorado" },
+            {                
+                new ParadaRename { name = "AV. Chile", ParadaSitpName = "Av Chile" },
                 new ParadaRename { name = "AV. 1° Mayo", ParadaSitpName = "Avenida 1 de Mayo" },
-                new ParadaRename { name = "Ferias", ParadaSitpName ="Las Ferias" },
-                new ParadaRename { name = "Avenida Cali", ParadaSitpName ="Avenida Ciudad de Cali" },
-                new ParadaRename { name = "Las Aguas", ParadaSitpName ="Aguas" }
+                new ParadaRename { name = "AV. Jiménez (AV. Caracas)", ParadaSitpName = "Avenida Jiménez" },
+                new ParadaRename { name = "Salitre - El Greco", ParadaSitpName = "Salitre Greco" },
+                new ParadaRename { name = "Normandía", ParadaSitpName = "Normandia" },
+                new ParadaRename { name = "Portal Eldorado", ParadaSitpName = "Portal El Dorado" },
+                new ParadaRename { name = "NQS - CL 30 S.", ParadaSitpName = "NQS - Calle 30 Sur" },
+                new ParadaRename { name = "Alcalá", ParadaSitpName = "Alcalá" },
+                new ParadaRename { name = "Transversal 86", ParadaSitpName = "Tv 86" },
+                new ParadaRename { name = "Américas - KR 53A", ParadaSitpName = "Américas - Cr 53A" },
+                new ParadaRename { name = "Carrera 43", ParadaSitpName = "Cr 43" },
+                new ParadaRename { name = "CDS - Carrera 32", ParadaSitpName = "CDS - Cr 32" },
+                new ParadaRename { name = "Ricaurte (CL 13)", ParadaSitpName = "Ricaurte" },
+                new ParadaRename { name = "San Facon - KR. 22", ParadaSitpName = "San Facón Cr 22" },
+                new ParadaRename { name = "AV. 39", ParadaSitpName = "Avenida 39" },
+                new ParadaRename { name = "Mazurén", ParadaSitpName = "Mazuren" },
+                new ParadaRename { name = "Portal del Norte", ParadaSitpName = "Portal Norte" },
+                new ParadaRename { name = "Portal del Tunal", ParadaSitpName = "Portal Tunal" },
+                new ParadaRename { name = "Calle 40 S", ParadaSitpName = "Calle 40 Sur" },
+                new ParadaRename { name = "El Tiempo - Maloka", ParadaSitpName = "Maloka" },
+                new ParadaRename { name = "Ricaurte (NQS)", ParadaSitpName = "Ricaurte" },
+                new ParadaRename { name = "Campín - Universidad Antonio Nariño", ParadaSitpName = "Campin" },
+                new ParadaRename { name = "Esc. Militar", ParadaSitpName = "Escuela Militar" },
+                new ParadaRename { name = "NQS - CL 38A S.", ParadaSitpName = "NQS - Calle 38A Sur" },
+                new ParadaRename { name = "AV. El Dorado", ParadaSitpName = "Av. El Dorado" },
+                new ParadaRename { name = "Portal de Usme", ParadaSitpName = "Portal Usme" },
+                new ParadaRename { name = "Suba - TV. 91", ParadaSitpName = "Suba - Tv. 91" },
+                new ParadaRename { name = "21 ángeles", ParadaSitpName = "21 Angeles" },
+                new ParadaRename { name = "Shaio", ParadaSitpName = "Clinica Shaio" },
+                new ParadaRename { name = "Las Aguas", ParadaSitpName = "Aguas" },
+                new ParadaRename { name = "Granja - Carrera 77", ParadaSitpName = "Carrera 77" },
+                new ParadaRename { name = "AV. Jiménez (CL 13)", ParadaSitpName = "Avenida Jiménez" },
+                new ParadaRename { name = "Suba -  AV. Boyacá", ParadaSitpName = "Suba - Av. Boyacá" },
+                new ParadaRename { name = "Suba - CL 95", ParadaSitpName = "Suba - Calle 95" },
+                new ParadaRename { name = "Suba - CL 100", ParadaSitpName = "Suba - Calle 100" },
+                new ParadaRename { name = "Niza - CL 127", ParadaSitpName = "Niza - Calle 127" },
+                new ParadaRename { name = "Ferias", ParadaSitpName = "Las Ferias" },
+                new ParadaRename { name = "Avenida Cali", ParadaSitpName = "Avenida Ciudad de Cali" },
+                new ParadaRename { name = "AV. Rojas", ParadaSitpName = "Avenida Rojas" },
+                new ParadaRename { name = "AV. 1° Mayo", ParadaSitpName = "Avenida 1 de Mayo" },
+                new ParadaRename { name = "Salitre - El Greco", ParadaSitpName = "Salitre Greco" },
+                new ParadaRename { name = "El Tiempo - Maloka", ParadaSitpName = "Maloka" },
+                new ParadaRename { name = "AV. Rojas", ParadaSitpName = "Avenida Rojas" },
+                new ParadaRename { name = "Portal Eldorado", ParadaSitpName = "Portal El Dorado" },
+                new ParadaRename { name = "Ciudad Jardín - UAN", ParadaSitpName = "Ciudad Jardín" },
+                new ParadaRename { name = "Suba - CL 100", ParadaSitpName = "Suba - Calle 100" },
+                new ParadaRename { name = "21 ángeles", ParadaSitpName = "21 Angeles" }
             };
             Console.WriteLine("Downloading and Parsing frequencias...");
             // Begin downloading the frequencies
@@ -150,6 +185,33 @@ namespace SITP_Scraper
                 }
             }
 
+            // Write Output to csv
+            string exportparadassitpfile = ExportDir + "\\paradassitp.txt";
+            Console.WriteLine("Creating Export File paradassitp.txt ...");
+            using (var exportfreq = new StreamWriter(exportparadassitpfile))
+            {
+                // Route record
+                var csvroutes = new CsvWriter(exportfreq);
+                csvroutes.Configuration.Delimiter = ",";
+                csvroutes.Configuration.Encoding = Encoding.UTF8;
+                csvroutes.Configuration.TrimFields = true;
+                csvroutes.Configuration.QuoteNoFields = true;
+                // header 
+                csvroutes.WriteField("Nombre");
+                csvroutes.WriteField("LAT");
+                csvroutes.WriteField("LNG");
+                csvroutes.NextRecord();
+                for (int i = 0; i < ParadasSITP.Count; i++) // Loop through List with for)
+                {
+                    csvroutes.WriteField(ParadasSITP[i].name);
+                    csvroutes.WriteField(ParadasSITP[i].latitude);
+                    csvroutes.WriteField(ParadasSITP[i].longtitude);                    
+                    csvroutes.NextRecord();
+                }
+
+            }
+
+
             // This will read a Kml file into memory.            
             KmlFile fileesttroncales = KmlFile.Load(new StreamReader("kml//Estaciones Transmilenio.kml"));
             Kml kmlesttroncales = fileesttroncales.Root as Kml;
@@ -161,6 +223,32 @@ namespace SITP_Scraper
                     Vector coord = ((Point)placemark.Geometry).Coordinate;
                     ParadasTronc.Add(new ParadaSITP { name = placemark.Name, latitude = coord.Latitude.ToString(), longtitude = coord.Longitude.ToString() });
                 }
+            }
+
+            // Write Output to csv
+            string exportparadastroncfile = ExportDir + "\\paradastronc.txt";
+            Console.WriteLine("Creating Export File paradastronc.txt ...");
+            using (var exportfreq = new StreamWriter(exportparadastroncfile))
+            {
+                // Route record
+                var csvroutes = new CsvWriter(exportfreq);
+                csvroutes.Configuration.Delimiter = ",";
+                csvroutes.Configuration.Encoding = Encoding.UTF8;
+                csvroutes.Configuration.TrimFields = true;
+                csvroutes.Configuration.QuoteNoFields = true;
+                // header 
+                csvroutes.WriteField("Nombre");
+                csvroutes.WriteField("LAT");
+                csvroutes.WriteField("LNG");
+                csvroutes.NextRecord();
+                for (int i = 0; i < ParadasTronc.Count; i++) // Loop through List with for)
+                {
+                    csvroutes.WriteField(ParadasTronc[i].name);
+                    csvroutes.WriteField(ParadasTronc[i].latitude);
+                    csvroutes.WriteField(ParadasTronc[i].longtitude);
+                    csvroutes.NextRecord();
+                }
+
             }
 
             KmlFile filerutas = KmlFile.Load(new StreamReader("kml//Rutas SITP.kml"));
@@ -353,8 +441,7 @@ namespace SITP_Scraper
                                     // Add route to list 
                                     bool alreadyExistsRutas = Rutas.Exists(x => x.idRuta == idRuta
                                                 && x.codigoRuta == codigoRuta
-                                                && x.rutaNombre == rutaNombre
-                                                && x.rutaLink == rutaLink
+                                                && x.rutaNombre == rutaNombre                                                
                                                 && x.tipoRuta == tipoRuta
                                                 && x.rutaColor == rutaColor
                                                 );
@@ -442,17 +529,27 @@ namespace SITP_Scraper
                                         );
                                     }
                                 }
-
                                 // Add route to list 
-                                Rutas.Add(new Route
-                                {
-                                    codigoRuta = codigoRuta,
-                                    rutaNombre = rutaNombre,
-                                    rutaLink = rutaLink,
-                                    idRuta = idRuta,
-                                    tipoRuta = tipoRuta,
-                                    rutaColor = rutaColor
-                                });
+                                    bool alreadyExistsRutas = Rutas.Exists(x => x.idRuta == idRuta
+                                                && x.codigoRuta == codigoRuta
+                                                && x.rutaNombre == rutaNombre
+                                                && x.rutaLink == rutaLink
+                                                && x.tipoRuta == tipoRuta
+                                                && x.rutaColor == rutaColor
+                                                );
+                                    if (!alreadyExistsRutas)
+                                    {
+                                        // Add route to list 
+                                        Rutas.Add(new Route
+                                        {
+                                            codigoRuta = codigoRuta,
+                                            rutaNombre = rutaNombre,
+                                            rutaLink = rutaLink,
+                                            idRuta = idRuta,
+                                            tipoRuta = tipoRuta,
+                                            rutaColor = rutaColor
+                                        });
+                                    }
                                 // End route parsing
                             }
                             break;
@@ -496,15 +593,26 @@ namespace SITP_Scraper
                                 }
 
                                 // Add route to list 
-                                Rutas.Add(new Route
-                                {
-                                    codigoRuta = codigoRuta,
-                                    rutaNombre = rutaNombre,
-                                    rutaLink = rutaLink,
-                                    idRuta = idRuta,
-                                    tipoRuta = tipoRuta,
-                                    rutaColor = rutaColor
-                                });
+                                    bool alreadyExistsRutas = Rutas.Exists(x => x.idRuta == idRuta
+                                                && x.codigoRuta == codigoRuta
+                                                && x.rutaNombre == rutaNombre
+                                                && x.rutaLink == rutaLink
+                                                && x.tipoRuta == tipoRuta
+                                                && x.rutaColor == rutaColor
+                                                );
+                                    if (!alreadyExistsRutas)
+                                    {
+                                        // Add route to list 
+                                        Rutas.Add(new Route
+                                        {
+                                            codigoRuta = codigoRuta,
+                                            rutaNombre = rutaNombre,
+                                            rutaLink = rutaLink,
+                                            idRuta = idRuta,
+                                            tipoRuta = tipoRuta,
+                                            rutaColor = rutaColor
+                                        });
+                                    }
                                 // End route parsing
                             }
                             break;
@@ -938,28 +1046,24 @@ namespace SITP_Scraper
                                 curParada.estlatitude = item1.latitude;
                                 curParada.estlongtitude = item1.longtitude;
                             }
+                        }
+                        else
+                        {
+                            // Other Execptions
+                            var item2 = _ParadaRename.Find(q => q.name == curParada.estNombre);
+                            if (item2 != null)
+                            {
+                                var item3 = ParadasTronc.Find(q => q.name == item2.ParadaSitpName);
+                                curParada.estlatitude = item3.latitude;
+                                curParada.estlongtitude = item3.longtitude;
+                            }
                             else
                             {
-                                // Other Execptions
-                                var item2 = _ParadaRename.Find(q => q.name == curParada.estNombre);
-                                if (item2 != null)
-                                {
-                                    var item3 = ParadasTronc.Find(q => q.name == item2.ParadaSitpName);
-                                    curParada.estlatitude = item3.latitude;
-                                    curParada.estlongtitude = item3.longtitude;
-                                }
-                                else
-                                {
-                                    // hmm paradero with number shorter than 3 chars???
-                                    curParada.estlatitude = "";
-                                    curParada.estlongtitude = "";
-                                }
-
+                                // hmm paradero with number shorter than 3 chars???
+                                curParada.estlatitude = "";
+                                curParada.estlongtitude = "";
                             }
-                        }
-                        // hmm paradero with number shorter than 3 chars???
-                        curParada.estlatitude = "";
-                        curParada.estlongtitude = "";
+                        }                        
                     }
                 }
             });

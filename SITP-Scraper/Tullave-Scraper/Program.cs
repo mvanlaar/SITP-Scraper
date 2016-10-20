@@ -54,7 +54,7 @@ namespace Tullave_Scraper
                     foreach (Match ItemMatch in ItemRegex.Matches(htmloption))
                     {
                         string optionvalue = ItemMatch.Groups["Value"].Value;
-                        string url2 = "http://www.tullave.com/Formularios/FrecuenciasHorarios/DetalleFrecuencias_Controlador.php?Accion=Grilla&page=1&rp=500&sortname=undefined&sortorder=undefined&query={0}%7C0%7C%7C{1}%7C&qtype=";
+                        string url2 = "http://www.tullave.com/Formularios/FrecuenciasHorarios/DetalleFrecuencias_Controlador.php?Accion=Grilla&page=1&rp=2000&sortname=undefined&sortorder=undefined&query={0}%7C0%7C%7C{1}%7C&qtype=";
                         url2 = url2.Replace("{0}", optionvalue);
                         url2 = url2.Replace("{1}", i.ToString());
                         string filename2 = i.ToString() + "-" + optionvalue + ".json";
