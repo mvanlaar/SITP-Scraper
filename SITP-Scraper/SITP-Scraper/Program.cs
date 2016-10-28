@@ -135,7 +135,14 @@ namespace SITP_Scraper
                     foreach (var item in rows)
                     {                        
                         dynamic cell = JsonConvert.DeserializeObject(item.cell.ToString());
-                        RutasFreqencies.Add(new RutasFreqencies { Agencia = cell.Agencia, Destino = cell.Destino, Frecuencia_Pico = cell.Frecuencia_Pico, Frecuencia_Valle = cell.Frecuencia_Valle, horarios = cell.horarios, Nombre = cell.Nombre, operacion = cell.operacion, Tarifa = cell.Tarifa });                                             
+                        Regex rgxdate3 = new Regex(@"([01]?[0-9]|2[0-3]):[0-5][0-9]");
+                        string temp_hor = cell.horarios;
+                        MatchCollection matches = rgxdate3.Matches(temp_hor);                        
+                        DateTime StartTime;
+                        DateTime EndTime;
+                        StartTime = DateTime.Parse(matches[0].Value);
+                        EndTime = DateTime.Parse(matches[1].Value);
+                        RutasFreqencies.Add(new RutasFreqencies { Agencia = cell.Agencia, Destino = cell.Destino, Frecuencia_Pico = cell.Frecuencia_Pico, Frecuencia_Valle = cell.Frecuencia_Valle, horarios = cell.horarios, Nombre = cell.Nombre, operacion = cell.operacion, Tarifa = cell.Tarifa, StartTime = StartTime, EndTime = EndTime });                                             
                     }
                 }                
             }
@@ -156,6 +163,8 @@ namespace SITP_Scraper
                 csvroutes.WriteField("Desticon");
                 csvroutes.WriteField("Frecuencia_Pico");
                 csvroutes.WriteField("Frecuencia_Valle");
+                csvroutes.WriteField("StartTime");
+                csvroutes.WriteField("EndTime");
                 csvroutes.NextRecord();
                 for (int i = 0; i < RutasFreqencies.Count; i++) // Loop through List with for)
                 {
@@ -164,6 +173,8 @@ namespace SITP_Scraper
                     csvroutes.WriteField(RutasFreqencies[i].Destino);
                     csvroutes.WriteField(RutasFreqencies[i].Frecuencia_Pico);
                     csvroutes.WriteField(RutasFreqencies[i].Frecuencia_Valle);
+                    csvroutes.WriteField(RutasFreqencies[i].StartTime.ToString());
+                    csvroutes.WriteField(RutasFreqencies[i].EndTime.ToString());
                     csvroutes.NextRecord();
                 }
 
@@ -184,6 +195,7 @@ namespace SITP_Scraper
                     ParadasSITP.Add(new ParadaSITP { name = placemark.Name, latitude = coord.Latitude.ToString(), longtitude = coord.Longitude.ToString() });                                
                 }
             }
+            
 
             // Write Output to csv
             string exportparadassitpfile = ExportDir + "\\paradassitp.txt";
@@ -260,6 +272,13 @@ namespace SITP_Scraper
                 {
                     SharpKml.Dom.Feature feature = lineString.GetParent<SharpKml.Dom.Feature>();
                     String trailName = feature.Name;
+
+                    // Check for different home and back routes shapes
+                    bool alreadyExists = GTFSShapesFile.Exists(x => x.shape_id == trailName);
+                    if (alreadyExists)
+                    {
+                        trailName = trailName + "B";
+                    }
                     int position = 0;
                     CoordinateCollection coordinates = lineString.Coordinates;
                     foreach (var coordinate in coordinates)
@@ -422,9 +441,19 @@ namespace SITP_Scraper
                                     {
                                         foreach (var itemhorario in ListHorarios)
                                         {
+                                            string rundays = itemhorario.InnerText.Substring(0, itemhorario.InnerText.IndexOf("|")).Trim();
+                                            Regex rgxdate2 = new Regex(@"(0[1-9]|1[0-2]):[0-5][0-9] [AP]M");
+                                            MatchCollection matches = rgxdate2.Matches(itemhorario.InnerText);
+                                            string StartTime;
+                                            string EndTime;
+                                            StartTime = matches[0].Value;
+                                            EndTime = matches[1].Value;                                           
+                                            
                                             // Add Running time.
                                             bool alreadyExists = Horarios.Exists(x => x.idRuta == idRuta
-                                                && x.horario == itemhorario.InnerText.Replace("               ", "")                                               
+                                                && x.runningDays == rundays
+                                                && x.StartTime == StartTime
+                                                && x.EndTime == EndTime
                                                 );
                                             if (!alreadyExists)
                                             {
@@ -432,7 +461,9 @@ namespace SITP_Scraper
                                                 {
                                                     idRuta = idRuta,
                                                     rutaNombre = codigoRuta,
-                                                    horario = itemhorario.InnerText.Replace("               ", "")
+                                                    runningDays = rundays,
+                                                    StartTime = StartTime,
+                                                    EndTime = EndTime
                                                 }
                                                 );
                                             }
@@ -519,14 +550,32 @@ namespace SITP_Scraper
                                 {
                                     foreach (var itemhorario in ListHorarios)
                                     {
+                                        string rundays = itemhorario.InnerText.Substring(0, itemhorario.InnerText.IndexOf("|")).Trim();
+                                        Regex rgxdate2 = new Regex(@"(0[1-9]|1[0-2]):[0-5][0-9] [AP]M");
+                                        MatchCollection matches = rgxdate2.Matches(itemhorario.InnerText);
+                                        string StartTime;
+                                        string EndTime;
+                                        StartTime = matches[0].Value;
+                                        EndTime = matches[1].Value;
+
                                         // Add Running time.
-                                        Horarios.Add(new Horario
+                                        bool alreadyExists = Horarios.Exists(x => x.idRuta == idRuta
+                                            && x.runningDays == rundays
+                                            && x.StartTime == StartTime
+                                            && x.EndTime == EndTime
+                                            );
+                                        if (!alreadyExists)
                                         {
-                                            idRuta = idRuta,
-                                            rutaNombre = codigoRuta,
-                                            horario = itemhorario.InnerText.Replace("               ", "")
+                                            Horarios.Add(new Horario
+                                            {
+                                                idRuta = idRuta,
+                                                rutaNombre = codigoRuta,
+                                                runningDays = rundays,
+                                                StartTime = StartTime,
+                                                EndTime = EndTime
+                                            }
+                                            );
                                         }
-                                        );
                                     }
                                 }
                                 // Add route to list 
@@ -582,13 +631,32 @@ namespace SITP_Scraper
                                     foreach (var itemhorario in ListHorarios)
                                     {
                                         // Add Running time.
-                                        Horarios.Add(new Horario
+                                        string rundays = itemhorario.InnerText.Substring(0, itemhorario.InnerText.IndexOf("|")).Trim();
+                                        Regex rgxdate2 = new Regex(@"(0[1-9]|1[0-2]):[0-5][0-9] [AP]M");
+                                        MatchCollection matches = rgxdate2.Matches(itemhorario.InnerText);
+                                        string StartTime;
+                                        string EndTime;
+                                        StartTime = matches[0].Value;
+                                        EndTime = matches[1].Value;
+
+                                        // Add Running time.
+                                        bool alreadyExists = Horarios.Exists(x => x.idRuta == idRuta
+                                            && x.runningDays == rundays
+                                            && x.StartTime == StartTime
+                                            && x.EndTime == EndTime
+                                            );
+                                        if (!alreadyExists)
                                         {
-                                            idRuta = idRuta,
-                                            rutaNombre = codigoRuta,
-                                            horario = itemhorario.InnerText.Replace("               ", "")
+                                            Horarios.Add(new Horario
+                                            {
+                                                idRuta = idRuta,
+                                                rutaNombre = codigoRuta,
+                                                runningDays = rundays,
+                                                StartTime = StartTime,
+                                                EndTime = EndTime
+                                            }
+                                            );
                                         }
-                                        );
                                     }
                                 }
 
@@ -627,6 +695,10 @@ namespace SITP_Scraper
                 // Parsing based on html layout for tipoRoute.
                 Console.WriteLine("Parsing Route {0} on thread {1}", curruta.rutaNombre, Thread.CurrentThread.ManagedThreadId);
                 //Console.WriteLine("Parsing Route page: {0}", Rutas[i].rutaLink);
+                if (curruta.tipoRuta == "7" | curruta.tipoRuta == "8" | curruta.tipoRuta == "9" | curruta.tipoRuta == "10")
+                {
+                    curruta.rutaLink = curruta.rutaLink.Replace("&tr=&estacion=", "");
+                }
                 HttpWebRequest requestdetail = WebRequest.Create(curruta.rutaLink) as HttpWebRequest;
                 requestdetail.Method = "GET";
                 requestdetail.Proxy = null;
@@ -709,6 +781,7 @@ namespace SITP_Scraper
                                 var urllink = new Uri(estLink);
 
                                 string estNombre = NodeParada.SelectSingleNode(".//div[@class='infoParada']//a").Attributes["title"].Value.ToString();
+                                estNombre = HttpUtility.HtmlDecode(estNombre);
                                 estNombre = estNombre.Trim();
                                 var regex = new Regex(".*El servicio para en: (.*) y su direcci.*");
                                 if (regex.IsMatch(estNombre))
@@ -1168,7 +1241,7 @@ namespace SITP_Scraper
                     var runHorarios = Horarios.Where(y => y.idRuta == Rutas[i].idRuta);
                     foreach (Horario item in runHorarios)
                     {
-                        string rundays = item.horario.Substring(0, item.horario.IndexOf("|")).Trim();
+                        string rundays = item.runningDays.Trim();
                         string service_id = item.idRuta + rundays;
                         csvroutes.WriteField(Rutas[i].idRuta);
                         csvroutes.WriteField(service_id);
@@ -1219,7 +1292,7 @@ namespace SITP_Scraper
                     var runHorarios = Horarios.Where(y => y.idRuta == RouteParadas[i].idRuta);
                     foreach (Horario item in runHorarios)
                     {
-                        string rundays = item.horario.Substring(0, item.horario.IndexOf("|")).Trim();
+                        string rundays = item.runningDays.Trim();
                         string service_id = item.idRuta + rundays;
                         csvroutes.WriteField(service_id);
                         csvroutes.WriteField("");
@@ -1278,13 +1351,10 @@ namespace SITP_Scraper
                         DateTime PicoPeriod3End = DateTime.ParseExact("7:29 pm", "h:mm tt", ci);
                         DateTime StartValle = DateTime.ParseExact("7:30 pm", "h:mm tt", ci);
 
-                        string rundays = item.horario.Substring(0, item.horario.IndexOf("|")).Trim();
-                        string runtimes = item.horario.Substring(item.horario.IndexOf("|")).Trim();
-                        Regex rgxdate2 = new Regex(@"(0[1-9]|1[0-2]):[0-5][0-9] [AP]M");
-                        MatchCollection matches = rgxdate2.Matches(runtimes);
+                        
                         Boolean OnlyValle = false;
                         Boolean TwoRows = false;
-                        switch (rundays)
+                        switch (item.runningDays)
                         {
                             case "D":
                                 {
@@ -1332,12 +1402,10 @@ namespace SITP_Scraper
                             {
                                 // calculate from minutes to seconds
                                 int pico = int.Parse(Freqency.Frecuencia_Pico) * 60;
-                                int valle = int.Parse(Freqency.Frecuencia_Valle) * 60;
-                                string validfrom = matches[0].Value;
-                                string validto = matches[1].Value;
-                                DateTime ValidFrom = DateTime.ParseExact(validfrom, "h:mm tt", ci);
-                                DateTime ValidTo = DateTime.ParseExact(validto, "h:mm tt", ci);
-                                string service_id = item.idRuta + rundays;
+                                int valle = int.Parse(Freqency.Frecuencia_Valle) * 60;                                
+                                DateTime ValidFrom = DateTime.ParseExact(item.StartTime, "h:mm tt", ci);
+                                DateTime ValidTo = DateTime.ParseExact(item.EndTime, "h:mm tt", ci);
+                                string service_id = item.idRuta + item.runningDays;
                                 csvroutes.WriteField(service_id);
                                 csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidFrom));
                                 csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidTo));
@@ -1398,11 +1466,9 @@ namespace SITP_Scraper
                                     // Row 2 for domingo:
                                     // Only make row for valle times.
                                     int pico = int.Parse(Freqency.Frecuencia_Pico) * 60;
-                                    int valle = int.Parse(Freqency.Frecuencia_Valle) * 60;
-                                    string validfrom = matches[0].Value;
-                                    string validto = matches[1].Value;
-                                    DateTime ValidFrom = DateTime.ParseExact(validfrom, "h:mm tt", ci);
-                                    DateTime ValidTo = DateTime.ParseExact(validto, "h:mm tt", ci);
+                                    int valle = int.Parse(Freqency.Frecuencia_Valle) * 60;                                    
+                                    DateTime ValidFrom = DateTime.ParseExact(item.StartTime, "h:mm tt", ci);
+                                    DateTime ValidTo = DateTime.ParseExact(item.EndTime, "h:mm tt", ci);
                                     string service_id = item.idRuta + "L-S";
                                     csvroutes.WriteField(service_id);
                                     csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidFrom));
@@ -1423,12 +1489,10 @@ namespace SITP_Scraper
                         }
                         else
                         {
-                            // We don't know frequencies.
-                            string validfrom = matches[0].Value;
-                            string validto = matches[1].Value;
-                            DateTime ValidFrom = DateTime.ParseExact(validfrom, "h:mm tt", ci);
-                            DateTime ValidTo = DateTime.ParseExact(validto, "h:mm tt", ci);
-                            string service_id = item.idRuta + rundays;
+                            // We don't know frequencies.                            
+                            DateTime ValidFrom = DateTime.ParseExact(item.StartTime, "h:mm tt", ci);
+                            DateTime ValidTo = DateTime.ParseExact(item.EndTime, "h:mm tt", ci);
+                            string service_id = item.idRuta + item.runningDays;
                             csvroutes.WriteField(service_id);
                             csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidFrom));
                             csvroutes.WriteField(String.Format("{0:HH:mm:ss}", ValidTo));
@@ -1464,12 +1528,12 @@ namespace SITP_Scraper
                 csvroutes.WriteField("end_date");
                 csvroutes.NextRecord();
 
-                csvroutes.NextRecord();
-                for (int i = 0; i < Horarios.Count; i++) // Loop through List with for)
+                var calendar = Horarios.Select(m => new { m.idRuta, m.runningDays }).Distinct().ToList();
+
+                for (int i = 0; i < calendar.Count; i++) // Loop through List with for)
                 {
                     // create service_id
-                    string rundays = Horarios[i].horario.Substring(0, Horarios[i].horario.IndexOf("|")).Trim();
-                    string service_id = Horarios[i].idRuta + rundays;
+                    string service_id = calendar[i].idRuta + calendar[i].runningDays;
                     bool Route_Day_Monday_Bit = false;
                     bool Route_Day_Thuesday_Bit = false;
                     bool Route_Day_Wednesday_Bit = false;
@@ -1477,7 +1541,7 @@ namespace SITP_Scraper
                     bool Route_Day_Friday_Bit = false;
                     bool Route_Day_Saterday_Bit = false;
                     bool Route_Day_Sunday_Bit = false;
-                    switch (rundays)
+                    switch (calendar[i].runningDays)
                     {
                         case "D":
                             {
@@ -1572,8 +1636,16 @@ namespace SITP_Scraper
                         csvroutes.WriteField(Paradas[i].estSITPNumber);
                     }
                     else { csvroutes.WriteField(""); }
-                    csvroutes.WriteField(Paradas[i].estNombre);
-                    csvroutes.WriteField(Paradas[i].estDireccion);                   
+                    if (Paradas[i].estNombre == Paradas[i].estDireccion)
+                    {
+                        csvroutes.WriteField(Paradas[i].estNombre);
+                        csvroutes.WriteField("");
+                    }
+                    else
+                    {
+                        csvroutes.WriteField(Paradas[i].estNombre);
+                        csvroutes.WriteField(Paradas[i].estDireccion.Replace(",", ""));
+                    }
                     if (!string.IsNullOrEmpty(Paradas[i].estlatitude))
                     {
                         csvroutes.WriteField(Paradas[i].estlatitude.Replace(",","."));
@@ -1678,6 +1750,9 @@ namespace SITP_Scraper
         public string idRuta;
         public string rutaNombre;
         public string horario;
+        public string runningDays;
+        public string StartTime;
+        public string EndTime;
     }    
 
     public class ParadaSITP
@@ -1712,6 +1787,8 @@ namespace SITP_Scraper
         public string Tarifa;
         public string operacion;
         public string horarios;
+        public DateTime StartTime;
+        public DateTime EndTime;
 
     }
 
