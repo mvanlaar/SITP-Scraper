@@ -699,7 +699,7 @@ namespace SITP_Scraper
                                             rutaLink = rutaLink,
                                             idRuta = idRuta,
                                             tipoRuta = tipoRuta,
-                                            rutaColor = rutaColor
+                                            rutaColor = rutaColor,
                                             rutaTextColor = rutaTextColor
                                         });
                                     }
