@@ -422,6 +422,7 @@ namespace SITP_Scraper
                                     string codigoRuta = NodeRouteTron.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
                                     string rutaNombre = NodeRouteTron.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").InnerText;
                                     string rutaColor = NodeRouteTron.SelectSingleNode(".//div[@class='codigoRuta']").Attributes["style"].Value.ToString();
+                                    string rutaTextColor = "000000";
                                     var regexcolor = new Regex("#(?:[0-9a-fA-F]{3}){1,2}");
                                     if (regexcolor.IsMatch(rutaColor))
                                     {
@@ -429,9 +430,14 @@ namespace SITP_Scraper
                                     }
                                     rutaColor = rutaColor.Replace("#", "");
                                     rutaColor = rutaColor.Trim();
+                                    if (rutaColor == "BB0615" | rutaColor == "00398B")
+                                    {
+                                        rutaTextColor = "FFFFFF";
+                                    }
+                                    estNombre = HttpUtility.HtmlDecode(estNombre);
                                     estNombre = estNombre.Trim();
-                                    rutaNombre = rutaNombre.Trim();
                                     rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
+                                    rutaNombre = rutaNombre.Trim();                                    
                                     string rutaLinkTroncales = NodeRouteTron.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").Attributes["href"].Value.ToString();
                                     rutaLink = HttpUtility.HtmlDecode(rutaLinkTroncales);
                                     var urllinkTroncales = new Uri(rutaLink);
@@ -475,6 +481,7 @@ namespace SITP_Scraper
                                                 && x.rutaNombre == rutaNombre                                                
                                                 && x.tipoRuta == tipoRuta
                                                 && x.rutaColor == rutaColor
+                                                && x.rutaTextColor == rutaTextColor
                                                 );
                                     if (!alreadyExistsRutas)
                                     {
@@ -485,7 +492,8 @@ namespace SITP_Scraper
                                             rutaLink = rutaLink,
                                             idRuta = idRuta,
                                             tipoRuta = tipoRuta,
-                                            rutaColor = rutaColor
+                                            rutaColor = rutaColor,
+                                            rutaTextColor = rutaTextColor
                                         });
                                     }
                                 }
@@ -532,6 +540,7 @@ namespace SITP_Scraper
                                 rutaNombre = rutaNombre.Trim();
                                 rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
                                 string rutaColor = row.SelectSingleNode(".//div[@class='codigoRuta']").Attributes["style"].Value.ToString();
+                                string rutaTextColor = "000000";
                                 var regexcolor = new Regex("#(?:[0-9a-fA-F]{3}){1,2}");
                                 if (regexcolor.IsMatch(rutaColor))
                                 {
@@ -539,6 +548,10 @@ namespace SITP_Scraper
                                 }
                                 rutaColor = rutaColor.Replace("#", "");
                                 rutaColor = rutaColor.Trim();
+                                if (rutaColor == "BB0615" | rutaColor == "00398B")
+                                {
+                                    rutaTextColor = "FFFFFF";
+                                }
                                 string rutaLink = row.SelectSingleNode(".//a[@class='rutaEstacionesNombre']").Attributes["href"].Value.ToString();
                                 rutaLink = HttpUtility.HtmlDecode(rutaLink);
                                 var urllink = new Uri(rutaLink);
@@ -585,6 +598,7 @@ namespace SITP_Scraper
                                                 && x.rutaLink == rutaLink
                                                 && x.tipoRuta == tipoRuta
                                                 && x.rutaColor == rutaColor
+                                                && x.rutaTextColor == rutaTextColor
                                                 );
                                     if (!alreadyExistsRutas)
                                     {
@@ -596,7 +610,8 @@ namespace SITP_Scraper
                                             rutaLink = rutaLink,
                                             idRuta = idRuta,
                                             tipoRuta = tipoRuta,
-                                            rutaColor = rutaColor
+                                            rutaColor = rutaColor,
+                                            rutaTextColor = rutaTextColor
                                         });
                                     }
                                 // End route parsing
@@ -612,6 +627,7 @@ namespace SITP_Scraper
                                 rutaNombre = rutaNombre.Trim();
                                 rutaNombre = HttpUtility.HtmlDecode(rutaNombre);
                                 string rutaColor = row.SelectSingleNode(".//div[@class='containerCodigo']").Attributes["style"].Value.ToString();
+                                string rutaTextColor = "000000";
                                 var regexcolor = new Regex("#(?:[0-9a-fA-F]{3}){1,2}");
                                 if (regexcolor.IsMatch(rutaColor))
                                 {
@@ -619,6 +635,10 @@ namespace SITP_Scraper
                                 }
                                 rutaColor = rutaColor.Replace("#", "");
                                 rutaColor = rutaColor.Trim();
+                                if (rutaColor == "BB0615" | rutaColor == "00398B")
+                                {
+                                    rutaTextColor = "FFFFFF";
+                                }
                                 string rutaLink = row.SelectSingleNode(".//a[@class='rutaNombre']").Attributes["href"].Value.ToString();
                                 rutaLink = HttpUtility.HtmlDecode(rutaLink);
                                 var urllink = new Uri(rutaLink);
@@ -667,6 +687,7 @@ namespace SITP_Scraper
                                                 && x.rutaLink == rutaLink
                                                 && x.tipoRuta == tipoRuta
                                                 && x.rutaColor == rutaColor
+                                                && x.rutaTextColor == rutaTextColor
                                                 );
                                     if (!alreadyExistsRutas)
                                     {
@@ -679,6 +700,7 @@ namespace SITP_Scraper
                                             idRuta = idRuta,
                                             tipoRuta = tipoRuta,
                                             rutaColor = rutaColor
+                                            rutaTextColor = rutaTextColor
                                         });
                                     }
                                 // End route parsing
@@ -1208,7 +1230,7 @@ namespace SITP_Scraper
                     csvroutes.WriteField("3");
                     csvroutes.WriteField(Rutas[i].rutaLink);
                     csvroutes.WriteField(Rutas[i].rutaColor);
-                    csvroutes.WriteField("");
+                    csvroutes.WriteField(Rutas[i].rutaTextColor);
                     csvroutes.NextRecord();
                 }
             }
@@ -1723,6 +1745,7 @@ namespace SITP_Scraper
         public string idRuta;
         public string tipoRuta;
         public string rutaColor;
+        public string rutaTextColor;
     }
 
     public class RouteParada
