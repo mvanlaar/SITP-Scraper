@@ -107,7 +107,9 @@ namespace SITP_Scraper
                 new ParadaRename { name = "Portal Eldorado", ParadaSitpName = "Portal El Dorado" },
                 new ParadaRename { name = "Ciudad Jardín - UAN", ParadaSitpName = "Ciudad Jardín" },
                 new ParadaRename { name = "Suba - CL 100", ParadaSitpName = "Suba - Calle 100" },
-                new ParadaRename { name = "21 ángeles", ParadaSitpName = "21 Angeles" }
+                new ParadaRename { name = "21 ángeles", ParadaSitpName = "21 Angeles" },
+                new ParadaRename { name = "U. Nacional", ParadaSitpName = "Universidad Nacional" },
+                new ParadaRename {name = "SENA", ParadaSitpName = "Sena" }
             };
             Console.WriteLine("Downloading and Parsing frequencias...");
             // Begin downloading the frequencies
