@@ -33,7 +33,9 @@ namespace SITP_Scraper
             // Alimentadors has other html layout
             // "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=7",
             string[] start_urls = new string[] { "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=7", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=8", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=9", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=10" };
-            string troncalstart = "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=6";
+            //string troncalstart = "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=6";
+            //string troncalstart = "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=lstRutasAjax&draw=1&columns%5B0%5D%5Bdata%5D=0&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=false&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&start=0&length=20&search%5Bregex%5D=false&_=1478114906310";
+            string troncalstart = "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=lstRutasAjax&draw=1&columns[0][data]=0&columns[0][searchable]=true&columns[0][orderable]=false&columns[0][search][regex]=false&start=0&length=20&search[regex]=false&_=1478094058268";
             string downloadsite = "http://www.sitp.gov.co";
             const string ua = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)";
             CultureInfo ci = new CultureInfo("en-US");
@@ -320,6 +322,106 @@ namespace SITP_Scraper
 
             }
             Console.WriteLine("Start parsing Troncales");
+            // 
+            //string fullurl = downloadsite + linkPlegableRuta;
+            //string filename = Path.GetFileName(new Uri(fullurl).AbsolutePath);
+            //string downloadDirPDF = downloadDir + "\\Download";
+            //System.IO.Directory.CreateDirectory(downloadDirPDF);
+            string tronsavefile = downloadDir + "\\" + "tron-0.json";
+            using (var client = new WebClient())
+            {
+                client.Headers.Add("user-agent", ua);
+                client.Headers.Add("Referer", troncalstart);
+                client.Proxy = null;
+                client.DownloadFile(troncalstart, tronsavefile);
+
+                JObject o1 = JObject.Parse(File.ReadAllText(tronsavefile));
+                dynamic json = JValue.Parse(File.ReadAllText(tronsavefile));
+
+                int totalrecordsTotal = json.recordsTotal;
+                // we have 20 objects per file.
+
+                dynamic rows = JValue.Parse(json.data.ToString());
+                // First 20 items
+                foreach (var item in rows)
+                {
+                    string cell = (item).First.Value;
+                    cell = HttpUtility.HtmlDecode(cell);
+                    HtmlDocument RouteTron = new HtmlDocument();
+                    RouteTron.LoadHtml(cell);
+                    string codigoRuta = RouteTron.DocumentNode.SelectSingleNode(".//div[@class='codigoRuta']").InnerText;
+                    string rutaNombre = RouteTron.DocumentNode.SelectSingleNode(".//a[@class='rutaNombre']").InnerText;
+                    rutaNombre = rutaNombre.Trim();
+                    string estLink = RouteTron.DocumentNode.SelectSingleNode(".//div[@class='containerInfoListRuta']//a").Attributes["href"].Value.ToString();
+                    var urlestlink = new Uri(HttpUtility.HtmlDecode(estLink));
+                    //string rutaColor = RouteTron.DocumentNode.SelectSingleNode(".//div[@class='codigoRuta']").Attributes["style"].Value.ToString();
+                    var ListHorarios = RouteTron.DocumentNode.SelectNodes(".//p[@class='label label-horario']");
+                    if (ListHorarios != null)
+                    {
+                        foreach (var itemhorario in ListHorarios)
+                        {
+                            string rundays = itemhorario.InnerText.Substring(0, itemhorario.InnerText.IndexOf("|")).Trim();
+                            Regex rgxdate2 = new Regex(@"(0[1-9]|1[0-2]):[0-5][0-9] [AP]M");
+                            MatchCollection matches = rgxdate2.Matches(itemhorario.InnerText);
+                            string StartTime;
+                            string EndTime;
+                            StartTime = matches[0].Value;
+                            EndTime = matches[1].Value;
+
+                            // Add Running time.
+                            bool alreadyExists = Horarios.Exists(x => x.runningDays == rundays
+                                && x.StartTime == StartTime
+                                && x.EndTime == EndTime
+                                );
+                            if (!alreadyExists)
+                            {
+                                Horarios.Add(new Horario
+                                {                                    
+                                    rutaNombre = codigoRuta,
+                                    runningDays = rundays,
+                                    StartTime = StartTime,
+                                    EndTime = EndTime
+                                }
+                                );
+                            }
+                        }
+                    }
+                }
+                if (totalrecordsTotal > 20)
+                {
+                    for (int i = 20; i < totalrecordsTotal; i++)
+                    {
+                        if ((i % 20) == 0)
+                        {
+                            Console.WriteLine(i);
+
+                            var uri = new Uri(troncalstart);
+                            var qs = HttpUtility.ParseQueryString(uri.Query);
+                            qs.Set("start", i.ToString());
+                            var uriBuilder = new UriBuilder(uri);
+                            uriBuilder.Query = qs.ToString();
+                            var newUri = uriBuilder.Uri;
+
+                            //var urlestlink = new Uri(troncalstart);
+
+                            tronsavefile = downloadDir + "\\" + "tron-{0}.json";
+                            tronsavefile = tronsavefile.Replace("{0}", i.ToString());
+
+                            using (var client1 = new WebClient())
+                            {
+                                client1.Headers.Add("user-agent", ua);
+                                client1.Headers.Add("Referer", troncalstart);
+                                client1.Proxy = null;
+                                client1.DownloadFile(newUri.ToString(), tronsavefile);
+                            }
+                        }
+                    }
+                }
+            }
+            
+
+
+
             HttpWebRequest requesttron = WebRequest.Create(troncalstart) as HttpWebRequest;
             requesttron.Method = "GET";
             requesttron.Proxy = null;
@@ -365,7 +467,7 @@ namespace SITP_Scraper
                             using (var client = new WebClient())
                             {
                                 client.Headers.Add("user-agent", ua);
-                                client.Headers.Add("Referer", troncalstart);
+                                client.Headers.Add("Referer", "http://www.sitp.gov.co/buscador_de_rutas");
                                 client.Proxy = null;
                                 client.DownloadFile(fullurl, fullpath);
                             }

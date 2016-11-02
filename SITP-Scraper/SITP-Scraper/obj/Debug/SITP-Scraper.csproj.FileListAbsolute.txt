@@ -38,3 +38,5 @@ C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SharpKml.xml
 C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SITP-Scraper.csprojResolveAssemblyReference.cache
 C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\Newtonsoft.Json.dll
 C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\Newtonsoft.Json.xml
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\Newtonsoft.Json.dll
+D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\Newtonsoft.Json.xml
