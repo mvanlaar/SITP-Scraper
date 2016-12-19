@@ -35,7 +35,9 @@ namespace SITP_Scraper
             string[] start_urls = new string[] { "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=7", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=8", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=9", "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=10" };
             //string troncalstart = "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=mostrarRuta&tipoRuta=6";
             //string troncalstart = "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=lstRutasAjax&draw=1&columns%5B0%5D%5Bdata%5D=0&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=false&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&start=0&length=20&search%5Bregex%5D=false&_=1478114906310";
-            string troncalstart = "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=lstRutasAjax&draw=1&columns[0][data]=0&columns[0][searchable]=true&columns[0][orderable]=false&columns[0][search][regex]=false&start=0&length=20&search[regex]=false&_=1478094058268";
+            //string troncalstart = "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=loadFields&hash=DUhL8KsXRpyFgKTTneOvkP1LnM9TQvBh&tipoRuta=6";
+            //string troncalstart = "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=lstRutasAjax&draw=2&columns[0][data]=0&columns[0][searchable]=true&columns[0][orderable]=false&columns[0][search][regex]=false&start=0&length=20&search[regex]=false&_=1478094058268";
+            string troncalstart = "http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=lstRutasAjax&draw=1&columns[0][data]=0&columns[0][name]=&columns[0][searchable]=true&columns[0][orderable]=false&columns[0][search][value]=&columns[0][search][regex]=false&start=0&length=20&search[value]=&search[regex]=false&_=1482150093082";
             string downloadsite = "http://www.sitp.gov.co";
             const string ua = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)";
             CultureInfo ci = new CultureInfo("en-US");
@@ -331,8 +333,12 @@ namespace SITP_Scraper
             using (var client = new WebClient())
             {
                 client.Headers.Add("user-agent", ua);
-                client.Headers.Add("Referer", troncalstart);
+                client.Headers.Add("Referer", "http://www.sitp.gov.co/buscador_de_rutas");
+                client.Headers.Add("Accept", "application/json, text/javascript, */*; q=0.01");
                 client.Proxy = null;
+                string hash = randomString();
+                //client.OpenRead("http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=loadFields&hash=MdWpIcS1q13DI99tj6qpclNTg5mOfUbT&tipoRuta=6");
+                //client.OpenRead("http://www.sitp.gov.co/loader.php?lServicio=Rutas&lTipo=busqueda&lFuncion=sesionFiltro&filtro=CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA%3D");
                 client.DownloadFile(troncalstart, tronsavefile);
 
                 JObject o1 = JObject.Parse(File.ReadAllText(tronsavefile));
@@ -1819,6 +1825,19 @@ namespace SITP_Scraper
             }
 
         }
+
+        static public string randomString()
+        {
+            Random random = new Random();
+            
+
+            int length = 32;
+            string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string result = "";
+            for (int i = length; i > 0; --i) result += chars[Convert.ToInt32(Math.Round(Convert.ToDecimal(random.NextDouble()) * (chars.Length - 1)))];
+            return result;
+        }
+
 
         static public bool IsTimeOfDayBetween(DateTime time,
                                       System.TimeSpan startTime, System.TimeSpan endTime)

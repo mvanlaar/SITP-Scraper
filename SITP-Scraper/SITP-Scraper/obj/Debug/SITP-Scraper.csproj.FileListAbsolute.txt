@@ -40,3 +40,24 @@ C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\Newtonsoft.Json.dl
 C:\Projecten\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\Newtonsoft.Json.xml
 D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\Newtonsoft.Json.dll
 D:\Gebruikers\Martijn\Source\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\Newtonsoft.Json.xml
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SITP-Scraper.exe.config
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SITP-Scraper.exe
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SITP-Scraper.pdb
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Estaciones Transmilenio.kml
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Paraderos SITP V2.kml
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Paraderos SITP.kml
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Rutas SITP.kml
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\kml\Troncales Transmilenio.kml
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SITP-Scraper.exe
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SITP-Scraper.pdb
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\CsvHelper.dll
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\HtmlAgilityPack.CssSelectors.dll
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\HtmlAgilityPack.dll
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\Newtonsoft.Json.dll
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SharpKml.dll
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\CsvHelper.xml
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\HtmlAgilityPack.xml
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\HtmlAgilityPack.CssSelectors.pdb
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\Newtonsoft.Json.xml
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\bin\Debug\SharpKml.xml
+C:\Users\martijn\Source\Repos\SITP-Scraper\SITP-Scraper\SITP-Scraper\obj\Debug\SITP-Scraper.csprojResolveAssemblyReference.cache
